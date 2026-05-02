@@ -131,7 +131,11 @@ Se encontrar ferramenta relevante, incorporar na skill e avisar o usuário:
 
 > "Pra essa skill funcionar completa, você vai precisar configurar [ferramenta]. [Instrução curta de como configurar]. Quer que eu configure agora ou prefere fazer depois?"
 
-Ao criar a skill (seja a partir de template ou do zero), garantir:
+A partir daqui o fluxo se divide em dois caminhos, dependendo do que aconteceu na 3.1:
+
+#### Caminho A — Adaptar template existente
+
+Quando a 3.1 encontrou um template compatível em `templates/skills/`, criar a skill diretamente a partir dele. Garantir:
 
 1. O frontmatter tem `name` e `description` claros
 2. A skill lê o contexto relevante (`_contexto/preferencias.md`, `marca/design-guide.md` se for visual)
@@ -139,6 +143,32 @@ Ao criar a skill (seja a partir de template ou do zero), garantir:
 4. Se gera arquivo, a skill indica onde salvar
 5. O tom e formato seguem as preferências do usuário
 6. Se usa ferramenta do catálogo, inclui as instruções de uso dentro da skill
+
+#### Caminho B — Criar do zero (delegar pra skill-creator)
+
+Quando a 3.1 não encontrou nem template nem skill externa que sirva, **invocar a skill-creator nativa do Claude Code via Skill tool** ao invés de tentar escrever a skill na mão. A skill-creator é especialista em estruturar skills com os princípios certos (concisão, degrees of freedom, anatomia correta de bundled resources).
+
+Antes de invocar, montar um briefing completo com tudo que você já sabe da entrevista e do contexto do projeto:
+
+- **O processo** — o que o usuário descreveu, em uma frase
+- **Frequência e gatilhos** — quando ele faz isso, o que dispara
+- **Passo a passo** — o fluxo que ele descreveu, sem inventar etapas
+- **Entregável** — se gera arquivo, qual formato e onde salvar
+- **Ferramentas relevantes** — o que do `templates/ferramentas/catalogo.md` se aplica
+- **Contexto do negócio** — pontos de `_contexto/empresa.md` e `_contexto/preferencias.md` que importam (tom de voz, estilo, restrições)
+- **Identidade visual** — se for skill que gera output visual, apontar pra `marca/design-guide.md`
+- **Onde salvar** — `.claude/skills/nome-da-skill/SKILL.md`
+
+Passar esse briefing pra skill-creator e deixar ela estruturar a skill. Depois que ela retornar, **revisar o resultado** antes de finalizar:
+
+- O frontmatter ficou claro?
+- O tom da skill bate com as preferências do usuário?
+- A skill lê os arquivos de contexto certos no início?
+- Os triggers (palavras que disparam a skill) fazem sentido pro vocabulário do usuário?
+
+Ajustar o que precisar ajustar antes de mostrar pro usuário. Se algo crítico ficou de fora, pedir pra skill-creator complementar ou editar direto.
+
+#### Estrutura final (vale pros dois caminhos)
 
 Salvar em `.claude/skills/nome-da-skill/SKILL.md` (local do projeto).
 
