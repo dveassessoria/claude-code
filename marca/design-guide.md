@@ -26,7 +26,7 @@
 
 ## Estilo geral
 
-Corporativo, clean e sóbrio com acento neon. A marca transmite profissionalismo, estratégia e confiança — o verde neon quebra a seriedade e sinaliza inovação sem ser chamativo em excesso. Aplicações predominantemente em fundo escuro.
+Moderno, clean, minimalista e inovador. A marca transmite profissionalismo e confianç, o verde neon quebra a seriedade e sinaliza inovação sem ser chamativo em excesso. Aplicações predominantemente em fundo escuro, porém também utilizar fundo claro para dar a sensação de respiro visual.
 
 ---
 
