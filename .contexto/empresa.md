@@ -10,7 +10,9 @@ A DVE Assessoria é uma assessoria de RevOps (pioneiros no Brasil) cujo nosso ob
 agencia
 
 **Atende clientes:** 
-Atualmente temos uma base de 20 clientes ativos 
+Atualmente temos uma base de 20 clientes ativos
+
+**Faturamento atual:** R$ 33.000/mês de MRR (maio de 2026)
 
 **Equipe:**
 - Danilo Santana — Diretor Operacional e sócio-fundador (50%)
