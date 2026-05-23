@@ -39,8 +39,32 @@ Fazer uma chamada de teste:
 GET https://graph.facebook.com/me?access_token={META_ACCESS_TOKEN}
 ```
 
-- Resposta com `id` → token válido. Prosseguir para o Passo 1.
-- Erro código `190` ou similar → token expirado. Ir para **Renovar token** abaixo.
+- Resposta com `id` → token válido. Ir para 0.3.
+- Erro código `190` → token expirado. Ir para **Renovar token** abaixo.
+
+#### 0.3 — Verificar autorização para Ad Library API
+
+Mesmo com token válido, a Ad Library API exige que o usuário tenha completado a verificação de identidade no Facebook. Fazer uma chamada de teste à API:
+
+```
+GET https://graph.facebook.com/v21.0/ads_archive
+  ?access_token={META_ACCESS_TOKEN}
+  &ad_reached_countries=["BR"]
+  &search_terms=teste
+  &ad_type=ALL
+  &limit=1
+```
+
+- Resposta com `data` (mesmo vazia) → autorização OK. Prosseguir para o Passo 1.
+- Erro código `10` com subcode `2332002` → verificação de identidade pendente. Informar:
+
+> "Seu token está válido, mas a Meta exige uma verificação de identidade para liberar o acesso à Ad Library API. É uma etapa única:
+> 1. Acesse facebook.com/ads/library/api com sua conta do Facebook
+> 2. Siga as instruções para confirmar sua identidade (nome completo ou documento)
+> 3. Aceite os termos de uso da API
+> 4. Volte aqui e me avise — a skill continua de onde parou."
+
+Não prosseguir sem essa autorização — sem ela, toda busca de anúncios falhará.
 
 ---
 
@@ -129,14 +153,20 @@ GET https://graph.facebook.com/v21.0/ads_archive
   ?access_token={META_ACCESS_TOKEN}
   &ad_reached_countries=["BR"]
   &search_terms={palavras_chave_do_nicho}
+  &search_type=KEYWORD_UNORDERED
+  &ad_type=ALL
   &ad_active_status=ACTIVE
+  &publisher_platforms=["FACEBOOK","INSTAGRAM"]
   &fields=page_name,page_id,ad_creative_bodies,ad_creative_link_titles,ad_delivery_start_time
   &limit=50
 ```
 
-Usar 2 a 3 variações de keywords do nicho para ampliar a cobertura. Exemplos:
+Fazer 2 a 3 chamadas com variações de keywords do nicho (sempre no idioma do anúncio esperado — PT-BR para Brasil). Exemplos:
+- Para marketing jurídico: `"marketing para advogados"`, `"marketing jurídico"`, `"tráfego pago advogados"`
 - Para advocacia tributária: `"advogado tributário"`, `"planejamento tributário"`, `"reduzir impostos empresa"`
 - Para agência de viagens: `"pacote de viagem"`, `"viagem internacional"`, `"cruzeiro promoção"`
+
+Se a API retornar erro 613, aguardar 60 segundos e tentar novamente (rate limit temporário).
 
 Para cada anunciante encontrado, calcular já nessa etapa:
 - **Quantidade de anúncios ativos**
@@ -201,10 +231,14 @@ GET https://graph.facebook.com/v21.0/ads_archive
   ?access_token={META_ACCESS_TOKEN}
   &ad_reached_countries=["BR"]
   &search_page_names={nome_exato_da_página}
+  &ad_type=ALL
   &ad_active_status=ACTIVE
-  &fields=page_name,ad_creative_bodies,ad_creative_link_captions,ad_creative_link_descriptions,ad_creative_link_titles,ad_delivery_start_time,ad_snapshot_url
+  &publisher_platforms=["FACEBOOK","INSTAGRAM"]
+  &fields=page_name,page_id,ad_creative_bodies,ad_creative_link_captions,ad_creative_link_descriptions,ad_creative_link_titles,ad_delivery_start_time,ad_snapshot_url
   &limit=20
 ```
+
+Se retornar erro 613, aguardar 60 segundos e repetir. Se retornar lista vazia, tentar também por `search_page_ids` usando o `page_id` obtido na busca por keyword (Fase 2.1).
 
 Para cada anúncio, extrair:
 - Texto da copy (headline + corpo)
