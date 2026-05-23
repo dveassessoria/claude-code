@@ -2,18 +2,27 @@
 
 **Nome:** Danilo Santana
 **Negócio:** DVE Assessoria
-**O que faz:** Agência de marketing digital especializada em tráfego pago (Meta Ads e Google Ads), copy, funis de marketing e playbooks comerciais e operacionais. Apoia empresas na tomada de decisões estratégicas e no crescimento consistente.
-**Perfil:** agencia
-**Atende clientes:** sim — clientes externos e uso interno (crescimento da própria DVE)
+
+**O que faz:** 
+A DVE Assessoria é uma assessoria de RevOps (pioneiros no Brasil) cujo nosso objetivo é aumentar a receita e gerar lucro para outras empresas integrando marketing, comercial e sucesso do cliente. 
+
+**Perfil:** 
+agencia
+
+**Atende clientes:** 
+Atualmente temos uma base de 20 clientes ativos 
+
 **Equipe:**
 - Danilo Santana — Diretor Operacional e sócio-fundador (50%)
-- Rafael Machado — Diretor Comercial e sócio-fundador (50%)
-- Cristiane — BDR (pré-vendas)
-- Davi Vinicius — Gestor de Projetos e Customer Success
-- Ariana — Copywriter e Social Media
-- Wesley — Designer e Webdesigner
+- Rafael Machado — Diretor Comercial e sócio-fundador (50%) 
+- Cristiane — BDR (pré-vendas) (PJ) 
+- Davi Vinicius — Gestor de Projetos e Customer Success (PJ)
+- Ariana — Copywriter e Social Media (PJ)
+- Wesley — Designer e Webdesigner (PJ) 
+- Daniela - Editora de Vídeo (Freelancer)
+- Kauan - Editor de Vídeo (Freelancer)
 
-**Ferramentas:** Claude, GPT, ClickUp, Google Meet, WhatsApp, TLDV, Kommo CRM, IFIX Telecom, Google Agenda, Google Planilhas, Meta Ads Manager, Google Ads Manager, WordPress, Elementor
+**Ferramentas:** ClickUp, Kommo CRM, IFIX Telecom, Google Agenda, Google Planilhas, Meta Ads Manager, Google Ads Manager, WordPress, Elementor
 
 **Principais entregas:**
 - Copy para anúncios, landing pages, WhatsApp e atendimento comercial

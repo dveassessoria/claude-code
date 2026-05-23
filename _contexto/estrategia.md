@@ -2,11 +2,15 @@
 
 ## Fase
 
-Crescimento acelerado. A DVE está em fase de escala — com time estruturado e processos em andamento, o foco agora é aumentar receita de forma consistente.
+Nosso principal foco é validar um canal de aquisição para gerar leads qualificados, reuniões qualificadas e vendas de novos contratos de Rev Ops. 
 
 ## Prioridade principal
 
-Chegar a R$ 100.000/mês de faturamento nos próximos 6 meses (até novembro de 2026).
+Alcançar R$1.000.000 de faturamento em 12 meses.
+Captar 70 novos contratos ativos dentro desse período 
+Realizar 20 reuniões comerciais por mês (Closer) 
+Conseguir uma taxa de conversão do closer de 40% 
+Publicar no mínimo 150 conteúdos relevantes nas mídias sociais 
 
 ## Como chegar lá
 
