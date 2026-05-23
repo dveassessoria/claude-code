@@ -1,14 +1,71 @@
-# Claude Code OS — Kit Ratos de IA
+# DVE Assessoria — Claude Code OS
 
-Este repositório é o kit de boas-vindas do curso Claude Code OS.
+## O que é esse workspace
 
-Se você acabou de clonar esse repositório:
-1. Rode `/setup` pra configurar o sistema pro seu negócio (uns 5 minutos)
-2. Depois rode `/mapear` pra criar skills personalizadas pro que você faz no dia a dia
+Workspace de operações da DVE Assessoria. Aqui ficam todos os clientes, entregas, propostas e materiais de produção da agência.
+
+**Estrutura de pastas:**
+- `_contexto/` — memória do sistema (não apagar)
+- `clientes/` — um subdiretório por cliente com briefing e histórico
+- `briefings/` — briefings recebidos de clientes
+- `propostas/` — propostas em andamento e enviadas
+- `conteudo/` — produção de conteúdo (copy, roteiros, posts)
+- `dados/` — arquivos para análise (CSV, PDF, relatórios)
+- `marca/` — identidade visual e guia de design
+- `templates/skills/` — templates de skills prontos para personalizar com /mapear
+- `templates/ferramentas/catalogo.md` — APIs e ferramentas disponíveis para usar em skills
+- `tarefas.md` — lista de tarefas corrente
+
+## Sobre o negócio
+
+A DVE Assessoria é uma agência de marketing digital que oferece gestão de tráfego pago (Meta Ads e Google Ads), produção de copy, criação de funis de marketing e playbooks comerciais e operacionais.
+Atendemos clientes externos e também desenvolvemos o crescimento interno da própria DVE.
+
+## O que mais produzimos aqui
+
+- Copy para anúncios, landing pages, WhatsApp e atendimento comercial
+- Gestão de tráfego pago (Meta Ads e Google Ads)
+- Registros e transcrições de reuniões com clientes
+- Benchmark e pesquisa de mercado
+- Funis de marketing
+- Playbooks de vendas, comercial e gestão
+- Propostas comerciais
+- Roteiros de vídeo para conteúdo da DVE e clientes
+
+## Time
+
+- **Danilo Santana** — Diretor Operacional e sócio-fundador (50%). Lidera operações, define estratégias, gerencia tráfego pago, treina o time e mantém a base de conhecimento.
+- **Rafael Machado** — Diretor Comercial e sócio-fundador (50%). Responsável pelo comercial, reuniões de vendas e treinamento da pré-vendas.
+- **Cristiane** — BDR (pré-vendas). Prospecção, qualificação de leads e agendamento de reuniões.
+- **Davi Vinicius** — Gestor de Projetos e Customer Success. Gestão de clientes, relatórios e acompanhamento de resultados.
+- **Ariana** — Copywriter e Social Media. Copy, conteúdo, planejamento editorial e documentos estratégicos.
+- **Wesley** — Designer e Webdesigner. Identidade visual, landing pages, sites e peças gráficas.
+
+## Tom de voz
+
+Escrever de forma humanizada, natural e fluida. Textos que criam conexão real com a audiência.
+Roteiros de vídeo devem soar como diálogo genuíno — naturais para leitura no teleprompter, sem artificialidade.
+
+Evitar: textos genéricos, superficiais, robotizados ou sem profundidade. Frases vazias, introduções desnecessárias, entusiasmo exagerado típico de IA.
+
+## Regras do sistema
+
+- Propostas salvar em `propostas/`
+- Clientes novos: criar pasta em `clientes/[nome-cliente]/` com `briefing.md` dentro
+- Conteúdo produzido salvar em `conteudo/`
+- Arquivos para análise jogar em `dados/`
+
+## Ferramentas conectadas
+
+- [ ] Gmail
+- [ ] Google Calendar
+- [ ] Google Drive
+- [ ] Meta Ads (meta-ads-ratos)
+- [ ] Google Ads (google-ads-ratos)
+
+*(Marcar conforme for instalando os MCPs)*
 
 ---
-
-<!-- Este arquivo será atualizado pelo /setup com o contexto do seu negócio. -->
 
 ## Contexto do negócio
 
@@ -48,14 +105,12 @@ Quando o usuário corrigir algo, melhorar uma resposta ou dar uma instrução qu
 
 Se sim, identificar onde faz mais sentido salvar:
 
-- **Sobre o negócio** (quem são os clientes, como funciona a empresa, serviços, mercado) → adicionar em `_contexto/empresa.md`
-- **Sobre preferências e estilo** (tom de voz, formato de resposta, o que evitar, como estruturar textos) → adicionar em `_contexto/preferencias.md`
-- **Sobre prioridades e foco atual** (projetos em andamento, metas do momento, prazos importantes, o que é prioridade agora) → adicionar em `_contexto/estrategia.md`
-- **Regra de comportamento nessa pasta** (onde salvar arquivos, como nomear, fluxos específicos) → adicionar no próprio `CLAUDE.md`
+- **Sobre o negócio** → `_contexto/empresa.md`
+- **Sobre preferências e estilo** → `_contexto/preferencias.md`
+- **Sobre prioridades e foco atual** → `_contexto/estrategia.md`
+- **Regra de comportamento nessa pasta** → `CLAUDE.md`
 
 Salvar com uma linha nova clara, sem reformatar o arquivo inteiro. Confirmar o que foi salvo mostrando a linha adicionada.
-
-Não perguntar se a correção for óbvia de contexto imediato (ex: "na verdade o arquivo se chama X"). Só perguntar quando a informação tiver valor duradouro.
 
 ---
 
@@ -72,13 +127,6 @@ Se sim, identificar o que precisa atualizar:
 - **Correção de tom ou estilo** → `_contexto/preferencias.md`
 - **Nova pasta, regra de organização, skill criada** → `CLAUDE.md`
 - **Mudança visual (cores, fontes, logo)** → `marca/design-guide.md`
-
-Mostrar o que vai mudar antes de salvar. Não reformatar o arquivo inteiro, só adicionar ou editar a linha relevante.
-
-**Quando NÃO perguntar:**
-- Tarefas pontuais que não mudam o contexto (ex: escrever um email, criar um post avulso)
-- Perguntas simples ou conversas sem ação
-- Mudanças que já foram salvas pelo bloco "Aprender com correções"
 
 **Dica:** se não sabe se algo mudou, rode `/atualizar` pra uma varredura completa.
 
