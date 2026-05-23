@@ -14,26 +14,95 @@ description: >
 
 - **Contexto do negócio:** `_contexto/empresa.md` (se existir)
 - **Tom de voz:** `_contexto/preferencias.md` (se existir)
-- **Token Meta Ad Library:** variável `META_ACCESS_TOKEN` no arquivo `.env` do projeto
-
----
-
-## Pré-requisito: Token Meta Ad Library
-
-Para buscar anúncios automaticamente, você precisa de um access token do Facebook:
-
-1. Acesse developers.facebook.com e faça login
-2. Vá em "Minhas Apps" > crie um app do tipo "Outro > Business"
-3. Vá em "Ferramentas > Graph API Explorer"
-4. Selecione seu app, clique em "Gerar token de acesso" e adicione a permissão `ads_read`
-5. Copie o token gerado
-6. Crie (ou edite) o arquivo `.env` na raiz do projeto e adicione: `META_ACCESS_TOKEN=seu_token_aqui`
-
-Se não tiver o token configurado, a skill segue o fluxo com orientação manual para essa etapa.
+- **Variáveis no `.env`:**
+  - `META_ACCESS_TOKEN` — token de acesso (gerado uma vez, dura 60 dias)
+  - `META_APP_ID` — ID do app Facebook (necessário para renovar token)
+  - `META_APP_SECRET` — segredo do app Facebook (necessário para renovar token)
 
 ---
 
 ## Workflow
+
+### Passo 0 — Verificar token Meta
+
+Antes de qualquer coisa, verificar o estado do token.
+
+#### 0.1 — Checar se o token existe
+
+Ler o arquivo `.env` na raiz do projeto. Se `META_ACCESS_TOKEN` não existir ou estiver vazio, ir para **Setup inicial** abaixo.
+
+#### 0.2 — Validar o token
+
+Fazer uma chamada de teste:
+
+```
+GET https://graph.facebook.com/me?access_token={META_ACCESS_TOKEN}
+```
+
+- Resposta com `id` → token válido. Prosseguir para o Passo 1.
+- Erro código `190` ou similar → token expirado. Ir para **Renovar token** abaixo.
+
+---
+
+#### Setup inicial (primeira vez)
+
+Informar o usuário:
+> "Não encontrei o token Meta configurado. Vou precisar de três coisas do seu app no Facebook. Não se preocupa — é uma vez só e leva uns 5 minutos."
+
+Pedir em sequência:
+
+**1. App ID e App Secret:**
+> "Acesse developers.facebook.com > seu app > Configurações > Básico. Me passe o **App ID** e o **App Secret**."
+
+Salvar no `.env`:
+```
+META_APP_ID=valor_informado
+META_APP_SECRET=valor_informado
+```
+
+**2. Token curto (short-lived):**
+> "Agora vá em Ferramentas > Graph API Explorer. Selecione seu app, clique em 'Gerar token de acesso' e adicione a permissão `ads_read`. Me passe o token gerado."
+
+Depois de receber o token curto, ir para **Trocar por token longo** abaixo.
+
+---
+
+#### Renovar token (token expirado)
+
+Verificar se `META_APP_ID` e `META_APP_SECRET` existem no `.env`.
+
+**Se existem:** informar e pedir apenas o token curto:
+> "Seu token Meta expirou. É rápido renovar — acesse developers.facebook.com > Ferramentas > Graph API Explorer, selecione seu app e gere um novo token com permissão `ads_read`. Me passe o token gerado."
+
+**Se não existem:** seguir o fluxo de Setup inicial completo.
+
+---
+
+#### Trocar por token longo (válido por 60 dias)
+
+Com o token curto em mãos, fazer a troca automaticamente:
+
+```
+GET https://graph.facebook.com/oauth/access_token
+  ?grant_type=fb_exchange_token
+  &client_id={META_APP_ID}
+  &client_secret={META_APP_SECRET}
+  &fb_exchange_token={token_curto_informado}
+```
+
+A resposta retorna `access_token` com validade de ~60 dias.
+
+Salvar o novo token no `.env`:
+```
+META_ACCESS_TOKEN=novo_token_longo
+```
+
+Confirmar para o usuário:
+> "Token renovado e salvo. Válido por ~60 dias. Quando expirar, é só me dar o novo token curto do Graph API Explorer que eu faço a troca automática."
+
+Prosseguir para o Passo 1.
+
+---
 
 ### Passo 1 — Briefing inicial
 
