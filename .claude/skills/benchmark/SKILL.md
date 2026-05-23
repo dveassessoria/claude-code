@@ -45,23 +45,60 @@ Perguntar ao usuário:
 
 Se o usuário fornecer essas informações de forma livre antes de ser perguntado, extrair e seguir sem repetir as perguntas.
 
-### Passo 2 — Mapear concorrentes
+### Passo 2 — Mapear e filtrar concorrentes
 
-Se o usuário não trouxer nomes específicos, usar **WebSearch** para encontrar concorrentes relevantes.
+Se o usuário não trouxer nomes específicos, executar as duas buscas abaixo em paralelo e depois cruzar os resultados.
 
-Estratégia de busca:
-- `[nicho] anúncios Meta Ads Brasil 2024`
-- `[nicho] tráfego pago melhor [ano]`
-- `[nicho] [cidade ou região] "lideres em" OR "especialistas em"`
-- `[nicho] Instagram seguidores conteúdo site:instagram.com`
+#### Fase 2.1 — Busca por keywords na Meta Ad Library (fonte principal)
 
-Critérios de seleção — priorizar concorrentes que:
-- Têm presença ativa no Instagram (conteúdo frequente)
-- Rodam anúncios ativos no Meta
-- Têm site ou landing page própria
-- Mostram sinais de escala (muitos seguidores, depoimentos, volume de conteúdo)
+Quem aparece aqui tem budget ativo no Meta — sinal direto de escala.
 
-Apresentar uma lista de 3 a 6 concorrentes com nome, site/Instagram quando encontrado. Pedir confirmação antes de continuar a análise.
+Se `META_ACCESS_TOKEN` disponível, buscar via API com palavras-chave do nicho:
+
+```
+GET https://graph.facebook.com/v21.0/ads_archive
+  ?access_token={META_ACCESS_TOKEN}
+  &ad_reached_countries=["BR"]
+  &search_terms={palavras_chave_do_nicho}
+  &ad_active_status=ACTIVE
+  &fields=page_name,page_id,ad_creative_bodies,ad_creative_link_titles,ad_delivery_start_time
+  &limit=50
+```
+
+Agrupar os resultados por `page_name` e contar quantos anúncios ativos cada anunciante tem. Ordenar do maior para o menor — mais anúncios = mais investimento = mais escala.
+
+Usar 2 a 3 variações de keywords do nicho para ampliar a cobertura. Exemplos:
+- Para advocacia tributária: `"advogado tributário"`, `"planejamento tributário"`, `"reduzir impostos empresa"`
+- Para agência de viagens: `"pacote de viagem"`, `"viagem internacional"`, `"cruzeiro promoção"`
+
+Se token não disponível, pular para Fase 2.2 e anotar que a triagem por Meta será manual.
+
+#### Fase 2.2 — Busca complementar no Google (fonte secundária)
+
+Captura marcas estabelecidas que podem não aparecer na busca por keyword (ex: usam copy muito diferente nos anúncios).
+
+Queries:
+- `[nicho] Brasil site confiável OR referência OR líder`
+- `melhores [nicho] Brasil [ano]`
+- `[nicho] depoimentos OR "casos de sucesso" OR "resultados"`
+
+#### Fase 2.3 — Triagem e ranqueamento
+
+Cruzar os candidatos das duas buscas. Para cada nome encontrado, verificar rapidamente:
+
+1. **Tem anúncios ativos no Meta?** (confirmado via API na Fase 2.1, ou anotar para checar manualmente)
+2. **Tem site ou landing page?** (URL aparece no resultado de busca ou nos anúncios)
+3. **Tem presença no Instagram?** (handle identificável via Google ou nos anúncios)
+
+Descartar candidatos sem anúncios ativos e sem site identificável.
+
+Apresentar lista final de **3 a 6 concorrentes** ranqueados por volume de anúncios ativos no Meta (do maior para o menor). Para cada um, mostrar:
+- Nome / página
+- Nº de anúncios ativos no Meta (se disponível)
+- Site identificado
+- Handle do Instagram (se encontrado)
+
+Pedir confirmação antes de continuar a análise.
 
 ### Passo 3 — Anúncios Meta Ad Library (automático)
 
