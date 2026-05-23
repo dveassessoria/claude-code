@@ -5,7 +5,7 @@
 Workspace de operações da DVE Assessoria. Aqui ficam todos os clientes, entregas, propostas e materiais de produção da agência.
 
 **Estrutura de pastas:**
-- `_contexto/` — memória do sistema (não apagar)
+- `.contexto/` — memória do sistema (não apagar)
 - `clientes/` — um subdiretório por cliente com briefing e histórico
 - `briefings/` — briefings recebidos de clientes
 - `propostas/` — propostas em andamento e enviadas
@@ -71,9 +71,9 @@ Evitar: textos genéricos, superficiais, robotizados ou sem profundidade. Frases
 
 No início de toda conversa, ler os seguintes arquivos (se existirem e estiverem configurados):
 
-1. `_contexto/empresa.md` — quem é o usuário, o que faz, como funciona o negócio
-2. `_contexto/preferencias.md` — tom de voz, estilo de escrita, o que evitar
-3. `_contexto/estrategia.md` — foco atual, prioridades, o que pode esperar
+1. `.contexto/empresa.md` — quem é o usuário, o que faz, como funciona o negócio
+2. `.contexto/preferencias.md` — tom de voz, estilo de escrita, o que evitar
+3. `.contexto/estrategia.md` — foco atual, prioridades, o que pode esperar
 
 Usar essas informações como base pra qualquer resposta ou decisão. Ao sugerir prioridades, formatos ou abordagens, considerar o foco atual descrito em `estrategia.md`.
 
@@ -105,9 +105,9 @@ Quando o usuário corrigir algo, melhorar uma resposta ou dar uma instrução qu
 
 Se sim, identificar onde faz mais sentido salvar:
 
-- **Sobre o negócio** → `_contexto/empresa.md`
-- **Sobre preferências e estilo** → `_contexto/preferencias.md`
-- **Sobre prioridades e foco atual** → `_contexto/estrategia.md`
+- **Sobre o negócio** → `.contexto/empresa.md`
+- **Sobre preferências e estilo** → `.contexto/preferencias.md`
+- **Sobre prioridades e foco atual** → `.contexto/estrategia.md`
 - **Regra de comportamento nessa pasta** → `CLAUDE.md`
 
 Salvar com uma linha nova clara, sem reformatar o arquivo inteiro. Confirmar o que foi salvo mostrando a linha adicionada.
@@ -122,9 +122,9 @@ Ao terminar uma tarefa que mudou algo relevante no projeto (novo cliente, nova s
 
 Se sim, identificar o que precisa atualizar:
 
-- **Novo cliente, serviço, ferramenta, equipe** → `_contexto/empresa.md`
-- **Mudança de prioridade ou foco** → `_contexto/estrategia.md`
-- **Correção de tom ou estilo** → `_contexto/preferencias.md`
+- **Novo cliente, serviço, ferramenta, equipe** → `.contexto/empresa.md`
+- **Mudança de prioridade ou foco** → `.contexto/estrategia.md`
+- **Correção de tom ou estilo** → `.contexto/preferencias.md`
 - **Nova pasta, regra de organização, skill criada** → `CLAUDE.md`
 - **Mudança visual (cores, fontes, logo)** → `marca/design-guide.md`
 
@@ -140,6 +140,6 @@ Quando o usuário pedir pra criar uma nova skill:
 2. Perguntar: "Essa skill é específica pra esse projeto ou vai ser útil em qualquer projeto?"
    - Específica desse negócio → salvar em `.claude/skills/nome-da-skill/SKILL.md` (local)
    - Útil em qualquer projeto → salvar em `~/.claude/skills/nome-da-skill/SKILL.md` (global)
-3. Ler `_contexto/empresa.md` e `_contexto/preferencias.md` pra calibrar o conteúdo da skill ao contexto do negócio
+3. Ler `.contexto/empresa.md` e `.contexto/preferencias.md` pra calibrar o conteúdo da skill ao contexto do negócio
 4. Se a skill precisar de arquivos de apoio (templates, referências, exemplos), criar dentro da pasta da skill
 5. Seguir o fluxo da skill-creator nativa do Claude Code
