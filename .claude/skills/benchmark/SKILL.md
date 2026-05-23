@@ -65,46 +65,67 @@ GET https://graph.facebook.com/v21.0/ads_archive
   &limit=50
 ```
 
-Agrupar os resultados por `page_name` e contar quantos anúncios ativos cada anunciante tem. Ordenar do maior para o menor — mais anúncios = mais investimento = mais escala.
-
 Usar 2 a 3 variações de keywords do nicho para ampliar a cobertura. Exemplos:
 - Para advocacia tributária: `"advogado tributário"`, `"planejamento tributário"`, `"reduzir impostos empresa"`
 - Para agência de viagens: `"pacote de viagem"`, `"viagem internacional"`, `"cruzeiro promoção"`
+
+Para cada anunciante encontrado, calcular já nessa etapa:
+- **Quantidade de anúncios ativos**
+- **Longevidade** = hoje menos `ad_delivery_start_time` do anúncio mais antigo ainda ativo (em dias)
+- **Variações de criativo** = contar ângulos ou ofertas distintos entre os anúncios ativos (mensagens claramente diferentes = split test ativo)
 
 Se token não disponível, pular para Fase 2.2 e anotar que a triagem por Meta será manual.
 
 #### Fase 2.2 — Busca complementar no Google (fonte secundária)
 
-Captura marcas estabelecidas que podem não aparecer na busca por keyword (ex: usam copy muito diferente nos anúncios).
+Captura marcas estabelecidas que podem usar copy muito diferente nos anúncios e não aparecer na busca por keyword.
 
 Queries:
-- `[nicho] Brasil site confiável OR referência OR líder`
+- `[nicho] Brasil referência OR líder OR especialista`
 - `melhores [nicho] Brasil [ano]`
-- `[nicho] depoimentos OR "casos de sucesso" OR "resultados"`
+- `[nicho] "casos de sucesso" OR "resultados" OR depoimentos`
 
-#### Fase 2.3 — Triagem e ranqueamento
+#### Fase 2.3 — Triagem, score e ranqueamento
 
-Cruzar os candidatos das duas buscas. Para cada nome encontrado, verificar rapidamente:
+Cruzar os candidatos das duas fontes. Descartar quem não tem anúncios ativos e não tem site identificável.
 
-1. **Tem anúncios ativos no Meta?** (confirmado via API na Fase 2.1, ou anotar para checar manualmente)
-2. **Tem site ou landing page?** (URL aparece no resultado de busca ou nos anúncios)
-3. **Tem presença no Instagram?** (handle identificável via Google ou nos anúncios)
+Para cada candidato que passa na triagem, calcular o **Score de Relevância (0 a 15 pontos)**:
 
-Descartar candidatos sem anúncios ativos e sem site identificável.
+| Critério | Pontuação |
+|----------|-----------|
+| **Longevidade** — anúncio mais antigo ativo há 60+ dias | 3 pts |
+| **Longevidade** — anúncio mais antigo ativo há 30-59 dias | 2 pts |
+| **Longevidade** — anúncios com menos de 30 dias | 1 pt |
+| **Volume** — 10+ anúncios ativos no Meta | 3 pts |
+| **Volume** — 5-9 anúncios ativos | 2 pts |
+| **Volume** — 1-4 anúncios ativos | 1 pt |
+| **Multi-canal** — confirmado no Meta E no Google Ads | 2 pts |
+| **Multi-canal** — confirmado em apenas um canal | 1 pt |
+| **Variações** — 3+ ângulos de criativo distintos rodando | 2 pts |
+| **Variações** — 1-2 ângulos | 1 pt |
+| **Tráfego do site** — 50k+ visitas/mês (SimilarWeb) | 2 pts |
+| **Tráfego do site** — 10k-50k visitas/mês | 1 pt |
+| **Funil maduro** — thank you page + pixel + CTA de fechamento | 3 pts |
+| **Funil parcial** — landing page com formulário mas sem profundidade | 1 pt |
 
-Apresentar lista final de **3 a 6 concorrentes** ranqueados por volume de anúncios ativos no Meta (do maior para o menor). Para cada um, mostrar:
+**Interpretação:**
+- 12-15 pts → concorrente de referência, altamente relevante para modelar
+- 8-11 pts → relevante, vale analisar com atenção
+- 4-7 pts → incluir só se precisar completar a lista
+- Abaixo de 4 pts → descartar
+
+Apresentar lista final de **3 a 6 concorrentes** ordenados pelo score, mostrando:
 - Nome / página
-- Nº de anúncios ativos no Meta (se disponível)
+- Score total (X/15) com classificação
+- Nº de anúncios ativos no Meta + longevidade do mais antigo
 - Site identificado
 - Handle do Instagram (se encontrado)
 
-Pedir confirmação antes de continuar a análise.
+Pedir confirmação antes de continuar a análise detalhada.
 
-### Passo 3 — Anúncios Meta Ad Library (automático)
+### Passo 3 — Análise detalhada de anúncios Meta (automático)
 
-Para cada concorrente confirmado, verificar se `META_ACCESS_TOKEN` está disponível no `.env`.
-
-**Se token disponível:** buscar via API:
+Para cada concorrente confirmado, buscar os anúncios por nome de página (mais preciso que por keyword):
 
 ```
 GET https://graph.facebook.com/v21.0/ads_archive
@@ -113,23 +134,38 @@ GET https://graph.facebook.com/v21.0/ads_archive
   &search_page_names={nome_exato_da_página}
   &ad_active_status=ACTIVE
   &fields=page_name,ad_creative_bodies,ad_creative_link_captions,ad_creative_link_descriptions,ad_creative_link_titles,ad_delivery_start_time,ad_snapshot_url
-  &limit=10
+  &limit=20
 ```
 
-Extrair de cada anúncio:
+Para cada anúncio, extrair:
 - Texto da copy (headline + corpo)
 - URL de destino
-- Data de início
+- Data de início + dias rodando até hoje
 - Link do snapshot
+
+Depois de coletar todos os anúncios do concorrente, identificar:
+
+**Longevidade:** qual é o anúncio mais antigo ainda ativo? Quantos dias está rodando? Um anúncio com 30+ dias ativo é quase certamente lucrativo — anotar como "anúncio provado".
+
+**Variações de criativo:** agrupar os anúncios por ângulo ou oferta. Exemplos de ângulos distintos:
+- Dor/problema ("você está perdendo dinheiro com impostos")
+- Transformação ("como saí de X para Y")
+- Prova social ("mais de X clientes")
+- Oferta direta ("consulta grátis hoje")
+- Autoridade ("especialista com X anos")
+
+Identificar quantos ângulos distintos estão rodando simultaneamente — isso revela a sofisticação do anunciante e quais mensagens ele está priorizando.
 
 **Se token não disponível:** orientar:
 > "Não encontrei o token da Meta. Para buscar automaticamente, siga o Pré-requisito no topo dessa skill. Por enquanto, acesse facebook.com/ads/library, pesquise por [nome do concorrente] e me cole os anúncios que encontrar — eu estruturo tudo."
 
-### Passo 4 — Analisar landing pages (automático)
+### Passo 4 — Análise de landing page, tráfego e profundidade de funil (automático)
 
-Para cada URL de destino encontrada nos anúncios, usar **WebFetch via Jina Reader** para extrair o conteúdo:
+#### Fase 4.1 — Ler a landing page
 
-URL de acesso: `https://r.jina.ai/{URL_da_landing_page}`
+Para cada URL de destino encontrada nos anúncios, usar **WebFetch via Jina Reader**:
+
+`https://r.jina.ai/{URL_da_landing_page}`
 
 Se Jina falhar, tentar WebFetch direto na URL original.
 
@@ -140,6 +176,39 @@ Extrair:
 - CTA principal (o que pedem: clique, mensagem WhatsApp, formulário, agendamento)
 - Prova social (depoimentos, números, logos de clientes)
 - O que o formulário pede (nome, email, WhatsApp, etc.)
+
+Verificar também na resposta HTML se há sinais de pixel instalado (strings como `fbq(`, `gtag(`, `_ga`, Google Tag Manager) — presença de pixel indica que estão otimizando para conversão.
+
+#### Fase 4.2 — Estimar tráfego via SimilarWeb
+
+Para cada domínio identificado, tentar acessar a página pública do SimilarWeb via Jina Reader:
+
+`https://r.jina.ai/https://www.similarweb.com/website/{dominio}/`
+
+Extrair se disponível:
+- Visitas mensais estimadas
+- Principais fontes de tráfego (orgânico, pago, direto, social, referência)
+- Países de origem
+- Taxa de rejeição (se disponível)
+
+Se SimilarWeb não retornar dados úteis (site muito pequeno ou bloqueado), registrar como `[tráfego não disponível]` e seguir.
+
+#### Fase 4.3 — Verificar profundidade do funil
+
+Depois de ler a landing page, tentar seguir o funil ativamente:
+
+1. **Página de obrigada:** se houver formulário ou botão de CTA, verificar se há uma URL de redirecionamento pós-conversão mencionada no HTML (ex: `/obrigado`, `/confirmacao`, `/thank-you`). Tentar acessar essa URL via Jina Reader.
+
+2. **Botão WhatsApp:** verificar se há link `wa.me/` na página — indica que o fechamento é feito por WhatsApp.
+
+3. **Chat ou bot:** verificar presença de scripts de chat (Intercom, Chatwoot, ManyChat, etc.) no HTML.
+
+4. **Upsell ou próximo passo:** se houver página de obrigada, verificar se ela contém nova oferta, agendamento ou próximo passo claro.
+
+Classificar o funil encontrado:
+- **Maduro:** landing page profissional + página de obrigada + CTA de fechamento claro (WhatsApp, agendamento ou redirecionamento com próximo passo)
+- **Básico:** landing page com formulário, mas sem página de obrigada identificável ou próximo passo claro
+- **Mínimo:** apenas link para Instagram, WhatsApp direto ou página genérica
 
 ### Passo 5 — Anúncios Google + Instagram (manual guiado)
 
@@ -184,20 +253,26 @@ Com todos os dados coletados (automáticos e manuais), gerar o documento complet
 
 ## Concorrentes Analisados
 
-| # | Nome | Site | Instagram |
-|---|------|------|-----------|
-| 1 | | | |
-| 2 | | | |
+| # | Nome | Score | Anúncios Meta | Tráfego/mês | Site | Instagram |
+|---|------|-------|--------------|-------------|------|-----------|
+| 1 | | /15 | | | | |
+| 2 | | /15 | | | | |
 
 ---
 
 ## [Nome do Concorrente 1]
 
+**Score de Relevância: X/15** — [classificação: referência / relevante / complementar]
+
 ### Anúncios Meta
 - **Anúncios ativos:** X
-- **Ângulo principal:** [o que a maioria dos anúncios comunica]
-- **Copy de destaque:**
-  > "[melhor exemplo de headline/copy encontrado]"
+- **Anúncio mais antigo:** X dias rodando → [provado / recente]
+- **Variações de criativo:** X ângulos distintos identificados
+  - Ângulo 1: [descrição]
+  - Ângulo 2: [descrição]
+  - ...
+- **Copy de destaque (anúncio mais antigo ativo):**
+  > "[headline/copy do anúncio provado]"
 - **CTA dos anúncios:** [clique no link / mensagem / formulário]
 
 ### Anúncios Google
@@ -215,15 +290,22 @@ Com todos os dados coletados (automáticos e manuais), gerar o documento complet
   3. ...
 - **Prova social:** [depoimentos / números / logos]
 - **CTA / Formulário:** [o que pedem]
+- **Pixel instalado:** [Sim (Meta/Google) / Não detectado]
+- **Estimativa de tráfego:** [X visitas/mês — fonte: SimilarWeb] ou [não disponível]
+- **Principais fontes de tráfego:** [pago / orgânico / direto / social]
 
 ### Funil Completo
+
+**Classificação do funil:** [Maduro / Básico / Mínimo]
 
 | Etapa | O que encontramos |
 |-------|-------------------|
 | Anúncio | |
 | Landing Page | |
+| Pixel de rastreamento | |
 | Página de Obrigada | |
 | Formulário/CTA | |
+| WhatsApp / Chat / Bot | |
 | Próximo passo | |
 
 ### Instagram
