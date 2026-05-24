@@ -2,32 +2,55 @@
 
 ## Fase
 
-Nosso principal foco é validar um canal de aquisição para gerar leads qualificados, reuniões qualificadas e vendas de novos contratos de Rev Ops. 
+Validar canais de aquisição para gerar leads qualificados, reuniões e vendas de novos contratos de RevOps — operando em duas frentes paralelas.
 
-## Prioridade principal
+---
 
-Alcançar R$1.000.000 de faturamento em 12 meses.
-Captar 70 novos contratos ativos dentro desse período 
-Realizar 20 reuniões comerciais por mês (Closer) 
-Conseguir uma taxa de conversão do closer de 40% 
-Publicar no mínimo 150 conteúdos relevantes nas mídias sociais 
+## Duas frentes de crescimento
 
-## Como chegar lá
+### 1. Perfil Expert Nichado — Danilo Santana (escritórios de advocacia)
 
-- Aumentar o volume e a qualidade das reuniões comerciais (Cristiane prospecta, Rafael fecha)
-- Melhorar conversão das propostas comerciais
-- Reter e expandir clientes existentes (Davi no Customer Success)
-- Fortalecer presença de marca da DVE com conteúdo (Danilo e Rafael gravam, Ariana produz copy)
+Danilo está construindo um perfil pessoal posicionado como especialista em RevOps para escritórios de advocacia.
 
-## O que pode esperar
+O objetivo é criar autoridade e atrair clientes desse nicho de forma orgânica e direta — conteúdo, presença, e posicionamento de expert. O perfil do Danilo fala exclusivamente com advogados e escritórios, com linguagem e dores desse mercado.
 
-- Construção de identidade de marca pessoal dos sócios ainda não é prioridade imediata
-- Desenvolvimento de produtos digitais ou infoprodutos não está no radar agora
-- Automações complexas ficam pra depois — foco é em execução e resultado comercial
+Esse canal é focado em inbound e autoridade: conteúdo, posicionamento e atração.
 
-## Contexto com prazo
+### 2. Marca DVE Assessoria — Generalista com Outbound
 
+A DVE Assessoria continua operando sem nicho fixo, atendendo empresas de diversos segmentos (base atual de 20 clientes).
+
+O canal de aquisição principal é o outbound com Cristiane (BDR), prospectando ativamente nos nichos definidos: escritórios de advocacia, elevadores, clínicas médicas, e outros segmentos com fit para RevOps.
+
+---
+
+## Metas 2026
+
+- Alcançar R$ 1.000.000 de faturamento em 12 meses
+- Captar 70 novos contratos ativos
+- Realizar 20 reuniões comerciais por mês (100 conexões → 20 reuniões, taxa de 20%)
+- Atingir conversão do closer de 40% (10 reuniões → 4 vendas)
+- Publicar no mínimo 150 conteúdos relevantes para gerar audiência e autoridade
 - Meta de R$ 100k/mês: novembro de 2026
 
 ---
+
+## Como chegar lá
+
+- Danilo desenvolve conteúdo e posicionamento para escritórios de advocacia
+- Cristiane prospecta ativamente nos nichos definidos; Rafael fecha
+- Melhorar a conversão das propostas comerciais
+- Reter e expandir clientes existentes (Davi no Customer Success)
+- Fortalecer a marca DVE com conteúdo (Danilo e Rafael gravam, Ariana produz copy)
+
+---
+
+## O que não está no radar agora
+
+- Identidade de marca pessoal dos sócios além do nicho de advocacia
+- Desenvolvimento de infoprodutos ou produtos digitais
+- Automações complexas — foco é em execução e resultado comercial
+
+---
+
 *Atualize esse arquivo quando suas prioridades mudarem.*
