@@ -8,9 +8,13 @@ A DVE Assessoria é uma assessoria de RevOps (pioneiros no Brasil) cujo objetivo
 
 **Perfil:** Agência
 
+**Fundação:** Aproximadamente 1,5 anos atrás, começando com zero capital
+
 **Atende clientes:** Base atual de 20 clientes ativos (diversos nichos diferentes) 
 
 **Faturamento atual:** R$ 33.000/mês de MRR (maio de 2026)
+
+**Como chegamos aqui:** A DVE cresceu 100% por network. Danilo e Rafael foram aproveitando oportunidades que apareciam — sem canal de aquisição estruturado, sem nicho definido. Isso gerou uma base de clientes heterogênea, com contratos de formatos e escopos diferentes.
 
 ---
 
@@ -149,14 +153,19 @@ Integrar os 3 principais setores (marketing, comercial e CS) da empresa para aum
 
 ---
 
-## Principais entregas
+## Realidade operacional atual
 
-- Copy para anúncios, landing pages, WhatsApp e atendimento comercial
+Por conta do crescimento via network, a base de 20 clientes tem contratos heterogêneos que incluem serviços fora do escopo das 3 ofertas formais. Na prática, a DVE hoje entrega:
+
 - Gestão de tráfego pago (Meta Ads e Google Ads)
-- Registros e transcrições de reuniões com clientes
-- Benchmark e pesquisa de mercado
+- Social media (criação e publicação de conteúdo)
+- Manutenção de sites e landing pages
+- Planejamento editorial estratégico
+- Copy para anúncios, landing pages, WhatsApp e atendimento comercial
 - Funis de marketing
 - Playbooks de vendas, comercial e gestão
 - Propostas comerciais
 - Roteiros de vídeo para conteúdo da DVE e clientes
 - Relatórios de resultados de tráfego pago
+
+Esse mix amplo foi o que permitiu crescer, mas gerou falta de padronização. As novas vendas estão sendo direcionadas para as 3 ofertas definidas (RevOps, MarketingOps, SalesOps) — a meta é convergir para um catálogo mais simples e escalável.
