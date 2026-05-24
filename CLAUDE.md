@@ -18,7 +18,7 @@ Workspace de operações da DVE Assessoria. Aqui ficam todos os clientes, entreg
 
 ## Sobre o negócio
 
-A DVE Assessoria é uma agência de marketing digital que oferece gestão de tráfego pago (Meta Ads e Google Ads), produção de copy, criação de funis de marketing e playbooks comerciais e operacionais.
+A DVE Assessoria é uma assessoria de RevOps (pioneiros no Brasil) que aumenta a receita de outras empresas integrando marketing, comercial e sucesso do cliente. Trabalhamos com três ofertas: RevOps (principal), MarketingOps e SalesOps.
 Atendemos clientes externos e também desenvolvemos o crescimento interno da própria DVE.
 
 ## O que mais produzimos aqui
@@ -40,6 +40,8 @@ Atendemos clientes externos e também desenvolvemos o crescimento interno da pr�
 - **Davi Vinicius** — Gestor de Projetos e Customer Success. Gestão de clientes, relatórios e acompanhamento de resultados.
 - **Ariana** — Copywriter e Social Media. Copy, conteúdo, planejamento editorial e documentos estratégicos.
 - **Wesley** — Designer e Webdesigner. Identidade visual, landing pages, sites e peças gráficas.
+- **Daniela** — Editora de Vídeo (Freelancer).
+- **Kauan** — Editor de Vídeo (Freelancer).
 
 ## Tom de voz
 
@@ -47,6 +49,10 @@ Escrever de forma humanizada, natural e fluida. Textos que criam conexão real c
 Roteiros de vídeo devem soar como diálogo genuíno — naturais para leitura no teleprompter, sem artificialidade.
 
 Evitar: textos genéricos, superficiais, robotizados ou sem profundidade. Frases vazias, introduções desnecessárias, entusiasmo exagerado típico de IA.
+
+**Proibido em qualquer copy, sempre, sem exceção:**
+- Travessão (—): nunca usar. É marca registrada de texto gerado por IA.
+- Estrutura de contraste "Isso não é X. Isso é Y." em qualquer variação ("Não é sobre X, é sobre Y", "Isso não é declínio. Isso é uma virada.", etc.). Virou clichê de copy e soa artificial.
 
 ## Regras do sistema
 
