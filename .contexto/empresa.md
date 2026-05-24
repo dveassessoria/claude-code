@@ -77,20 +77,20 @@ Foco em geração de demanda e tráfego pago. Indicado quando o cliente não tem
 
 ---
 
-### SalesOps — Downsell
+### SalesOps — Produto único (não recorrente)
 
-Foco em estruturação comercial e CRM. Indicado quando o cliente não tem budget para o RevOps.
+Projeto de estruturação comercial com duração fixa. Não é mensalidade — é entregue em 60 dias com pagamento único.
 
 - Estruturação do processo comercial
-- Implementação do CRM de vendas
 - Playbook de vendas + scripts de atendimento comercial
-- Análise contínua da base de clientes
-- Estratégias para aumentar o LTV
+- Implementação do CRM de vendas
+- Videoaulas ensinando a usar o CRM
+- Suporte pós-implementação (30 dias)
 - Reunião online a cada 15 dias
 - Atendimento diário no grupo de WhatsApp
 
-**Valor DVE:** R$ 2.000/mês
-**Mídia paga:** a partir de R$ 1.500/mês
+**Tempo de projeto:** 60 dias
+**Valor DVE:** R$ 6.000 (pagamento único — pode parcelar no cartão)
 **Ferramentas:** a partir de R$ 300/mês
 
 ---
