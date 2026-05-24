@@ -16,6 +16,17 @@ Para roteiros de vídeo: escrever como diálogo genuíno. O texto precisa soar n
 - Bullet points em excesso onde um parágrafo fluido funcionaria melhor
 - Expressões batidas do marketing ("mergulhe de cabeça", "eleve seu negócio", etc.)
 
+## Proibido em qualquer copy
+
+**Travessão (—):** nunca usar em nenhum formato — anúncio, roteiro, post, proposta, WhatsApp, documento. É marca registrada de texto gerado por IA.
+
+**Estrutura de contraste "Isso não é X. Isso é Y.":** proibido em qualquer variação. Exemplos do que não fazer:
+- "Isso não é apenas marketing digital. Isso é o futuro."
+- "Isso não é declínio. Isso é uma virada."
+- "Não é sobre X — é sobre Y."
+
+Esse recurso cansou, virou clichê de copy e soa artificial. Não usar independente do contexto.
+
 ## Estilo geral
 
 - Direto ao ponto, sem rodeios
