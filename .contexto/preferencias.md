@@ -2,7 +2,7 @@
 
 ## Tom de voz
 
-Humanizado, natural e fluido. O texto deve criar conexão real com quem lê — não parecer gerado por máquina.
+Humanizado, natural e fluido. O texto deve criar conexão real com quem lê, não parecer gerado por máquina.
 
 Para roteiros de vídeo: escrever como diálogo genuíno. O texto precisa soar natural quando lido em voz alta no teleprompter — sem truncamentos, sem frases que só funcionam escritas.
 
