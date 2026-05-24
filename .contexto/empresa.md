@@ -35,34 +35,63 @@ ClickUp, Kommo CRM, IFIX Telecom, Google Agenda, Google Planilhas, Meta Ads Mana
 
 ---
 
-## Serviço principal: Revenue Operations (RevOps)
+## Ofertas
 
-Implementação de uma operação de receita integrando Marketing, Vendas e Customer Success.
+Trabalhamos com 3 ofertas. O RevOps é a oferta principal. MarketingOps e SalesOps são downsells — usados quando o cliente não tem budget para o RevOps completo.
 
-**O que está incluído:**
+---
 
-**Marketing:**
-- Criação de funil de vendas e oferta
-- Tráfego pago (Meta Ads e Google Ads)
-- Anúncios (copy, edição e design)
-- Landing page (copy, design e webdesign)
-- Relatórios de resultados
+### RevOps — Oferta principal
 
-**Comercial:**
-- Implementação de CRM
-- Estruturação dos processos comerciais
-- Playbook de vendas
-- Relatórios de resultados
+Implementação completa integrando Marketing, Vendas e Customer Success.
 
-**Sucesso do Cliente:**
-- Pesquisa de satisfação do cliente
-- Pesquisa de NPS
-- Pesquisa de identificação de dores e necessidades
+- Estratégia completa para gerar demanda
+- Gestão de tráfego pago (Google e Meta)
+- Criação de anúncios (copy + edição de vídeo + design)
+- Estruturação do processo comercial
+- Implementação do CRM de vendas
+- Playbook de vendas + scripts de atendimento comercial
+- Estratégias de sucesso do cliente e LTV
+- Reunião online a cada 15 dias
+- Atendimento diário no grupo de WhatsApp
 
-**Preço:**
-- R$ 2.500/mês
-- R$ 15.000 por 6 meses (pacote fechado)
-- Reunião online a cada 15 dias incluída
+**Valor DVE:** R$ 2.500/mês
+**Mídia paga:** a partir de R$ 1.500/mês
+**Ferramentas:** a partir de R$ 300/mês
+
+---
+
+### MarketingOps — Downsell
+
+Foco em geração de demanda e tráfego pago. Indicado quando o cliente não tem budget para o RevOps.
+
+- Estratégia completa para gerar demanda
+- Gestão de tráfego pago
+- Anúncios (copy + edição de vídeo + design)
+- Reunião online a cada 30 dias
+- Atendimento diário no grupo de WhatsApp
+
+**Valor DVE:** R$ 1.500/mês
+**Mídia paga:** R$ 1.500/mês
+**Ferramentas:** a partir de R$ 300/mês
+
+---
+
+### SalesOps — Downsell
+
+Foco em estruturação comercial e CRM. Indicado quando o cliente não tem budget para o RevOps.
+
+- Estruturação do processo comercial
+- Implementação do CRM de vendas
+- Playbook de vendas + scripts de atendimento comercial
+- Análise contínua da base de clientes
+- Estratégias para aumentar o LTV
+- Reunião online a cada 15 dias
+- Atendimento diário no grupo de WhatsApp
+
+**Valor DVE:** R$ 2.000/mês
+**Mídia paga:** a partir de R$ 1.500/mês
+**Ferramentas:** a partir de R$ 300/mês
 
 ---
 
