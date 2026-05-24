@@ -8,7 +8,7 @@ A DVE Assessoria é uma assessoria de RevOps (pioneiros no Brasil) cujo objetivo
 
 **Perfil:** Agência
 
-**Atende clientes:** Base atual de 20 clientes ativos
+**Atende clientes:** Base atual de 20 clientes ativos (diversos nichos diferentes) 
 
 **Faturamento atual:** R$ 33.000/mês de MRR (maio de 2026)
 
@@ -25,7 +25,7 @@ A DVE Assessoria é uma assessoria de RevOps (pioneiros no Brasil) cujo objetivo
 - Daniela — Editora de Vídeo (Freelancer)
 - Kauan — Editor de Vídeo (Freelancer)
 
-Danilo lidera a operação (tráfego pago, base de conhecimento, processos, time operacional). Rafael lidera o comercial (closer, treinamento de SDR/BDR, pipeline de vendas). Cristiane faz prospecção ativa — mapeamento de leads, cadências multicanal, qualificação via S-BANT e agendamento de reuniões para Rafael fechar.
+Danilo lidera o time de operação (que entrega o serviço). Rafael lidera o comercial (pré vendas e vendas). 
 
 ---
 
@@ -61,7 +61,7 @@ Implementação completa integrando Marketing, Vendas e Customer Success.
 
 ---
 
-### MarketingOps — Downsell
+### Marketing Ops — Downsell
 
 Foco em geração de demanda e tráfego pago. Indicado quando o cliente não tem budget para o RevOps.
 
@@ -77,7 +77,7 @@ Foco em geração de demanda e tráfego pago. Indicado quando o cliente não tem
 
 ---
 
-### SalesOps — Produto único (não recorrente)
+### Sales Ops — Produto único (não recorrente)
 
 Projeto de estruturação comercial com duração fixa. Não é mensalidade — é entregue em 60 dias com pagamento único.
 

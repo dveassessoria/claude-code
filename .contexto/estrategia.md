@@ -12,9 +12,9 @@ Validar canais de aquisição para gerar leads qualificados, reuniões e vendas 
 
 Danilo está construindo um perfil pessoal posicionado como especialista em RevOps para escritórios de advocacia.
 
-O objetivo é criar autoridade e atrair clientes desse nicho de forma orgânica e direta — conteúdo, presença, e posicionamento de expert. O perfil do Danilo fala exclusivamente com advogados e escritórios, com linguagem e dores desse mercado.
+O objetivo é criar autoridade e atrair clientes desse nicho de forma orgânica e também com tráfego pago — conteúdo, posicionamento de expert e funil de aquisição. O perfil do Danilo fala exclusivamente com donos de escritórios de advocacia, com linguagem e dores desse mercado.
 
-Esse canal é focado em inbound e autoridade: conteúdo, posicionamento e atração.
+Esse canal é focado em inbound e autoridade: conteúdo, posicionamento e anúncios. 
 
 ### 2. Marca DVE Assessoria — Generalista com Outbound
 
@@ -37,7 +37,7 @@ O canal de aquisição principal é o outbound com Cristiane (BDR), prospectando
 
 ## Como chegar lá
 
-- Danilo desenvolve conteúdo e posicionamento para escritórios de advocacia
+- Danilo desenvolve conteúdo, posicionamento e funil de aquisição para escritórios de advocacia
 - Cristiane prospecta ativamente nos nichos definidos; Rafael fecha
 - Melhorar a conversão das propostas comerciais
 - Reter e expandir clientes existentes (Davi no Customer Success)
@@ -47,9 +47,8 @@ O canal de aquisição principal é o outbound com Cristiane (BDR), prospectando
 
 ## O que não está no radar agora
 
-- Identidade de marca pessoal dos sócios além do nicho de advocacia
-- Desenvolvimento de infoprodutos ou produtos digitais
-- Automações complexas — foco é em execução e resultado comercial
+- Nichar completamente o perfil da DVE Assessoria antes de validar um nicho. 
+
 
 ---
 
