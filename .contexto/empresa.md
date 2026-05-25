@@ -153,6 +153,56 @@ Integrar os 3 principais setores (marketing, comercial e CS) da empresa para aum
 
 ---
 
+## Site — DVE Assessoria (dveassessoria.com.br/revops)
+
+**Razão Social:** Dve Marketing E Performance Ltda
+**CNPJ:** 58.352.131/0001-18
+
+**Slogan principal:** "Agências vendem promessas. Nós operamos receita."
+
+**Posicionamento no site:** Pioneiros em RevOps no Brasil. Diferenciação explícita frente a agências tradicionais — a DVE não vende serviços isolados de marketing, ela opera a receita do cliente integrando Marketing, Vendas e CS.
+
+### Definição de RevOps usada no site
+
+"O sistema que integra Marketing, Vendas e CS em uma única operação orientada por gerar receita previsível."
+
+### Sintomas que indicam ausência de RevOps (usados no site para qualificação)
+
+- Investimento em marketing sem clareza de retorno
+- Alto volume de leads sem conversão comercial
+- Falta de confiança para aumentar investimentos
+- Conflito entre departamentos (Marketing vs. Vendas)
+- Ausência de relatórios com métricas de receita previsível
+
+### Metodologia — 6 passos
+
+1. **Diagnóstico** — análise estratégica para identificar alavancas de crescimento
+2. **Operação** — criação da estrutura necessária
+3. **Ativação** — marketing gera demanda com dashboard de resultados
+4. **Otimização** — análise de dados e correção de erros
+5. **Maturação** — melhoria contínua baseada em feedback
+6. **Autonomia** — sistema autossuficiente e escalável
+
+### CTA principal
+
+"Agendar Mapeamento de Receita" (gratuito)
+
+O mapeamento entrega:
+- Análise da operação atual, estratégia e taxas de conversão
+- Identificação de vazamentos e gargalos de receita
+- Sugestões de oportunidades de melhoria
+- Plano de ação estruturado
+
+### Casos de sucesso publicados no site
+
+| Cliente | Investimento | Faturamento gerado | ROI | Período |
+|---|---|---|---|---|
+| MM Medicina | R$ 20.000 | R$ 420.000 | 21,5x | 3 meses |
+| Altitude Elevadores | R$ 31.600 | R$ 742.842 | 23,5x | 6 meses |
+| Dra. Marina Varela | R$ 3.140 | R$ 9.750 | 3,1x | 1 mês |
+
+---
+
 ## Realidade operacional atual
 
 Por conta do crescimento via network, a base de 20 clientes tem contratos heterogêneos que incluem serviços fora do escopo das 3 ofertas formais. Na prática, a DVE hoje entrega:
