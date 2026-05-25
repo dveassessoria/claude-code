@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    // Preview de Markdown melhorado (renderiza tabelas, diagramas, etc.)
+    "shd101wyy.markdown-preview-enhanced",
+
+    // Abre arquivo HTML direto no browser com um clique
+    "formulahendry.open-in-browser"
+  ]
+}

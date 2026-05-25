@@ -1,0 +1,53 @@
+{
+  // Explorer — esconde arquivos que não são de trabalho
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/.env": true,
+    "**/node_modules": true
+  },
+
+  // Explorer — ordena pastas antes de arquivos
+  "explorer.sortOrder": "foldersNestsFiles",
+
+  // Tabs — mostra a pasta no nome da aba quando dois arquivos têm o mesmo nome
+  "workbench.editor.labelFormat": "short",
+
+  // Editor — quebra de linha automática (essencial para textos longos)
+  "editor.wordWrap": "on",
+
+  // Markdown — configurações específicas para .md
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "other": "off",
+      "comments": "off",
+      "strings": "off"
+    },
+    "editor.minimap.enabled": false
+  },
+
+  // Markdown preview — quebra linha e tamanho legível
+  "markdown.preview.breaks": true,
+  "markdown.preview.fontSize": 15,
+  "markdown.preview.lineHeight": 1.8,
+
+  // HTML — preview no browser ao salvar
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.wordWrap": "on"
+  },
+
+  // Editor geral
+  "editor.minimap.enabled": false,
+  "editor.fontSize": 14,
+  "editor.lineHeight": 1.6,
+  "editor.renderWhitespace": "none",
+  "editor.scrollBeyondLastLine": false,
+
+  // Remove espaços em branco no final das linhas ao salvar
+  "files.trimTrailingWhitespace": true,
+
+  // Breadcrumbs — mostra o caminho da pasta no topo do editor
+  "breadcrumbs.enabled": true
+}
