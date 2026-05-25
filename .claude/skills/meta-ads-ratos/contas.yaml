@@ -33,3 +33,12 @@ clientes:
   #   notas: "qualquer observacao relevante"
 
   # -- Suas contas abaixo --
+
+  altitude-elevadores:
+    nome: "Altitude Elevadores"
+    conta_anuncio: "act_1430212497865967"
+    pagina_facebook: "113404601655356"
+    instagram_id: "17841433786079153"
+    instagram_username: "@altitudeelevadores"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria"
