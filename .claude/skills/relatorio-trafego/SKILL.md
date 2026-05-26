@@ -187,24 +187,35 @@ Exemplos:
 
 Se a pasta do cliente não existir dentro de `relatorios/`, criar automaticamente.
 
-## Passo 6 — Instruções de upload
+## Passo 6 — Publicar automaticamente no servidor
 
-Após salvar, passar as instruções ao usuário:
+Carregar credenciais FTP:
+```bash
+source .claude/skills/relatorio-trafego/ftp.env
+```
 
----
+Criar pasta do cliente no servidor (se não existir):
+```bash
+curl -s --connect-timeout 10 \
+  ftp://$FTP_HOST/ \
+  --user "$FTP_USER:$FTP_PASS" \
+  -Q "MKD $FTP_BASE_PATH/[nome-cliente]" 2>&1 || true
+```
 
-**Para publicar no servidor:**
+Fazer upload do arquivo:
+```bash
+curl -s --connect-timeout 30 \
+  -T "relatorios/[nome-cliente]/[mes]-[ano].html" \
+  ftp://$FTP_HOST/$FTP_BASE_PATH/[nome-cliente]/[mes]-[ano].html \
+  --user "$FTP_USER:$FTP_PASS"
+```
 
-1. Acesse o **cPanel** da Servla
-2. Abra o **File Manager**
-3. Navegue até `public_html/relatorios/`
-4. Se a pasta `[nome-cliente]` não existir, crie
-5. Faça upload do arquivo `[mes]-[ano].html`
-6. Link para o cliente: `https://[seudominio].com.br/relatorios/[nome-cliente]/[mes]-[ano].html`
+Se o upload funcionar (sem erro), informar ao usuário:
 
-**Dica de segurança:** se quiser restringir acesso, crie um arquivo `.htpasswd` na pasta do cliente via cPanel > Password Protect Directories.
+> Relatório publicado com sucesso.
+> Link: `https://dveassessoria.com.br/relatorios/[nome-cliente]/[mes]-[ano].html`
 
----
+Se der erro, informar a mensagem de erro e orientar a fazer o upload manual via File Manager no CyberPanel.
 
 ## Observações
 
