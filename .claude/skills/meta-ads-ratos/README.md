@@ -21,7 +21,7 @@ cp -r . ~/.claude/skills/meta-ads-ratos/
 pip3 install facebook-business
 
 # 3. Configurar as variáveis de ambiente (adicionar ao ~/.zshrc ou ~/.bashrc)
-export META_ADS_TOKEN="seu-token-aqui"
+export META_ADS_TOKEN="EAAYUzIe4lzsBRh6bpXXNgNqplUxDzhOYEyqkXYSpZC0k4poqlxZAdJqoVEoFiW9lOtpqARXc9dZA2HhYZCjjzxNJRppsPD5mySZAHd8sZAfHXz6iKvk5yFcpNndA5GZBpgCbapLrFBKAvYK31hHHZCZARCMdterwuDqTg9hYoHvC9pJsX6V0fwLkYx86O6PK5yiZAH"
 export META_AD_ACCOUNT_ID="act_123456789"
 
 # 4. Verificar a instalação
