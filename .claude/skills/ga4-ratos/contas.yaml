@@ -1,11 +1,28 @@
 # GA4 Ratos — Cadastro de clientes
 # O Claude consulta este arquivo para resolver nomes de clientes para property IDs.
-#
-# Exemplo:
-# - nome: Meu Cliente
-#   property_id: "123456789"
-#   site: "exemplo.com.br"
 
 clientes:
 
-  # -- Teus clientes abaixo --
+  - nome: DVE Marketing
+    property_id: "468909631"
+    site: ""
+
+  - nome: Altitude Elevadores
+    property_id: "372810671"
+    site: ""
+
+  - nome: Dr. Marina Varela
+    property_id: "368312867"
+    site: ""
+
+  - nome: Lobato Leilões
+    property_id: "372801167"
+    site: ""
+
+  - nome: Neílton Guedes
+    property_id: "395693348"
+    site: ""
+
+  - nome: Scriptus
+    property_id: "384459893"
+    site: ""
