@@ -15,7 +15,6 @@
 html,body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;line-height:1.6}
 .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
 
-/* HEADER */
 header{padding:40px 0 32px;border-bottom:1px solid var(--border)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .logo{font-family:'Montserrat',sans-serif;font-weight:700;font-size:20px;color:var(--accent)}
@@ -27,38 +26,25 @@ header{padding:40px 0 32px;border-bottom:1px solid var(--border)}
 .badge-meta{background:rgba(24,119,242,0.15);color:#5BA3FF;border:1px solid rgba(24,119,242,0.3)}
 .badge-google{background:rgba(234,67,53,0.15);color:#FF7B73;border:1px solid rgba(234,67,53,0.3)}
 
-/* MONTH SELECTOR */
-.month-selector{margin:32px 0 0;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px}
-.year-tabs{display:flex;gap:8px;margin-bottom:16px}
-.year-tab{background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);padding:6px 18px;font-size:14px;font-family:inherit;cursor:pointer;font-weight:500;transition:.15s}
-.year-tab.active{background:rgba(1,255,150,0.1);border-color:var(--accent);color:var(--accent)}
-.month-pills{display:flex;gap:8px;flex-wrap:wrap}
-.month-pill{background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--muted);padding:6px 14px;font-size:13px;font-family:inherit;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:6px}
-.month-pill:hover{border-color:rgba(244,243,238,0.25);color:var(--text)}
-.month-pill.active{background:rgba(1,255,150,0.1);border-color:var(--accent);color:var(--accent)}
-.month-pill .pill-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
-.month-pill .dot-meta{background:#1877F2}
-.month-pill .dot-google{background:#EA4335}
-.month-pill .dot-both{background:linear-gradient(135deg,#1877F2 50%,#EA4335 50%)}
-
-/* DAY FILTER */
-.day-filter{margin:16px 0 0;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.day-filter label{color:var(--muted);font-size:13px;display:block;margin-bottom:5px}
-.fp-input{background:#0F2A33;border:1px solid rgba(244,243,238,0.15);border-radius:8px;color:var(--text);padding:8px 14px;font-size:14px;font-family:inherit;outline:none;cursor:pointer;width:148px}
+/* FILTER BAR */
+.filter-bar{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin:28px 0;display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.date-group{display:flex;flex-direction:column;gap:6px}
+.date-group label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.fp-input{background:#0F2A33;border:1px solid rgba(244,243,238,0.18);border-radius:8px;color:var(--text);padding:10px 14px;font-size:15px;font-family:'Montserrat',sans-serif;font-weight:600;outline:none;cursor:pointer;width:160px;letter-spacing:.3px}
 .fp-input:focus{border-color:var(--accent)}
-.day-presets{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}
-.day-preset{background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--muted);padding:5px 12px;font-size:12px;font-family:inherit;cursor:pointer;transition:.15s}
-.day-preset:hover,.day-preset.active{background:rgba(1,255,150,0.1);border-color:var(--accent);color:var(--accent)}
-.vdiv{width:1px;height:32px;background:var(--border)}
+.vdiv{width:1px;height:40px;background:var(--border);align-self:flex-end;margin-bottom:2px}
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto;align-self:flex-end}
+.preset-btn{background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--muted);padding:8px 14px;font-size:13px;font-family:inherit;cursor:pointer;transition:.15s;white-space:nowrap}
+.preset-btn:hover,.preset-btn.active{background:rgba(1,255,150,0.1);border-color:var(--accent);color:var(--accent)}
 
 /* LOADING */
-.loading{display:none;text-align:center;padding:60px;color:var(--muted)}
+.loading{display:none;text-align:center;padding:80px 0;color:var(--muted)}
 .loading.show{display:block}
-.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 16px}
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 16px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* KPI CARDS */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:28px 0}
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
 .kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px}
 .kpi-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
 .kpi-value{font-family:'Montserrat',sans-serif;font-weight:700;font-size:28px;color:var(--accent);line-height:1}
@@ -86,44 +72,46 @@ header{padding:40px 0 32px;border-bottom:1px solid var(--border)}
 
 /* TABLE */
 .table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:480px}
 th{color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:.5px;padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
 td{padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
 tr:last-child td{border-bottom:none}
-.campaign-name{color:var(--text);font-weight:500;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
-.td-num{font-family:'Montserrat',sans-serif;font-weight:600;font-size:13px;white-space:nowrap}
+.cname{color:var(--text);font-weight:500;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.tn{font-family:'Montserrat',sans-serif;font-weight:600;font-size:13px;white-space:nowrap}
 .tag-on{background:rgba(1,255,150,0.1);color:var(--accent);border:1px solid rgba(1,255,150,.25);font-size:11px;padding:2px 8px;border-radius:10px}
 .tag-off{background:rgba(244,243,238,0.06);color:var(--muted);border:1px solid var(--border);font-size:11px;padding:2px 8px;border-radius:10px}
 .note{color:var(--muted);font-size:12px;margin-top:12px;font-style:italic}
 
-/* FOOTER */
 footer{border-top:1px solid var(--border);padding:28px 0;margin-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
 .footer-text{color:var(--muted);font-size:13px}
 
-/* FLATPICKR DARK THEME */
-.flatpickr-calendar{background:#1E2328 !important;border:1px solid rgba(244,243,238,0.12) !important;border-radius:12px !important;box-shadow:0 16px 40px rgba(0,0,0,0.5) !important;font-family:'Plus Jakarta Sans',sans-serif !important}
+/* FLATPICKR DARK */
+.flatpickr-calendar{background:#1E2328 !important;border:1px solid rgba(244,243,238,0.12) !important;border-radius:12px !important;box-shadow:0 20px 50px rgba(0,0,0,0.6) !important;font-family:'Plus Jakarta Sans',sans-serif !important}
 .flatpickr-months,.flatpickr-month{background:#1E2328 !important;color:var(--text) !important}
-.flatpickr-current-month,.flatpickr-current-month input.cur-year{color:var(--text) !important;font-family:'Plus Jakarta Sans',sans-serif}
-.flatpickr-current-month .flatpickr-monthDropdown-months{background:#1E2328 !important;color:var(--text) !important;border:none !important}
-.flatpickr-prev-month,.flatpickr-next-month{color:rgba(244,243,238,0.5) !important;fill:rgba(244,243,238,0.5) !important}
-.flatpickr-prev-month:hover,.flatpickr-next-month:hover{color:var(--accent) !important;fill:var(--accent) !important}
-.flatpickr-weekdays,.flatpickr-weekday,span.flatpickr-weekday{background:#1E2328 !important;color:rgba(244,243,238,0.4) !important;font-size:11px !important}
-.flatpickr-day{color:var(--text) !important;border-radius:6px !important;font-size:13px}
+.flatpickr-current-month{font-size:15px !important;color:var(--text) !important}
+.flatpickr-current-month .flatpickr-monthDropdown-months{background:#1E2328 !important;color:var(--text) !important;border:none !important;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px}
+.flatpickr-current-month input.cur-year{color:var(--text) !important;font-family:'Montserrat',sans-serif;font-weight:600}
+.numInputWrapper span{border-color:var(--border) !important}
+.numInputWrapper span:hover{background:rgba(1,255,150,0.1) !important}
+.flatpickr-prev-month svg,.flatpickr-next-month svg{fill:rgba(244,243,238,0.5) !important}
+.flatpickr-prev-month:hover svg,.flatpickr-next-month:hover svg{fill:var(--accent) !important}
+.flatpickr-weekdays,.flatpickr-weekday,span.flatpickr-weekday{background:#1E2328 !important;color:rgba(244,243,238,0.35) !important;font-size:11px !important;text-transform:uppercase;letter-spacing:.5px}
+.flatpickr-day{color:var(--text) !important;border-radius:6px !important;font-size:13px;height:34px;line-height:34px}
 .flatpickr-day:hover{background:rgba(1,255,150,0.12) !important;border-color:transparent !important;color:var(--accent) !important}
 .flatpickr-day.selected{background:var(--accent) !important;border-color:var(--accent) !important;color:#0F2A33 !important;font-weight:700}
-.flatpickr-day.today{border-color:rgba(1,255,150,0.4) !important}
-.flatpickr-day.flatpickr-disabled,.flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay{color:rgba(244,243,238,0.15) !important}
+.flatpickr-day.today:not(.selected){border-color:rgba(1,255,150,0.5) !important;color:var(--accent) !important}
+.flatpickr-day.flatpickr-disabled{color:rgba(244,243,238,0.15) !important}
+.flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay{color:rgba(244,243,238,0.2) !important}
 .dayContainer{padding:4px 8px 8px}
+.flatpickr-innerContainer{border-top:1px solid var(--border) !important}
 
-/* RESPONSIVE */
-@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.header-inner{flex-direction:column;align-items:flex-start}.header-right h1,.header-right p{text-align:left}.badges{justify-content:flex-start}.day-presets{margin-left:0}}
+@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.filter-bar{flex-direction:column;align-items:flex-start}.presets{margin-left:0}.header-right h1,.header-right p{text-align:left}.badges{justify-content:flex-start}}
 @media(max-width:480px){.kpi-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<!-- HEADER -->
 <header>
   <div class="header-inner">
     <div class="logo">DVE <span>Assessoria</span></div>
@@ -138,296 +126,217 @@ footer{border-top:1px solid var(--border);padding:28px 0;margin-top:24px;display
   </div>
 </header>
 
-<!-- MONTH SELECTOR -->
-<div class="month-selector">
-  <div class="year-tabs" id="yearTabs"></div>
-  <div class="month-pills" id="monthPills"></div>
-  <div class="day-filter">
-    <div><label>De</label><input type="text" id="dateFrom" class="fp-input" readonly></div>
-    <div><label>Até</label><input type="text" id="dateTo" class="fp-input" readonly></div>
-    <div class="vdiv"></div>
-    <div class="day-presets" id="dayPresets"></div>
+<div class="filter-bar">
+  <div class="date-group"><label>De</label><input type="text" id="dateFrom" class="fp-input" placeholder="DD/MM/AAAA" readonly></div>
+  <div class="date-group"><label>Até</label><input type="text" id="dateTo" class="fp-input" placeholder="DD/MM/AAAA" readonly></div>
+  <div class="vdiv"></div>
+  <div class="presets">
+    <button class="preset-btn" id="p7d">Últimos 7 dias</button>
+    <button class="preset-btn" id="p30d">Últimos 30 dias</button>
+    <button class="preset-btn" id="pMes">Este mês</button>
+    <button class="preset-btn" id="pMesAnt">Mês passado</button>
+    <button class="preset-btn" id="pTudo">Tudo</button>
   </div>
 </div>
 
-<!-- LOADING -->
 <div class="loading" id="loading"><div class="spinner"></div><p>Carregando dados...</p></div>
 
-<!-- CONTENT (hidden while loading) -->
 <div id="content">
-
-  <!-- KPIs -->
   <div class="kpi-grid">
     <div class="kpi"><div class="kpi-label">Investimento Total</div><div class="kpi-value" id="kpi-invest">—</div><div class="kpi-sub">Meta + Google Ads</div></div>
     <div class="kpi"><div class="kpi-label">Leads / Conversões</div><div class="kpi-value" id="kpi-leads">—</div><div class="kpi-sub">Total do período</div></div>
     <div class="kpi"><div class="kpi-label">CPL Médio</div><div class="kpi-value" id="kpi-cpl">—</div><div class="kpi-sub">Custo por lead</div></div>
     <div class="kpi"><div class="kpi-label">Cliques Totais</div><div class="kpi-value" id="kpi-clicks">—</div><div class="kpi-sub">Meta + Google</div></div>
   </div>
-
-  <!-- CHARTS -->
   <div class="charts-row">
     <div class="chart-card"><div class="chart-title">Investimento diário por plataforma</div><canvas id="chartInvest" height="140"></canvas></div>
-    <div class="chart-card"><div class="chart-title">Leads / Conversões por dia</div><canvas id="chartLeads" height="140"></canvas></div>
+    <div class="chart-card"><div class="chart-title">Leads · Conversões por dia</div><canvas id="chartLeads" height="140"></canvas></div>
   </div>
-
-  <!-- META -->
   <div class="section">
-    <div class="section-header">
-      <div class="section-dot meta"></div>
-      <div class="section-title">Meta Ads</div>
-      <span class="badge badge-meta" style="font-size:11px;padding:3px 10px;border-radius:12px">Facebook · Instagram</span>
-    </div>
+    <div class="section-header"><div class="section-dot meta"></div><div class="section-title">Meta Ads</div><span class="badge badge-meta" style="font-size:11px;padding:3px 10px;border-radius:12px">Facebook · Instagram</span></div>
     <div id="meta-body"></div>
   </div>
-
-  <!-- GOOGLE -->
   <div class="section">
-    <div class="section-header">
-      <div class="section-dot google"></div>
-      <div class="section-title">Google Ads</div>
-      <span class="badge badge-google" style="font-size:11px;padding:3px 10px;border-radius:12px">Search</span>
-    </div>
+    <div class="section-header"><div class="section-dot google"></div><div class="section-title">Google Ads</div><span class="badge badge-google" style="font-size:11px;padding:3px 10px;border-radius:12px">Search</span></div>
     <div id="google-body"></div>
   </div>
-
-</div><!-- /content -->
+</div>
 
 <footer>
   <span class="footer-text">Relatório gerado por DVE Assessoria · dveassessoria.com.br</span>
   <span class="footer-text" id="footer-period">—</span>
 </footer>
-
-</div><!-- /wrap -->
+</div>
 
 <script>
 Chart.defaults.color='rgba(244,243,238,0.55)';
 Chart.defaults.borderColor='rgba(244,243,238,0.07)';
 
-// ── MESES DISPONÍVEIS ──────────────────────────────────────────────────────────
+// ── CONSTANTES ─────────────────────────────────────────────────────────────────
+const MIN_DATE = '2025-03-01';
+const MAX_DATE = '2026-05-25';
 const MONTHS_PT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
-const AVAILABLE = [
-  {y:2025,m:3,meta:false,google:true},
-  {y:2025,m:4,meta:false,google:true},
-  {y:2025,m:5,meta:false,google:true},
-  {y:2025,m:6,meta:false,google:true},
-  {y:2025,m:7,meta:false,google:true},
-  {y:2026,m:4,meta:true,google:false},
-  {y:2026,m:5,meta:true,google:true}
-];
+// ── UTILS ──────────────────────────────────────────────────────────────────────
+const brl = v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const num = v=>Math.round(v).toLocaleString('pt-BR');
+const pct = v=>v.toFixed(2).replace('.',',')+('%');
+const fmt = (id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+const pad = n=>String(n).padStart(2,'0');
+const toKey = d=>d.slice(0,7); // '2025-06-01' → '2025-06'
+const dateStr = d=>`${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
 
-const years = [...new Set(AVAILABLE.map(a=>a.y))];
-let currentYear = 2026;
-let currentMonth = 5;
-let monthData = null;
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function toISO(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;}
+function monthsInRange(from,to){
+  const months=[];
+  const cur=new Date(from.slice(0,7)+'-01');
+  const end=new Date(to.slice(0,7)+'-01');
+  while(cur<=end){months.push(`${cur.getFullYear()}-${pad(cur.getMonth()+1)}`);cur.setMonth(cur.getMonth()+1);}
+  return months;
+}
+
+// ── DATA CACHE ─────────────────────────────────────────────────────────────────
+const cache = {};
+async function getMonth(key){
+  if(cache[key]) return cache[key];
+  try{
+    const r = await fetch(`./dados/${key}.json`);
+    if(!r.ok) throw new Error('not found');
+    cache[key] = await r.json();
+  }catch{
+    cache[key] = {month:key,meta:{daily:[],campaigns:[]},google:{daily:[],campaigns:[]}};
+  }
+  return cache[key];
+}
+
+async function loadRange(from,to){
+  const keys = monthsInRange(from,to);
+  const all  = await Promise.all(keys.map(getMonth));
+  const metaDaily    = all.flatMap(d=>(d.meta.daily||[])).filter(d=>d.date>=from&&d.date<=to);
+  const googleDaily  = all.flatMap(d=>(d.google.daily||[])).filter(d=>d.date>=from&&d.date<=to);
+  // Aggregate campaigns across months by name
+  const metaCamps  = aggregateCampaigns(all.flatMap(d=>(d.meta.campaigns||[])), 'meta');
+  const googleCamps= aggregateCampaigns(all.flatMap(d=>(d.google.campaigns||[])), 'google');
+  return {metaDaily, googleDaily, metaCamps, googleCamps};
+}
+
+function aggregateCampaigns(list, type){
+  const map={};
+  list.forEach(c=>{
+    const k=c.name;
+    if(!map[k]) map[k]={...c,spend:0,impressions:0,clicks:0};
+    map[k].spend = +(map[k].spend + c.spend).toFixed(2);
+    map[k].impressions += c.impressions||0;
+    map[k].clicks += c.clicks||0;
+    if(type==='meta'){map[k].leads=(map[k].leads||0)+(c.leads||0);}
+    else{map[k].conversions=(map[k].conversions||0)+(c.conversions||0);}
+    map[k].status = c.status || map[k].status;
+  });
+  return Object.values(map).sort((a,b)=>b.spend-a.spend);
+}
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
 let currentFrom = '', currentTo = '';
 let cI, cL, fpFrom, fpTo;
+let isUpdating = false;
 
-// ── UTILS ──────────────────────────────────────────────────────────────────────
-const brl = v => 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-const num = v => Math.round(v).toLocaleString('pt-BR');
-const pct = v => v.toFixed(2).replace('.',',')+('%');
-const fmt = (id,v) => {const e=document.getElementById(id);if(e)e.textContent=v;};
-const filterDay = (arr,from,to) => arr.filter(d=>d.date>=from&&d.date<=to);
-const pad = n => String(n).padStart(2,'0');
-const monthKey = (y,m) => `${y}-${pad(m)}`;
-const lastDay = (y,m) => new Date(y,m,0).getDate();
-
-// ── BUILD SELECTORS ────────────────────────────────────────────────────────────
-function buildYearTabs(){
-  const el = document.getElementById('yearTabs');
-  el.innerHTML = '';
-  years.forEach(y=>{
-    const b = document.createElement('button');
-    b.className = 'year-tab'+(y===currentYear?' active':'');
-    b.textContent = y;
-    b.onclick = ()=>{ currentYear=y; buildMonthPills(); selectFirstMonth(); };
-    el.appendChild(b);
-  });
-}
-
-function buildMonthPills(){
-  document.querySelectorAll('.year-tab').forEach(b=>b.classList.toggle('active',+b.textContent===currentYear));
-  const el = document.getElementById('monthPills');
-  el.innerHTML = '';
-  AVAILABLE.filter(a=>a.y===currentYear).forEach(a=>{
-    const b = document.createElement('button');
-    b.className = 'month-pill'+(a.y===currentYear&&a.m===currentMonth?' active':'');
-    const dotClass = a.meta&&a.google?'dot-both':a.meta?'dot-meta':'dot-google';
-    b.innerHTML = `<span class="pill-dot ${dotClass}"></span>${MONTHS_PT[a.m-1]}`;
-    b.onclick = ()=>{ currentMonth=a.m; buildMonthPills(); loadMonth(); };
-    el.appendChild(b);
-  });
-}
-
-function selectFirstMonth(){
-  const first = AVAILABLE.find(a=>a.y===currentYear);
-  if(first){ currentMonth=first.m; buildMonthPills(); loadMonth(); }
-}
-
-// ── LOAD MONTH DATA ────────────────────────────────────────────────────────────
-async function loadMonth(){
-  const key = monthKey(currentYear,currentMonth);
+// ── UPDATE ─────────────────────────────────────────────────────────────────────
+async function update(){
+  if(!currentFrom||!currentTo||currentFrom>currentTo||isUpdating) return;
+  isUpdating=true;
   document.getElementById('loading').classList.add('show');
-  document.getElementById('content').style.opacity='0.3';
+  document.getElementById('content').style.opacity='0.2';
 
-  try {
-    const res = await fetch(`./dados/${key}.json`);
-    monthData = await res.json();
-  } catch(e){
-    monthData = { month:key, meta:{daily:[],campaigns:[]}, google:{daily:[],campaigns:[]} };
-  }
+  const {metaDaily,googleDaily,metaCamps,googleCamps} = await loadRange(currentFrom,currentTo);
 
-  const y = currentYear, m = currentMonth;
-  const last = lastDay(y,m);
-  const minDate = `${key}-01`;
-  const maxDate = `${key}-${pad(last)}`;
+  const mSpend  = metaDaily.reduce((a,d)=>a+d.spend,0);
+  const mImp    = metaDaily.reduce((a,d)=>a+d.impressions,0);
+  const mReach  = metaDaily.reduce((a,d)=>a+d.reach,0);
+  const mClicks = metaDaily.reduce((a,d)=>a+d.clicks,0);
+  const mLeads  = metaDaily.reduce((a,d)=>a+d.leads,0);
+  const mCPM    = mImp?mSpend/mImp*1000:0;
+  const mCPC    = mClicks?mSpend/mClicks:0;
+  const mCTR    = mImp?mClicks/mImp*100:0;
+  const mCPL    = mLeads?mSpend/mLeads:0;
 
-  // Find first and last day with any data
-  const allDates = [...(monthData.meta.daily||[]).map(d=>d.date), ...(monthData.google.daily||[]).map(d=>d.date)].sort();
-  const dataFrom = allDates[0] || minDate;
-  const dataTo   = allDates[allDates.length-1] || maxDate;
+  const gSpend  = googleDaily.reduce((a,d)=>a+d.spend,0);
+  const gImp    = googleDaily.reduce((a,d)=>a+d.impressions,0);
+  const gClicks = googleDaily.reduce((a,d)=>a+d.clicks,0);
+  const gConv   = googleDaily.reduce((a,d)=>a+d.conv,0);
+  const gCTR    = gImp?gClicks/gImp*100:0;
+  const gCPC    = gClicks?gSpend/gClicks:0;
 
-  currentFrom = dataFrom;
-  currentTo   = dataTo;
-
-  // Update Flatpickr
-  if(fpFrom){ fpFrom.set('minDate',minDate); fpFrom.set('maxDate',dataTo); fpFrom.setDate(dataFrom,false); }
-  if(fpTo){   fpTo.set('minDate',dataFrom);  fpTo.set('maxDate',maxDate);  fpTo.setDate(dataTo,false); }
-
-  // Build week presets dynamically
-  buildDayPresets(y, m, last);
-
-  document.getElementById('loading').classList.remove('show');
-  document.getElementById('content').style.opacity='1';
-  update();
-}
-
-// ── DAY PRESETS ────────────────────────────────────────────────────────────────
-function buildDayPresets(y, m, last){
-  const el = document.getElementById('dayPresets');
-  el.innerHTML = '';
-  const weeks = [
-    {label:'Sem. 1', from:`${monthKey(y,m)}-01`, to:`${monthKey(y,m)}-07`},
-    {label:'Sem. 2', from:`${monthKey(y,m)}-08`, to:`${monthKey(y,m)}-14`},
-    {label:'Sem. 3', from:`${monthKey(y,m)}-15`, to:`${monthKey(y,m)}-21`},
-    {label:'Sem. 4', from:`${monthKey(y,m)}-22`, to:`${monthKey(y,m)}-${pad(last)}`},
-    {label:'Mês todo',from:`${monthKey(y,m)}-01`, to:`${monthKey(y,m)}-${pad(last)}`}
-  ];
-  weeks.forEach(w=>{
-    const b = document.createElement('button');
-    b.className = 'day-preset';
-    b.textContent = w.label;
-    b.onclick = ()=>{
-      document.querySelectorAll('.day-preset').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
-      currentFrom = w.from; currentTo = w.to;
-      fpFrom.setDate(w.from,false);
-      fpTo.setDate(w.to,false);
-      update();
-    };
-    el.appendChild(b);
-  });
-  // activate "Mês todo"
-  el.querySelector('button:last-child').classList.add('active');
-}
-
-// ── UPDATE CHARTS & KPIS ───────────────────────────────────────────────────────
-function update(){
-  if(!monthData) return;
-  const from = currentFrom, to = currentTo;
-  if(!from||!to) return;
-
-  const mD = filterDay(monthData.meta.daily||[], from, to);
-  const gD = filterDay(monthData.google.daily||[], from, to);
-
-  // Meta totals
-  const mSpend  = mD.reduce((a,d)=>a+d.spend,0);
-  const mImp    = mD.reduce((a,d)=>a+d.impressions,0);
-  const mReach  = mD.reduce((a,d)=>a+d.reach,0);
-  const mClicks = mD.reduce((a,d)=>a+d.clicks,0);
-  const mLeads  = mD.reduce((a,d)=>a+d.leads,0);
-  const mCPM    = mImp ? mSpend/mImp*1000 : 0;
-  const mCPC    = mClicks ? mSpend/mClicks : 0;
-  const mCTR    = mImp ? mClicks/mImp*100 : 0;
-  const mCPL    = mLeads ? mSpend/mLeads : 0;
-
-  // Google totals
-  const gSpend  = gD.reduce((a,d)=>a+d.spend,0);
-  const gImp    = gD.reduce((a,d)=>a+d.impressions,0);
-  const gClicks = gD.reduce((a,d)=>a+d.clicks,0);
-  const gConv   = gD.reduce((a,d)=>a+d.conv,0);
-  const gCTR    = gImp ? gClicks/gImp*100 : 0;
-  const gCPC    = gClicks ? gSpend/gClicks : 0;
-
-  // Global KPIs
-  const total   = mSpend+gSpend;
-  const leads   = mLeads+gConv;
-  const clicks  = mClicks+gClicks;
-  const cpl     = leads ? total/leads : 0;
+  const total  = mSpend+gSpend;
+  const leads  = mLeads+gConv;
+  const clicks = mClicks+gClicks;
 
   fmt('kpi-invest', brl(total));
   fmt('kpi-leads',  leads.toString());
-  fmt('kpi-cpl',    leads ? brl(cpl) : '—');
+  fmt('kpi-cpl',    leads?brl(total/leads):'—');
   fmt('kpi-clicks', num(clicks));
-  fmt('footer-period', `${MONTHS_PT[currentMonth-1]} ${currentYear} · Gerado em ${new Date().toLocaleDateString('pt-BR')}`);
+
+  // Period label in footer
+  const fFrom = currentFrom.split('-').reverse().join('/');
+  const fTo   = currentTo.split('-').reverse().join('/');
+  fmt('footer-period', fFrom===fTo ? fFrom : `${fFrom} a ${fTo}`);
 
   // Build date axis
   const dates=[];
-  const cur=new Date(from); const end=new Date(to);
-  while(cur<=end){dates.push(cur.toISOString().slice(0,10));cur.setDate(cur.getDate()+1);}
-  const labels = dates.map(d=>d.slice(5).replace('-','/'));
-  const msArr  = dates.map(d=>{const r=mD.find(x=>x.date===d);return r?r.spend:0;});
-  const gsArr  = dates.map(d=>{const r=gD.find(x=>x.date===d);return r?r.spend:0;});
-  const mlArr  = dates.map(d=>{const r=mD.find(x=>x.date===d);return r?r.leads:0;});
-  const glArr  = dates.map(d=>{const r=gD.find(x=>x.date===d);return r?r.conv:0;});
+  const cur=new Date(currentFrom); const end=new Date(currentTo);
+  while(cur<=end){dates.push(toISO(cur));cur.setDate(cur.getDate()+1);}
+
+  // Smart label: show day/month, skip some if too many
+  const skipN = dates.length>90?7:dates.length>30?3:1;
+  const labels = dates.map((d,i)=>i%skipN===0?d.slice(5).replace('-','/') :'');
+
+  const msArr = dates.map(d=>{const r=metaDaily.find(x=>x.date===d);return r?r.spend:0;});
+  const gsArr = dates.map(d=>{const r=googleDaily.find(x=>x.date===d);return r?r.spend:0;});
+  const mlArr = dates.map(d=>{const r=metaDaily.find(x=>x.date===d);return r?r.leads:0;});
+  const glArr = dates.map(d=>{const r=googleDaily.find(x=>x.date===d);return r?r.conv:0;});
 
   const base={responsive:true,animation:false,
     plugins:{legend:{labels:{usePointStyle:true,padding:14,font:{size:12}}}},
-    scales:{x:{grid:{color:'rgba(244,243,238,0.04)'},ticks:{maxRotation:45,maxTicksLimit:14}},
+    scales:{x:{grid:{color:'rgba(244,243,238,0.04)'},ticks:{maxRotation:45,autoSkip:false,callback:(v,i)=>labels[i]}},
             y:{grid:{color:'rgba(244,243,238,0.04)'},beginAtZero:true}}};
 
   if(cI)cI.destroy();
-  cI=new Chart(document.getElementById('chartInvest'),{
-    type:'bar',
-    data:{labels,datasets:[
+  cI=new Chart(document.getElementById('chartInvest'),{type:'bar',
+    data:{labels:dates.map(d=>d.slice(5).replace('-','/')),datasets:[
       {label:'Meta Ads',data:msArr,backgroundColor:'rgba(24,119,242,0.75)',borderColor:'#1877F2',borderWidth:1,stack:'s'},
       {label:'Google Ads',data:gsArr,backgroundColor:'rgba(234,67,53,0.75)',borderColor:'#EA4335',borderWidth:1,stack:'s'}
     ]},
-    options:{...base,scales:{...base.scales,y:{...base.scales.y,ticks:{callback:v=>'R$'+Number(v).toLocaleString('pt-BR')}}}}
+    options:{...base,scales:{...base.scales,y:{...base.scales.y,ticks:{callback:v=>'R$'+Number(v).toLocaleString('pt-BR')}}},
+      plugins:{...base.plugins,tooltip:{callbacks:{title:t=>`${t[0].label}`,label:c=>`${c.dataset.label}: ${brl(c.raw)}`}}}}
   });
 
   if(cL)cL.destroy();
-  cL=new Chart(document.getElementById('chartLeads'),{
-    type:'line',
-    data:{labels,datasets:[
-      {label:'Meta (leads)',data:mlArr,borderColor:'#1877F2',backgroundColor:'rgba(24,119,242,0.1)',pointRadius:3,fill:true,tension:.35},
-      {label:'Google (conv.)',data:glArr,borderColor:'#EA4335',backgroundColor:'rgba(234,67,53,0.1)',pointRadius:3,fill:true,tension:.35}
+  cL=new Chart(document.getElementById('chartLeads'),{type:'line',
+    data:{labels:dates.map(d=>d.slice(5).replace('-','/')),datasets:[
+      {label:'Meta (leads)',data:mlArr,borderColor:'#1877F2',backgroundColor:'rgba(24,119,242,0.1)',pointRadius:dates.length>60?0:3,fill:true,tension:.35},
+      {label:'Google (conv.)',data:glArr,borderColor:'#EA4335',backgroundColor:'rgba(234,67,53,0.1)',pointRadius:dates.length>60?0:3,fill:true,tension:.35}
     ]},
     options:{...base}
   });
 
-  // Render Meta section
-  renderMeta(mSpend,mImp,mReach,mClicks,mLeads,mCTR,mCPM,mCPC,mCPL);
-  renderGoogle(gSpend,gImp,gClicks,gConv,gCTR,gCPC);
+  renderMeta(mSpend,mImp,mReach,mClicks,mLeads,mCTR,mCPM,mCPC,mCPL,metaCamps);
+  renderGoogle(gSpend,gImp,gClicks,gConv,gCTR,gCPC,googleCamps);
+
+  document.getElementById('loading').classList.remove('show');
+  document.getElementById('content').style.opacity='1';
+  isUpdating=false;
 }
 
-// ── RENDER META ────────────────────────────────────────────────────────────────
-function renderMeta(spend,imp,reach,clicks,leads,ctr,cpm,cpc,cpl){
-  const el = document.getElementById('meta-body');
+// ── RENDER ─────────────────────────────────────────────────────────────────────
+function renderMeta(spend,imp,reach,clicks,leads,ctr,cpm,cpc,cpl,camps){
+  const el=document.getElementById('meta-body');
   if(spend===0){el.innerHTML='<div class="section-empty">Sem dados do Meta Ads neste período.</div>';return;}
-
-  const campaigns = (monthData.meta.campaigns||[]);
-  const camRows = campaigns.map(c=>`
-    <tr>
-      <td><span class="campaign-name" title="${c.name}">${c.name}</span></td>
-      <td class="td-num">${brl(c.spend)}</td>
-      <td class="td-num">${num(c.clicks)}</td>
-      <td class="td-num">${pct(c.ctr)}</td>
-      <td class="td-num">${c.leads}</td>
-      <td class="td-num">${c.leads?brl(c.cpl):'—'}</td>
-    </tr>`).join('');
-
+  const rows=camps.map(c=>`<tr>
+    <td><span class="cname" title="${c.name}">${c.name}</span></td>
+    <td class="tn">${brl(c.spend)}</td><td class="tn">${num(c.clicks)}</td>
+    <td class="tn">${pct(c.ctr||0)}</td><td class="tn">${c.leads||0}</td>
+    <td class="tn">${(c.leads)?brl(c.spend/c.leads):'—'}</td>
+  </tr>`).join('');
   el.innerHTML=`
     <div class="metrics-grid">
       <div class="metric"><div class="metric-label">Investimento</div><div class="metric-value">${brl(spend)}</div></div>
@@ -440,31 +349,23 @@ function renderMeta(spend,imp,reach,clicks,leads,ctr,cpm,cpc,cpl){
       <div class="metric"><div class="metric-label">Leads (WhatsApp)</div><div class="metric-value">${leads}</div></div>
       <div class="metric"><div class="metric-label">CPL</div><div class="metric-value">${leads?brl(cpl):'—'}</div></div>
     </div>
-    ${campaigns.length?`<div class="table-wrap"><table>
+    ${camps.length?`<div class="table-wrap"><table>
       <thead><tr><th>Campanha</th><th>Invest.</th><th>Cliques</th><th>CTR</th><th>Leads</th><th>CPL</th></tr></thead>
-      <tbody>${camRows}</tbody>
-    </table>
-    <p class="note">* Tabela de campanhas exibe totais do mês. KPIs e gráficos respondem ao filtro de período.</p></div>`:''}`;
+      <tbody>${rows}</tbody></table>
+      <p class="note">* Campanhas com dados no período selecionado, ordenadas por investimento.</p></div>`:''}`;
 }
 
-// ── RENDER GOOGLE ──────────────────────────────────────────────────────────────
-function renderGoogle(spend,imp,clicks,conv,ctr,cpc){
-  const el = document.getElementById('google-body');
+function renderGoogle(spend,imp,clicks,conv,ctr,cpc,camps){
+  const el=document.getElementById('google-body');
   if(spend===0){el.innerHTML='<div class="section-empty">Sem dados do Google Ads neste período.</div>';return;}
-
-  const campaigns = (monthData.google.campaigns||[]);
-  const camRows = campaigns.map(c=>`
-    <tr>
-      <td><span class="campaign-name">${c.name}</span></td>
-      <td><span class="${c.status==='ENABLED'?'tag-on':'tag-off'}">${c.status==='ENABLED'?'Ativo':'Pausado'}</span></td>
-      <td class="td-num">${brl(c.spend)}</td>
-      <td class="td-num">${num(c.impressions)}</td>
-      <td class="td-num">${num(c.clicks)}</td>
-      <td class="td-num">${pct(c.ctr)}</td>
-      <td class="td-num">${c.conversions}</td>
-      <td class="td-num">${c.cost_per_conv?brl(c.cost_per_conv):'—'}</td>
-    </tr>`).join('');
-
+  const rows=camps.map(c=>`<tr>
+    <td><span class="cname">${c.name}</span></td>
+    <td><span class="${c.status==='ENABLED'?'tag-on':'tag-off'}">${c.status==='ENABLED'?'Ativo':'Pausado'}</span></td>
+    <td class="tn">${brl(c.spend)}</td><td class="tn">${num(c.impressions)}</td>
+    <td class="tn">${num(c.clicks)}</td><td class="tn">${pct(c.ctr||0)}</td>
+    <td class="tn">${c.conversions||0}</td>
+    <td class="tn">${(c.conversions)?brl(c.spend/c.conversions):'—'}</td>
+  </tr>`).join('');
   el.innerHTML=`
     <div class="metrics-grid">
       <div class="metric"><div class="metric-label">Investimento</div><div class="metric-value">${brl(spend)}</div></div>
@@ -474,30 +375,75 @@ function renderGoogle(spend,imp,clicks,conv,ctr,cpc){
       <div class="metric"><div class="metric-label">CPC</div><div class="metric-value">${clicks?brl(cpc):'—'}</div></div>
       <div class="metric"><div class="metric-label">Conversões</div><div class="metric-value">${conv}</div></div>
     </div>
-    ${campaigns.length?`<div class="table-wrap"><table>
+    ${camps.length?`<div class="table-wrap"><table>
       <thead><tr><th>Campanha</th><th>Status</th><th>Invest.</th><th>Impressões</th><th>Cliques</th><th>CTR</th><th>Conv.</th><th>CPL</th></tr></thead>
-      <tbody>${camRows}</tbody>
-    </table></div>`:''}`;
+      <tbody>${rows}</tbody></table></div>`:''}`;
 }
 
-// ── FLATPICKR INIT ─────────────────────────────────────────────────────────────
-function initFlatpickr(){
-  const cfg={locale:'pt',dateFormat:'d/m/Y',disableMobile:true};
-  fpFrom=flatpickr('#dateFrom',{...cfg,
-    onChange([d]){if(!d)return;currentFrom=d.toISOString().slice(0,10);fpTo.set('minDate',d);clearDayPresets();update();}
-  });
-  fpTo=flatpickr('#dateTo',{...cfg,
-    onChange([d]){if(!d)return;currentTo=d.toISOString().slice(0,10);fpFrom.set('maxDate',d);clearDayPresets();update();}
-  });
+// ── FLATPICKR ──────────────────────────────────────────────────────────────────
+const fpCfg={locale:'pt',dateFormat:'d/m/Y',minDate:MIN_DATE,maxDate:MAX_DATE,disableMobile:true};
+
+fpFrom = flatpickr('#dateFrom',{...fpCfg, defaultDate:MAX_DATE,
+  onChange([d]){
+    if(!d)return;
+    currentFrom=toISO(d);
+    fpTo.set('minDate',d);
+    clearPreset(); update();
+  }
+});
+
+fpTo = flatpickr('#dateTo',{...fpCfg, defaultDate:MAX_DATE,
+  onChange([d]){
+    if(!d)return;
+    currentTo=toISO(d);
+    fpFrom.set('maxDate',d);
+    clearPreset(); update();
+  }
+});
+
+// ── PRESETS ────────────────────────────────────────────────────────────────────
+function clearPreset(){document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));}
+function setRange(from,to,btnId){
+  clearPreset();
+  if(btnId) document.getElementById(btnId).classList.add('active');
+  currentFrom=from; currentTo=to;
+  fpFrom.setDate(from,false); fpTo.setDate(to,false);
+  fpTo.set('minDate',from); fpFrom.set('maxDate',to);
+  update();
 }
 
-function clearDayPresets(){document.querySelectorAll('.day-preset').forEach(b=>b.classList.remove('active'));}
+const today = new Date();
+const todayISO = toISO(today);
+// Clamp to MAX_DATE
+const effectiveToday = todayISO > MAX_DATE ? MAX_DATE : todayISO;
+
+document.getElementById('p7d').onclick=()=>{
+  const f=toISO(addDays(new Date(effectiveToday),-6));
+  setRange(f<MIN_DATE?MIN_DATE:f, effectiveToday,'p7d');
+};
+document.getElementById('p30d').onclick=()=>{
+  const f=toISO(addDays(new Date(effectiveToday),-29));
+  setRange(f<MIN_DATE?MIN_DATE:f, effectiveToday,'p30d');
+};
+document.getElementById('pMes').onclick=()=>{
+  const t=new Date(effectiveToday);
+  const f=`${t.getFullYear()}-${pad(t.getMonth()+1)}-01`;
+  setRange(f, effectiveToday,'pMes');
+};
+document.getElementById('pMesAnt').onclick=()=>{
+  const t=new Date(effectiveToday); t.setDate(1); t.setMonth(t.getMonth()-1);
+  const f=toISO(t);
+  const last=new Date(t.getFullYear(),t.getMonth()+1,0);
+  const e=toISO(last)>effectiveToday?effectiveToday:toISO(last);
+  setRange(f<MIN_DATE?MIN_DATE:f, e,'pMesAnt');
+};
+document.getElementById('pTudo').onclick=()=>setRange(MIN_DATE,MAX_DATE,'pTudo');
 
 // ── INIT ───────────────────────────────────────────────────────────────────────
-initFlatpickr();
-buildYearTabs();
-buildMonthPills();
-loadMonth();
+// Start showing current month
+const t=new Date(effectiveToday);
+const initFrom=`${t.getFullYear()}-${pad(t.getMonth()+1)}-01`;
+setRange(initFrom<MIN_DATE?MIN_DATE:initFrom, effectiveToday,'pMes');
 </script>
 </body>
 </html>
