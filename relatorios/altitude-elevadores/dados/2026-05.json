@@ -1,0 +1,421 @@
+{
+  "month": "2026-05",
+  "meta": {
+    "daily": [
+      {
+        "date": "2026-05-01",
+        "spend": 215.13,
+        "impressions": 14477,
+        "reach": 10693,
+        "clicks": 140,
+        "ctr": 0.967051,
+        "cpm": 14.860123,
+        "cpc": 1.536643,
+        "leads": 17
+      },
+      {
+        "date": "2026-05-02",
+        "spend": 169.4,
+        "impressions": 8487,
+        "reach": 6586,
+        "clicks": 81,
+        "ctr": 0.954401,
+        "cpm": 19.959939,
+        "cpc": 2.091358,
+        "leads": 10
+      },
+      {
+        "date": "2026-05-03",
+        "spend": 222.19,
+        "impressions": 13864,
+        "reach": 9835,
+        "clicks": 145,
+        "ctr": 1.045874,
+        "cpm": 16.026399,
+        "cpc": 1.532345,
+        "leads": 9
+      },
+      {
+        "date": "2026-05-04",
+        "spend": 94.32,
+        "impressions": 4615,
+        "reach": 3852,
+        "clicks": 41,
+        "ctr": 0.888407,
+        "cpm": 20.437703,
+        "cpc": 2.300488,
+        "leads": 5
+      },
+      {
+        "date": "2026-05-05",
+        "spend": 181.97,
+        "impressions": 10101,
+        "reach": 8210,
+        "clicks": 84,
+        "ctr": 0.831601,
+        "cpm": 18.015048,
+        "cpc": 2.16631,
+        "leads": 7
+      },
+      {
+        "date": "2026-05-06",
+        "spend": 223.5,
+        "impressions": 8844,
+        "reach": 6717,
+        "clicks": 79,
+        "ctr": 0.893261,
+        "cpm": 25.27137,
+        "cpc": 2.829114,
+        "leads": 11
+      },
+      {
+        "date": "2026-05-07",
+        "spend": 226.25,
+        "impressions": 9581,
+        "reach": 7718,
+        "clicks": 106,
+        "ctr": 1.106356,
+        "cpm": 23.614445,
+        "cpc": 2.134434,
+        "leads": 9
+      },
+      {
+        "date": "2026-05-08",
+        "spend": 242.24,
+        "impressions": 9174,
+        "reach": 7506,
+        "clicks": 84,
+        "ctr": 0.915631,
+        "cpm": 26.405058,
+        "cpc": 2.88381,
+        "leads": 9
+      },
+      {
+        "date": "2026-05-09",
+        "spend": 208.62,
+        "impressions": 8565,
+        "reach": 6792,
+        "clicks": 98,
+        "ctr": 1.144191,
+        "cpm": 24.357268,
+        "cpc": 2.128776,
+        "leads": 10
+      },
+      {
+        "date": "2026-05-10",
+        "spend": 117.81,
+        "impressions": 4818,
+        "reach": 3894,
+        "clicks": 52,
+        "ctr": 1.079286,
+        "cpm": 24.452055,
+        "cpc": 2.265577,
+        "leads": 5
+      },
+      {
+        "date": "2026-05-11",
+        "spend": 50.79,
+        "impressions": 2875,
+        "reach": 2428,
+        "clicks": 35,
+        "ctr": 1.217391,
+        "cpm": 17.666087,
+        "cpc": 1.451143,
+        "leads": 2
+      },
+      {
+        "date": "2026-05-12",
+        "spend": 288.85,
+        "impressions": 12344,
+        "reach": 9070,
+        "clicks": 113,
+        "ctr": 0.915425,
+        "cpm": 23.400032,
+        "cpc": 2.556195,
+        "leads": 12
+      },
+      {
+        "date": "2026-05-13",
+        "spend": 270.94,
+        "impressions": 9602,
+        "reach": 7768,
+        "clicks": 112,
+        "ctr": 1.166424,
+        "cpm": 28.217038,
+        "cpc": 2.419107,
+        "leads": 7
+      },
+      {
+        "date": "2026-05-14",
+        "spend": 258.98,
+        "impressions": 8050,
+        "reach": 6309,
+        "clicks": 87,
+        "ctr": 1.080745,
+        "cpm": 32.171429,
+        "cpc": 2.976782,
+        "leads": 6
+      },
+      {
+        "date": "2026-05-15",
+        "spend": 224.2,
+        "impressions": 7927,
+        "reach": 6073,
+        "clicks": 74,
+        "ctr": 0.933518,
+        "cpm": 28.283083,
+        "cpc": 3.02973,
+        "leads": 8
+      },
+      {
+        "date": "2026-05-16",
+        "spend": 179.86,
+        "impressions": 7518,
+        "reach": 5952,
+        "clicks": 94,
+        "ctr": 1.250333,
+        "cpm": 23.923916,
+        "cpc": 1.913404,
+        "leads": 8
+      },
+      {
+        "date": "2026-05-17",
+        "spend": 208.48,
+        "impressions": 14720,
+        "reach": 9726,
+        "clicks": 157,
+        "ctr": 1.066576,
+        "cpm": 14.163043,
+        "cpc": 1.327898,
+        "leads": 16
+      },
+      {
+        "date": "2026-05-18",
+        "spend": 247.21,
+        "impressions": 12970,
+        "reach": 9639,
+        "clicks": 120,
+        "ctr": 0.925212,
+        "cpm": 19.060139,
+        "cpc": 2.060083,
+        "leads": 3
+      },
+      {
+        "date": "2026-05-19",
+        "spend": 363.21,
+        "impressions": 13194,
+        "reach": 10296,
+        "clicks": 138,
+        "ctr": 1.04593,
+        "cpm": 27.528422,
+        "cpc": 2.631957,
+        "leads": 14
+      },
+      {
+        "date": "2026-05-20",
+        "spend": 245.09,
+        "impressions": 5282,
+        "reach": 4317,
+        "clicks": 76,
+        "ctr": 1.438849,
+        "cpm": 46.400984,
+        "cpc": 3.224868,
+        "leads": 14
+      },
+      {
+        "date": "2026-05-21",
+        "spend": 140.83,
+        "impressions": 3147,
+        "reach": 2696,
+        "clicks": 53,
+        "ctr": 1.684144,
+        "cpm": 44.750556,
+        "cpc": 2.65717,
+        "leads": 10
+      },
+      {
+        "date": "2026-05-22",
+        "spend": 128.3,
+        "impressions": 2963,
+        "reach": 2638,
+        "clicks": 36,
+        "ctr": 1.214985,
+        "cpm": 43.300709,
+        "cpc": 3.563889,
+        "leads": 5
+      },
+      {
+        "date": "2026-05-23",
+        "spend": 103.36,
+        "impressions": 2320,
+        "reach": 2057,
+        "clicks": 22,
+        "ctr": 0.948276,
+        "cpm": 44.551724,
+        "cpc": 4.698182,
+        "leads": 2
+      },
+      {
+        "date": "2026-05-24",
+        "spend": 134.05,
+        "impressions": 3059,
+        "reach": 2632,
+        "clicks": 29,
+        "ctr": 0.948022,
+        "cpm": 43.82151,
+        "cpc": 4.622414,
+        "leads": 2
+      },
+      {
+        "date": "2026-05-25",
+        "spend": 165.82,
+        "impressions": 3337,
+        "reach": 2926,
+        "clicks": 39,
+        "ctr": 1.168714,
+        "cpm": 49.69134,
+        "cpc": 4.251795,
+        "leads": 8
+      }
+    ],
+    "campaigns": [
+      {
+        "name": "Ribeirão Preto · 31.03 Fase 02",
+        "spend": 1055.43,
+        "impressions": 93535,
+        "clicks": 933,
+        "ctr": 1.0,
+        "leads": 56,
+        "cpl": 18.85
+      },
+      {
+        "name": "Minas Gerais · 24.04",
+        "spend": 1022.46,
+        "impressions": 39599,
+        "clicks": 360,
+        "ctr": 0.91,
+        "leads": 44,
+        "cpl": 23.24
+      },
+      {
+        "name": "Indaiatuba · 28.04 Fase 02",
+        "spend": 914.16,
+        "impressions": 29425,
+        "clicks": 308,
+        "ctr": 1.05,
+        "leads": 36,
+        "cpl": 25.39
+      },
+      {
+        "name": "Mato Grosso · 30.04",
+        "spend": 853.28,
+        "impressions": 26340,
+        "clicks": 335,
+        "ctr": 1.27,
+        "leads": 39,
+        "cpl": 21.88
+      },
+      {
+        "name": "Centro-Oeste · 30.04",
+        "spend": 559.53,
+        "impressions": 17938,
+        "clicks": 150,
+        "ctr": 0.84,
+        "leads": 16,
+        "cpl": 34.97
+      },
+      {
+        "name": "Ribeirão Preto · 19.05 Fase 02",
+        "spend": 404.99,
+        "impressions": 9839,
+        "clicks": 127,
+        "ctr": 1.29,
+        "leads": 21,
+        "cpl": 19.29
+      },
+      {
+        "name": "Matão · 19.05 Fase 02",
+        "spend": 376.7,
+        "impressions": 9762,
+        "clicks": 109,
+        "ctr": 1.12,
+        "leads": 15,
+        "cpl": 25.11
+      },
+      {
+        "name": "Indaiatuba · 19.05 Fase 02",
+        "spend": 350.14,
+        "impressions": 6123,
+        "clicks": 80,
+        "ctr": 1.31,
+        "leads": 12,
+        "cpl": 29.18
+      },
+      {
+        "name": "São Paulo · 24.04",
+        "spend": 74.2,
+        "impressions": 1906,
+        "clicks": 13,
+        "ctr": 0.68,
+        "leads": 2,
+        "cpl": 37.1
+      },
+      {
+        "name": "Centro-Oeste · 24.04",
+        "spend": 83.71,
+        "impressions": 1817,
+        "clicks": 9,
+        "ctr": 0.5,
+        "leads": 2,
+        "cpl": 41.86
+      }
+    ]
+  },
+  "google": {
+    "daily": [
+      {
+        "date": "2026-05-22",
+        "spend": 7.29,
+        "impressions": 5,
+        "clicks": 2,
+        "conv": 0.0
+      },
+      {
+        "date": "2026-05-25",
+        "spend": 35.67,
+        "impressions": 47,
+        "clicks": 4,
+        "conv": 1.0
+      },
+      {
+        "date": "2026-05-26",
+        "spend": 106.9,
+        "impressions": 64,
+        "clicks": 10,
+        "conv": 0.0
+      }
+    ],
+    "campaigns": [
+      {
+        "name": "Leads-Search-Uberlândia · H2",
+        "status": "ENABLED",
+        "spend": 130.01,
+        "impressions": 83,
+        "clicks": 13,
+        "ctr": 15.66,
+        "conversions": 1,
+        "cost_per_conv": 130.01
+      },
+      {
+        "name": "Leads-Search-Uberlândia · H3",
+        "status": "PAUSED",
+        "spend": 19.85,
+        "impressions": 33,
+        "clicks": 3,
+        "ctr": 9.09,
+        "conversions": 0,
+        "cost_per_conv": null
+      }
+    ]
+  }
+}

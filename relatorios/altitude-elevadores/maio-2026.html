@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Altitude Elevadores — Relatório Maio 2026</title>
+<title>Altitude Elevadores — Relatório de Tráfego</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -13,86 +13,121 @@
 :root{--bg:#0F2A33;--card:#1E2328;--accent:#01FF96;--text:#F4F3EE;--muted:rgba(244,243,238,0.55);--border:rgba(244,243,238,0.08);--meta:#1877F2;--google:#EA4335}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;line-height:1.6}
-.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+
+/* HEADER */
 header{padding:40px 0 32px;border-bottom:1px solid var(--border)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .logo{font-family:'Montserrat',sans-serif;font-weight:700;font-size:20px;color:var(--accent)}
 .logo span{color:var(--text)}
-.header-meta h1{font-family:'Montserrat',sans-serif;font-weight:700;font-size:22px}
-.header-meta p{color:var(--muted);font-size:13px;margin-top:4px}
+.header-right h1{font-family:'Montserrat',sans-serif;font-weight:700;font-size:22px;text-align:right}
+.header-right p{color:var(--muted);font-size:13px;margin-top:4px;text-align:right}
 .badges{display:flex;gap:8px;margin-top:10px;justify-content:flex-end;flex-wrap:wrap}
 .badge{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500}
 .badge-meta{background:rgba(24,119,242,0.15);color:#5BA3FF;border:1px solid rgba(24,119,242,0.3)}
 .badge-google{background:rgba(234,67,53,0.15);color:#FF7B73;border:1px solid rgba(234,67,53,0.3)}
-.filter-bar{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin:32px 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.filter-bar label{color:var(--muted);font-size:13px;display:block;margin-bottom:6px}
-.date-input-wrap{display:flex;flex-direction:column}
-.fp-input{background:#0F2A33;border:1px solid rgba(244,243,238,0.15);border-radius:8px;color:var(--text);padding:9px 14px;font-size:14px;font-family:inherit;outline:none;cursor:pointer;width:148px}
-.fp-input:focus{border-color:var(--accent)}
 
-/* Flatpickr dark theme override */
-.flatpickr-calendar{background:#1E2328 !important;border:1px solid rgba(244,243,238,0.12) !important;border-radius:12px !important;box-shadow:0 16px 40px rgba(0,0,0,0.5) !important;font-family:'Plus Jakarta Sans',sans-serif !important}
-.flatpickr-months{padding:8px 0 0}
-.flatpickr-month{background:#1E2328 !important;color:var(--text) !important}
-.flatpickr-current-month{color:var(--text) !important;font-size:14px !important}
-.flatpickr-current-month .flatpickr-monthDropdown-months{background:#1E2328 !important;color:var(--text) !important;border:none !important;font-family:'Plus Jakarta Sans',sans-serif}
-.flatpickr-current-month input.cur-year{color:var(--text) !important;font-family:'Plus Jakarta Sans',sans-serif}
-.flatpickr-prev-month,.flatpickr-next-month{color:rgba(244,243,238,0.5) !important;fill:rgba(244,243,238,0.5) !important}
-.flatpickr-prev-month:hover,.flatpickr-next-month:hover{color:var(--accent) !important;fill:var(--accent) !important}
-.flatpickr-weekdays{background:#1E2328 !important}
-span.flatpickr-weekday{background:#1E2328 !important;color:rgba(244,243,238,0.4) !important;font-size:11px !important;text-transform:uppercase;letter-spacing:.5px}
-.flatpickr-day{color:var(--text) !important;border-radius:6px !important;font-size:13px}
-.flatpickr-day:hover{background:rgba(1,255,150,0.12) !important;border-color:transparent !important;color:var(--accent) !important}
-.flatpickr-day.selected,.flatpickr-day.startRange,.flatpickr-day.endRange{background:var(--accent) !important;border-color:var(--accent) !important;color:#0F2A33 !important;font-weight:700}
-.flatpickr-day.today{border-color:rgba(1,255,150,0.4) !important}
-.flatpickr-day.today:hover{background:rgba(1,255,150,0.12) !important}
-.flatpickr-day.flatpickr-disabled,.flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay{color:rgba(244,243,238,0.18) !important}
-.flatpickr-day.inRange{background:rgba(1,255,150,0.08) !important;border-color:transparent !important;box-shadow:-5px 0 0 rgba(1,255,150,0.08),5px 0 0 rgba(1,255,150,0.08) !important}
-.dayContainer{padding:4px 8px 8px}
-.presets{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
-.preset-btn{background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--muted);padding:6px 14px;font-size:13px;font-family:inherit;cursor:pointer;transition:.15s}
-.preset-btn:hover,.preset-btn.active{background:rgba(1,255,150,0.1);border-color:var(--accent);color:var(--accent)}
-.divider{width:1px;height:32px;background:var(--border)}
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+/* MONTH SELECTOR */
+.month-selector{margin:32px 0 0;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px}
+.year-tabs{display:flex;gap:8px;margin-bottom:16px}
+.year-tab{background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);padding:6px 18px;font-size:14px;font-family:inherit;cursor:pointer;font-weight:500;transition:.15s}
+.year-tab.active{background:rgba(1,255,150,0.1);border-color:var(--accent);color:var(--accent)}
+.month-pills{display:flex;gap:8px;flex-wrap:wrap}
+.month-pill{background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--muted);padding:6px 14px;font-size:13px;font-family:inherit;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:6px}
+.month-pill:hover{border-color:rgba(244,243,238,0.25);color:var(--text)}
+.month-pill.active{background:rgba(1,255,150,0.1);border-color:var(--accent);color:var(--accent)}
+.month-pill .pill-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.month-pill .dot-meta{background:#1877F2}
+.month-pill .dot-google{background:#EA4335}
+.month-pill .dot-both{background:linear-gradient(135deg,#1877F2 50%,#EA4335 50%)}
+
+/* DAY FILTER */
+.day-filter{margin:16px 0 0;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.day-filter label{color:var(--muted);font-size:13px;display:block;margin-bottom:5px}
+.fp-input{background:#0F2A33;border:1px solid rgba(244,243,238,0.15);border-radius:8px;color:var(--text);padding:8px 14px;font-size:14px;font-family:inherit;outline:none;cursor:pointer;width:148px}
+.fp-input:focus{border-color:var(--accent)}
+.day-presets{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}
+.day-preset{background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--muted);padding:5px 12px;font-size:12px;font-family:inherit;cursor:pointer;transition:.15s}
+.day-preset:hover,.day-preset.active{background:rgba(1,255,150,0.1);border-color:var(--accent);color:var(--accent)}
+.vdiv{width:1px;height:32px;background:var(--border)}
+
+/* LOADING */
+.loading{display:none;text-align:center;padding:60px;color:var(--muted)}
+.loading.show{display:block}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:28px 0}
 .kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px}
 .kpi-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
 .kpi-value{font-family:'Montserrat',sans-serif;font-weight:700;font-size:28px;color:var(--accent);line-height:1}
 .kpi-sub{color:var(--muted);font-size:12px;margin-top:6px}
-.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:32px}
+
+/* CHARTS */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:28px}
 .chart-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px}
-.chart-title{font-size:13px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
+.chart-title{font-size:12px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:.6px}
+
+/* SECTION */
 .section{margin-bottom:40px}
 .section-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
 .section-dot{width:10px;height:10px;border-radius:50%}
 .section-dot.meta{background:var(--meta)}
 .section-dot.google{background:var(--google)}
-.section-label{font-family:'Montserrat',sans-serif;font-weight:700;font-size:17px}
+.section-title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:17px}
+.section-empty{color:var(--muted);font-size:14px;padding:24px;text-align:center;background:#161C21;border-radius:8px;border:1px solid var(--border)}
+
+/* METRICS */
 .metrics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:20px}
 .metric{background:#161C21;border:1px solid var(--border);border-radius:8px;padding:16px}
 .metric-label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .metric-value{font-family:'Montserrat',sans-serif;font-weight:700;font-size:20px;color:var(--text)}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:.5px;padding:10px 12px;text-align:left;border-bottom:1px solid var(--border)}
-td{padding:12px;border-bottom:1px solid var(--border);vertical-align:middle}
+
+/* TABLE */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
+th{color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:.5px;padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
 tr:last-child td{border-bottom:none}
-.campaign-name{color:var(--text);font-weight:500;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
-.td-num{font-family:'Montserrat',sans-serif;font-weight:600;font-size:13px}
-.tag-ativo{background:rgba(1,255,150,0.1);color:var(--accent);border:1px solid rgba(1,255,150,.25);font-size:11px;padding:2px 8px;border-radius:10px}
-.tag-pausado{background:rgba(244,243,238,0.06);color:var(--muted);border:1px solid var(--border);font-size:11px;padding:2px 8px;border-radius:10px}
+.campaign-name{color:var(--text);font-weight:500;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.td-num{font-family:'Montserrat',sans-serif;font-weight:600;font-size:13px;white-space:nowrap}
+.tag-on{background:rgba(1,255,150,0.1);color:var(--accent);border:1px solid rgba(1,255,150,.25);font-size:11px;padding:2px 8px;border-radius:10px}
+.tag-off{background:rgba(244,243,238,0.06);color:var(--muted);border:1px solid var(--border);font-size:11px;padding:2px 8px;border-radius:10px}
 .note{color:var(--muted);font-size:12px;margin-top:12px;font-style:italic}
+
+/* FOOTER */
 footer{border-top:1px solid var(--border);padding:28px 0;margin-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
 .footer-text{color:var(--muted);font-size:13px}
-@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.filter-bar{flex-direction:column;align-items:flex-start}.presets{margin-left:0}.header-inner{flex-direction:column;align-items:flex-start}.badges{justify-content:flex-start}}
+
+/* FLATPICKR DARK THEME */
+.flatpickr-calendar{background:#1E2328 !important;border:1px solid rgba(244,243,238,0.12) !important;border-radius:12px !important;box-shadow:0 16px 40px rgba(0,0,0,0.5) !important;font-family:'Plus Jakarta Sans',sans-serif !important}
+.flatpickr-months,.flatpickr-month{background:#1E2328 !important;color:var(--text) !important}
+.flatpickr-current-month,.flatpickr-current-month input.cur-year{color:var(--text) !important;font-family:'Plus Jakarta Sans',sans-serif}
+.flatpickr-current-month .flatpickr-monthDropdown-months{background:#1E2328 !important;color:var(--text) !important;border:none !important}
+.flatpickr-prev-month,.flatpickr-next-month{color:rgba(244,243,238,0.5) !important;fill:rgba(244,243,238,0.5) !important}
+.flatpickr-prev-month:hover,.flatpickr-next-month:hover{color:var(--accent) !important;fill:var(--accent) !important}
+.flatpickr-weekdays,.flatpickr-weekday,span.flatpickr-weekday{background:#1E2328 !important;color:rgba(244,243,238,0.4) !important;font-size:11px !important}
+.flatpickr-day{color:var(--text) !important;border-radius:6px !important;font-size:13px}
+.flatpickr-day:hover{background:rgba(1,255,150,0.12) !important;border-color:transparent !important;color:var(--accent) !important}
+.flatpickr-day.selected{background:var(--accent) !important;border-color:var(--accent) !important;color:#0F2A33 !important;font-weight:700}
+.flatpickr-day.today{border-color:rgba(1,255,150,0.4) !important}
+.flatpickr-day.flatpickr-disabled,.flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay{color:rgba(244,243,238,0.15) !important}
+.dayContainer{padding:4px 8px 8px}
+
+/* RESPONSIVE */
+@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.header-inner{flex-direction:column;align-items:flex-start}.header-right h1,.header-right p{text-align:left}.badges{justify-content:flex-start}.day-presets{margin-left:0}}
 @media(max-width:480px){.kpi-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
+<!-- HEADER -->
 <header>
   <div class="header-inner">
     <div class="logo">DVE <span>Assessoria</span></div>
-    <div class="header-meta">
+    <div class="header-right">
       <h1>Altitude Elevadores</h1>
       <p>Relatório de Tráfego Pago</p>
       <div class="badges">
@@ -103,221 +138,254 @@ footer{border-top:1px solid var(--border);padding:28px 0;margin-top:24px;display
   </div>
 </header>
 
-<div class="filter-bar">
-  <div class="date-input-wrap"><label>De</label><input type="text" id="dateFrom" class="fp-input" placeholder="01/05/2026" readonly></div>
-  <div class="date-input-wrap"><label>Até</label><input type="text" id="dateTo" class="fp-input" placeholder="25/05/2026" readonly></div>
-  <div class="divider"></div>
-  <div class="presets">
-    <button class="preset-btn" data-from="2026-05-01" data-to="2026-05-07">Sem. 1</button>
-    <button class="preset-btn" data-from="2026-05-08" data-to="2026-05-14">Sem. 2</button>
-    <button class="preset-btn" data-from="2026-05-15" data-to="2026-05-21">Sem. 3</button>
-    <button class="preset-btn" data-from="2026-05-22" data-to="2026-05-25">Sem. 4</button>
-    <button class="preset-btn active" data-from="2026-05-01" data-to="2026-05-25">Mês todo</button>
+<!-- MONTH SELECTOR -->
+<div class="month-selector">
+  <div class="year-tabs" id="yearTabs"></div>
+  <div class="month-pills" id="monthPills"></div>
+  <div class="day-filter">
+    <div><label>De</label><input type="text" id="dateFrom" class="fp-input" readonly></div>
+    <div><label>Até</label><input type="text" id="dateTo" class="fp-input" readonly></div>
+    <div class="vdiv"></div>
+    <div class="day-presets" id="dayPresets"></div>
   </div>
 </div>
 
-<div class="kpi-grid">
-  <div class="kpi"><div class="kpi-label">Investimento Total</div><div class="kpi-value" id="kpi-invest">—</div><div class="kpi-sub">Meta + Google Ads</div></div>
-  <div class="kpi"><div class="kpi-label">Leads / Conversões</div><div class="kpi-value" id="kpi-leads">—</div><div class="kpi-sub">Total do período</div></div>
-  <div class="kpi"><div class="kpi-label">CPL Médio</div><div class="kpi-value" id="kpi-cpl">—</div><div class="kpi-sub">Custo por lead</div></div>
-  <div class="kpi"><div class="kpi-label">Cliques Totais</div><div class="kpi-value" id="kpi-clicks">—</div><div class="kpi-sub">Meta + Google</div></div>
-</div>
+<!-- LOADING -->
+<div class="loading" id="loading"><div class="spinner"></div><p>Carregando dados...</p></div>
 
-<div class="charts-row">
-  <div class="chart-card">
-    <div class="chart-title">Investimento diário por plataforma</div>
-    <canvas id="chartInvest" height="150"></canvas>
-  </div>
-  <div class="chart-card">
-    <div class="chart-title">Leads por dia (Meta)</div>
-    <canvas id="chartLeads" height="150"></canvas>
-  </div>
-</div>
+<!-- CONTENT (hidden while loading) -->
+<div id="content">
 
-<div class="section">
-  <div class="section-header">
-    <div class="section-dot meta"></div>
-    <div class="section-label">Meta Ads</div>
-    <span class="badge badge-meta" style="font-size:11px;padding:3px 10px;border-radius:12px">Facebook · Instagram</span>
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Investimento Total</div><div class="kpi-value" id="kpi-invest">—</div><div class="kpi-sub">Meta + Google Ads</div></div>
+    <div class="kpi"><div class="kpi-label">Leads / Conversões</div><div class="kpi-value" id="kpi-leads">—</div><div class="kpi-sub">Total do período</div></div>
+    <div class="kpi"><div class="kpi-label">CPL Médio</div><div class="kpi-value" id="kpi-cpl">—</div><div class="kpi-sub">Custo por lead</div></div>
+    <div class="kpi"><div class="kpi-label">Cliques Totais</div><div class="kpi-value" id="kpi-clicks">—</div><div class="kpi-sub">Meta + Google</div></div>
   </div>
-  <div class="metrics-grid">
-    <div class="metric"><div class="metric-label">Investimento</div><div class="metric-value" id="m-spend">—</div></div>
-    <div class="metric"><div class="metric-label">Impressões</div><div class="metric-value" id="m-imp">—</div></div>
-    <div class="metric"><div class="metric-label">Alcance</div><div class="metric-value" id="m-reach">—</div></div>
-    <div class="metric"><div class="metric-label">Cliques</div><div class="metric-value" id="m-clicks">—</div></div>
-    <div class="metric"><div class="metric-label">CTR</div><div class="metric-value" id="m-ctr">—</div></div>
-    <div class="metric"><div class="metric-label">CPM</div><div class="metric-value" id="m-cpm">—</div></div>
-    <div class="metric"><div class="metric-label">CPC</div><div class="metric-value" id="m-cpc">—</div></div>
-    <div class="metric"><div class="metric-label">Leads (WhatsApp)</div><div class="metric-value" id="m-leads">—</div></div>
-    <div class="metric"><div class="metric-label">CPL</div><div class="metric-value" id="m-cpl">—</div></div>
-  </div>
-  <table>
-    <thead><tr><th>Campanha</th><th>Invest.</th><th>Cliques</th><th>CTR</th><th>Leads</th><th>CPL</th></tr></thead>
-    <tbody>
-      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-31.03_FRIO_FASE02_TESTE_SET_RIBEIRÃO-PRETO">Ribeirão Preto · 31.03 Fase 02</span></td><td class="td-num">R$ 1.055,43</td><td class="td-num">933</td><td class="td-num">1,00%</td><td class="td-num">56</td><td class="td-num">R$ 18,85</td></tr>
-      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-MINAS-GERAIS-24-04">Minas Gerais · 24.04</span></td><td class="td-num">R$ 1.022,46</td><td class="td-num">360</td><td class="td-num">0,91%</td><td class="td-num">44</td><td class="td-num">R$ 23,24</td></tr>
-      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-28.04_FRIO_FASE02_TESTE_SET_INDAIATUBA">Indaiatuba · 28.04 Fase 02</span></td><td class="td-num">R$ 914,16</td><td class="td-num">308</td><td class="td-num">1,05%</td><td class="td-num">36</td><td class="td-num">R$ 25,39</td></tr>
-      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-MATO-GROSSO-30-04">Mato Grosso · 30.04</span></td><td class="td-num">R$ 853,28</td><td class="td-num">335</td><td class="td-num">1,27%</td><td class="td-num">39</td><td class="td-num">R$ 21,88</td></tr>
-      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-RIBEIRAO-PRETO-19.05_FRIO_ABO_TESTE_PUB_FASE-02">Ribeirão Preto · 19.05 Fase 02</span></td><td class="td-num">R$ 404,99</td><td class="td-num">127</td><td class="td-num">1,29%</td><td class="td-num">21</td><td class="td-num">R$ 19,29</td></tr>
-      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-CENTRO-OESTE-30-04">Centro-Oeste · 30.04</span></td><td class="td-num">R$ 559,53</td><td class="td-num">150</td><td class="td-num">0,84%</td><td class="td-num">16</td><td class="td-num">R$ 34,97</td></tr>
-      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-MATAO-19.05_FRIO_ABO_TESTE_PUB_FASE-02">Matão · 19.05 Fase 02</span></td><td class="td-num">R$ 376,70</td><td class="td-num">109</td><td class="td-num">1,12%</td><td class="td-num">15</td><td class="td-num">R$ 25,11</td></tr>
-      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-INDAIATUBA-19.05_FRIO_ABO_TESTE_PUB_FASE-02">Indaiatuba · 19.05 Fase 02</span></td><td class="td-num">R$ 350,14</td><td class="td-num">80</td><td class="td-num">1,31%</td><td class="td-num">12</td><td class="td-num">R$ 29,18</td></tr>
-      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-SÃO-PAULO-24-04">São Paulo · 24.04</span></td><td class="td-num">R$ 74,20</td><td class="td-num">13</td><td class="td-num">0,68%</td><td class="td-num">2</td><td class="td-num">R$ 37,10</td></tr>
-      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-CENTRO-OESTE-24-04">Centro-Oeste · 24.04</span></td><td class="td-num">R$ 83,71</td><td class="td-num">9</td><td class="td-num">0,50%</td><td class="td-num">2</td><td class="td-num">R$ 41,86</td></tr>
-    </tbody>
-  </table>
-  <p class="note">* Tabela de campanhas exibe totais do mês completo. KPIs e gráficos respondem ao filtro de período.</p>
-</div>
 
-<div class="section">
-  <div class="section-header">
-    <div class="section-dot google"></div>
-    <div class="section-label">Google Ads</div>
-    <span class="badge badge-google" style="font-size:11px;padding:3px 10px;border-radius:12px">Search · Uberlândia</span>
+  <!-- CHARTS -->
+  <div class="charts-row">
+    <div class="chart-card"><div class="chart-title">Investimento diário por plataforma</div><canvas id="chartInvest" height="140"></canvas></div>
+    <div class="chart-card"><div class="chart-title">Leads / Conversões por dia</div><canvas id="chartLeads" height="140"></canvas></div>
   </div>
-  <div class="metrics-grid">
-    <div class="metric"><div class="metric-label">Investimento</div><div class="metric-value" id="g-spend">—</div></div>
-    <div class="metric"><div class="metric-label">Impressões</div><div class="metric-value" id="g-imp">—</div></div>
-    <div class="metric"><div class="metric-label">Cliques</div><div class="metric-value" id="g-clicks">—</div></div>
-    <div class="metric"><div class="metric-label">CTR</div><div class="metric-value" id="g-ctr">—</div></div>
-    <div class="metric"><div class="metric-label">CPC</div><div class="metric-value" id="g-cpc">—</div></div>
-    <div class="metric"><div class="metric-label">Conversões</div><div class="metric-value" id="g-conv">—</div></div>
+
+  <!-- META -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot meta"></div>
+      <div class="section-title">Meta Ads</div>
+      <span class="badge badge-meta" style="font-size:11px;padding:3px 10px;border-radius:12px">Facebook · Instagram</span>
+    </div>
+    <div id="meta-body"></div>
   </div>
-  <table>
-    <thead><tr><th>Campanha</th><th>Status</th><th>Invest.</th><th>Impressões</th><th>Cliques</th><th>CTR</th><th>Conv.</th><th>CPL</th></tr></thead>
-    <tbody>
-      <tr>
-        <td><span class="campaign-name">Leads-Search-Uberlândia · H2</span></td>
-        <td><span class="tag-ativo">Ativo</span></td>
-        <td class="td-num">R$ 130,01</td><td class="td-num">83</td><td class="td-num">13</td><td class="td-num">15,66%</td><td class="td-num">1</td><td class="td-num">R$ 130,01</td>
-      </tr>
-      <tr>
-        <td><span class="campaign-name">Leads-Search-Uberlândia · H3</span></td>
-        <td><span class="tag-pausado">Pausado</span></td>
-        <td class="td-num">R$ 19,85</td><td class="td-num">33</td><td class="td-num">3</td><td class="td-num">9,09%</td><td class="td-num">0</td><td class="td-num">—</td>
-      </tr>
-    </tbody>
-  </table>
-  <p class="note">* Campanhas iniciadas em 19/05/2026. Dados em fase inicial de aprendizado.</p>
-</div>
+
+  <!-- GOOGLE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot google"></div>
+      <div class="section-title">Google Ads</div>
+      <span class="badge badge-google" style="font-size:11px;padding:3px 10px;border-radius:12px">Search</span>
+    </div>
+    <div id="google-body"></div>
+  </div>
+
+</div><!-- /content -->
 
 <footer>
   <span class="footer-text">Relatório gerado por DVE Assessoria · dveassessoria.com.br</span>
-  <span class="footer-text">Maio 2026 · Atualizado em 26/05/2026</span>
+  <span class="footer-text" id="footer-period">—</span>
 </footer>
 
-</div>
+</div><!-- /wrap -->
 
 <script>
 Chart.defaults.color='rgba(244,243,238,0.55)';
 Chart.defaults.borderColor='rgba(244,243,238,0.07)';
 
-const metaDaily=[
-  {date:"2026-05-01",spend:215.13,imp:14477,reach:10693,clicks:140,leads:17},
-  {date:"2026-05-02",spend:169.40,imp:8487,reach:6586,clicks:81,leads:10},
-  {date:"2026-05-03",spend:222.19,imp:13864,reach:9835,clicks:145,leads:9},
-  {date:"2026-05-04",spend:94.32,imp:4615,reach:3852,clicks:41,leads:5},
-  {date:"2026-05-05",spend:181.97,imp:10101,reach:8210,clicks:84,leads:7},
-  {date:"2026-05-06",spend:223.50,imp:8844,reach:6717,clicks:79,leads:11},
-  {date:"2026-05-07",spend:226.25,imp:9581,reach:7718,clicks:106,leads:9},
-  {date:"2026-05-08",spend:242.24,imp:9174,reach:7506,clicks:84,leads:9},
-  {date:"2026-05-09",spend:208.62,imp:8565,reach:6792,clicks:98,leads:10},
-  {date:"2026-05-10",spend:117.81,imp:4818,reach:3894,clicks:52,leads:5},
-  {date:"2026-05-11",spend:50.79,imp:2875,reach:2428,clicks:35,leads:2},
-  {date:"2026-05-12",spend:288.85,imp:12344,reach:9070,clicks:113,leads:12},
-  {date:"2026-05-13",spend:270.94,imp:9602,reach:7768,clicks:112,leads:7},
-  {date:"2026-05-14",spend:258.98,imp:8050,reach:6309,clicks:87,leads:6},
-  {date:"2026-05-15",spend:224.20,imp:7927,reach:6073,clicks:74,leads:8},
-  {date:"2026-05-16",spend:179.86,imp:7518,reach:5952,clicks:94,leads:8},
-  {date:"2026-05-17",spend:208.48,imp:14720,reach:9726,clicks:157,leads:16},
-  {date:"2026-05-18",spend:247.21,imp:12970,reach:9639,clicks:120,leads:3},
-  {date:"2026-05-19",spend:363.21,imp:13194,reach:10296,clicks:138,leads:14},
-  {date:"2026-05-20",spend:245.09,imp:5282,reach:4317,clicks:76,leads:14},
-  {date:"2026-05-21",spend:140.83,imp:3147,reach:2696,clicks:53,leads:10},
-  {date:"2026-05-22",spend:128.30,imp:2963,reach:2638,clicks:36,leads:5},
-  {date:"2026-05-23",spend:103.36,imp:2320,reach:2057,clicks:22,leads:2},
-  {date:"2026-05-24",spend:134.05,imp:3059,reach:2632,clicks:29,leads:2},
-  {date:"2026-05-25",spend:165.82,imp:3337,reach:2926,clicks:39,leads:8}
+// ── MESES DISPONÍVEIS ──────────────────────────────────────────────────────────
+const MONTHS_PT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+const AVAILABLE = [
+  {y:2025,m:3,meta:false,google:true},
+  {y:2025,m:4,meta:false,google:true},
+  {y:2025,m:5,meta:false,google:true},
+  {y:2025,m:6,meta:false,google:true},
+  {y:2025,m:7,meta:false,google:true},
+  {y:2026,m:4,meta:true,google:false},
+  {y:2026,m:5,meta:true,google:true}
 ];
 
-const googleDaily=[
-  {date:"2026-05-22",spend:7.29,imp:5,clicks:2,conv:0},
-  {date:"2026-05-25",spend:35.67,imp:47,clicks:4,conv:1},
-  {date:"2026-05-26",spend:106.90,imp:64,clicks:10,conv:0}
-];
+const years = [...new Set(AVAILABLE.map(a=>a.y))];
+let currentYear = 2026;
+let currentMonth = 5;
+let monthData = null;
+let currentFrom = '', currentTo = '';
+let cI, cL, fpFrom, fpTo;
 
-const brl=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-const num=v=>Math.round(v).toLocaleString('pt-BR');
-const pct=v=>v.toFixed(2).replace('.',',')+('%');
-const fmt=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
-const filter=(arr,from,to)=>arr.filter(d=>d.date>=from&&d.date<=to);
+// ── UTILS ──────────────────────────────────────────────────────────────────────
+const brl = v => 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const num = v => Math.round(v).toLocaleString('pt-BR');
+const pct = v => v.toFixed(2).replace('.',',')+('%');
+const fmt = (id,v) => {const e=document.getElementById(id);if(e)e.textContent=v;};
+const filterDay = (arr,from,to) => arr.filter(d=>d.date>=from&&d.date<=to);
+const pad = n => String(n).padStart(2,'0');
+const monthKey = (y,m) => `${y}-${pad(m)}`;
+const lastDay = (y,m) => new Date(y,m,0).getDate();
 
-let cI,cL;
-let currentFrom='2026-05-01', currentTo='2026-05-25';
+// ── BUILD SELECTORS ────────────────────────────────────────────────────────────
+function buildYearTabs(){
+  const el = document.getElementById('yearTabs');
+  el.innerHTML = '';
+  years.forEach(y=>{
+    const b = document.createElement('button');
+    b.className = 'year-tab'+(y===currentYear?' active':'');
+    b.textContent = y;
+    b.onclick = ()=>{ currentYear=y; buildMonthPills(); selectFirstMonth(); };
+    el.appendChild(b);
+  });
+}
 
+function buildMonthPills(){
+  document.querySelectorAll('.year-tab').forEach(b=>b.classList.toggle('active',+b.textContent===currentYear));
+  const el = document.getElementById('monthPills');
+  el.innerHTML = '';
+  AVAILABLE.filter(a=>a.y===currentYear).forEach(a=>{
+    const b = document.createElement('button');
+    b.className = 'month-pill'+(a.y===currentYear&&a.m===currentMonth?' active':'');
+    const dotClass = a.meta&&a.google?'dot-both':a.meta?'dot-meta':'dot-google';
+    b.innerHTML = `<span class="pill-dot ${dotClass}"></span>${MONTHS_PT[a.m-1]}`;
+    b.onclick = ()=>{ currentMonth=a.m; buildMonthPills(); loadMonth(); };
+    el.appendChild(b);
+  });
+}
+
+function selectFirstMonth(){
+  const first = AVAILABLE.find(a=>a.y===currentYear);
+  if(first){ currentMonth=first.m; buildMonthPills(); loadMonth(); }
+}
+
+// ── LOAD MONTH DATA ────────────────────────────────────────────────────────────
+async function loadMonth(){
+  const key = monthKey(currentYear,currentMonth);
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('content').style.opacity='0.3';
+
+  try {
+    const res = await fetch(`./dados/${key}.json`);
+    monthData = await res.json();
+  } catch(e){
+    monthData = { month:key, meta:{daily:[],campaigns:[]}, google:{daily:[],campaigns:[]} };
+  }
+
+  const y = currentYear, m = currentMonth;
+  const last = lastDay(y,m);
+  const minDate = `${key}-01`;
+  const maxDate = `${key}-${pad(last)}`;
+
+  // Find first and last day with any data
+  const allDates = [...(monthData.meta.daily||[]).map(d=>d.date), ...(monthData.google.daily||[]).map(d=>d.date)].sort();
+  const dataFrom = allDates[0] || minDate;
+  const dataTo   = allDates[allDates.length-1] || maxDate;
+
+  currentFrom = dataFrom;
+  currentTo   = dataTo;
+
+  // Update Flatpickr
+  if(fpFrom){ fpFrom.set('minDate',minDate); fpFrom.set('maxDate',dataTo); fpFrom.setDate(dataFrom,false); }
+  if(fpTo){   fpTo.set('minDate',dataFrom);  fpTo.set('maxDate',maxDate);  fpTo.setDate(dataTo,false); }
+
+  // Build week presets dynamically
+  buildDayPresets(y, m, last);
+
+  document.getElementById('loading').classList.remove('show');
+  document.getElementById('content').style.opacity='1';
+  update();
+}
+
+// ── DAY PRESETS ────────────────────────────────────────────────────────────────
+function buildDayPresets(y, m, last){
+  const el = document.getElementById('dayPresets');
+  el.innerHTML = '';
+  const weeks = [
+    {label:'Sem. 1', from:`${monthKey(y,m)}-01`, to:`${monthKey(y,m)}-07`},
+    {label:'Sem. 2', from:`${monthKey(y,m)}-08`, to:`${monthKey(y,m)}-14`},
+    {label:'Sem. 3', from:`${monthKey(y,m)}-15`, to:`${monthKey(y,m)}-21`},
+    {label:'Sem. 4', from:`${monthKey(y,m)}-22`, to:`${monthKey(y,m)}-${pad(last)}`},
+    {label:'Mês todo',from:`${monthKey(y,m)}-01`, to:`${monthKey(y,m)}-${pad(last)}`}
+  ];
+  weeks.forEach(w=>{
+    const b = document.createElement('button');
+    b.className = 'day-preset';
+    b.textContent = w.label;
+    b.onclick = ()=>{
+      document.querySelectorAll('.day-preset').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      currentFrom = w.from; currentTo = w.to;
+      fpFrom.setDate(w.from,false);
+      fpTo.setDate(w.to,false);
+      update();
+    };
+    el.appendChild(b);
+  });
+  // activate "Mês todo"
+  el.querySelector('button:last-child').classList.add('active');
+}
+
+// ── UPDATE CHARTS & KPIS ───────────────────────────────────────────────────────
 function update(){
-  const from=currentFrom;
-  const to=currentTo;
-  if(!from||!to||from>to)return;
+  if(!monthData) return;
+  const from = currentFrom, to = currentTo;
+  if(!from||!to) return;
 
-  const mD=filter(metaDaily,from,to);
-  const gD=filter(googleDaily,from,to);
+  const mD = filterDay(monthData.meta.daily||[], from, to);
+  const gD = filterDay(monthData.google.daily||[], from, to);
 
-  const mSpend=mD.reduce((a,d)=>a+d.spend,0);
-  const mImp=mD.reduce((a,d)=>a+d.imp,0);
-  const mReach=mD.reduce((a,d)=>a+d.reach,0);
-  const mClicks=mD.reduce((a,d)=>a+d.clicks,0);
-  const mLeads=mD.reduce((a,d)=>a+d.leads,0);
-  const mCTR=mImp?mClicks/mImp*100:0;
-  const mCPM=mImp?mSpend/mImp*1000:0;
-  const mCPC=mClicks?mSpend/mClicks:0;
-  const mCPL=mLeads?mSpend/mLeads:0;
+  // Meta totals
+  const mSpend  = mD.reduce((a,d)=>a+d.spend,0);
+  const mImp    = mD.reduce((a,d)=>a+d.impressions,0);
+  const mReach  = mD.reduce((a,d)=>a+d.reach,0);
+  const mClicks = mD.reduce((a,d)=>a+d.clicks,0);
+  const mLeads  = mD.reduce((a,d)=>a+d.leads,0);
+  const mCPM    = mImp ? mSpend/mImp*1000 : 0;
+  const mCPC    = mClicks ? mSpend/mClicks : 0;
+  const mCTR    = mImp ? mClicks/mImp*100 : 0;
+  const mCPL    = mLeads ? mSpend/mLeads : 0;
 
-  const gSpend=gD.reduce((a,d)=>a+d.spend,0);
-  const gImp=gD.reduce((a,d)=>a+d.imp,0);
-  const gClicks=gD.reduce((a,d)=>a+d.clicks,0);
-  const gConv=gD.reduce((a,d)=>a+d.conv,0);
-  const gCTR=gImp?gClicks/gImp*100:0;
-  const gCPC=gClicks?gSpend/gClicks:0;
+  // Google totals
+  const gSpend  = gD.reduce((a,d)=>a+d.spend,0);
+  const gImp    = gD.reduce((a,d)=>a+d.impressions,0);
+  const gClicks = gD.reduce((a,d)=>a+d.clicks,0);
+  const gConv   = gD.reduce((a,d)=>a+d.conv,0);
+  const gCTR    = gImp ? gClicks/gImp*100 : 0;
+  const gCPC    = gClicks ? gSpend/gClicks : 0;
 
-  const totalSpend=mSpend+gSpend;
-  const totalLeads=mLeads+gConv;
-  const totalClicks=mClicks+gClicks;
-  const totalCPL=totalLeads?totalSpend/totalLeads:0;
+  // Global KPIs
+  const total   = mSpend+gSpend;
+  const leads   = mLeads+gConv;
+  const clicks  = mClicks+gClicks;
+  const cpl     = leads ? total/leads : 0;
 
-  fmt('kpi-invest',brl(totalSpend));
-  fmt('kpi-leads',totalLeads.toString());
-  fmt('kpi-cpl',totalLeads?brl(totalCPL):'—');
-  fmt('kpi-clicks',num(totalClicks));
+  fmt('kpi-invest', brl(total));
+  fmt('kpi-leads',  leads.toString());
+  fmt('kpi-cpl',    leads ? brl(cpl) : '—');
+  fmt('kpi-clicks', num(clicks));
+  fmt('footer-period', `${MONTHS_PT[currentMonth-1]} ${currentYear} · Gerado em ${new Date().toLocaleDateString('pt-BR')}`);
 
-  fmt('m-spend',brl(mSpend));
-  fmt('m-imp',num(mImp));
-  fmt('m-reach',num(mReach));
-  fmt('m-clicks',num(mClicks));
-  fmt('m-ctr',pct(mCTR));
-  fmt('m-cpm',brl(mCPM));
-  fmt('m-cpc',brl(mCPC));
-  fmt('m-leads',mLeads.toString());
-  fmt('m-cpl',mLeads?brl(mCPL):'—');
-
-  fmt('g-spend',brl(gSpend));
-  fmt('g-imp',num(gImp));
-  fmt('g-clicks',num(gClicks));
-  fmt('g-ctr',pct(gCTR));
-  fmt('g-cpc',gClicks?brl(gCPC):'—');
-  fmt('g-conv',gConv.toString());
-
-  // build date range array
+  // Build date axis
   const dates=[];
-  const cur=new Date(from);
-  const end=new Date(to);
+  const cur=new Date(from); const end=new Date(to);
   while(cur<=end){dates.push(cur.toISOString().slice(0,10));cur.setDate(cur.getDate()+1);}
-  const labels=dates.map(d=>d.slice(5).replace('-','/'));
-  const msArr=dates.map(d=>{const r=mD.find(x=>x.date===d);return r?r.spend:0;});
-  const gsArr=dates.map(d=>{const r=gD.find(x=>x.date===d);return r?r.spend:0;});
-  const mlArr=dates.map(d=>{const r=mD.find(x=>x.date===d);return r?r.leads:0;});
+  const labels = dates.map(d=>d.slice(5).replace('-','/'));
+  const msArr  = dates.map(d=>{const r=mD.find(x=>x.date===d);return r?r.spend:0;});
+  const gsArr  = dates.map(d=>{const r=gD.find(x=>x.date===d);return r?r.spend:0;});
+  const mlArr  = dates.map(d=>{const r=mD.find(x=>x.date===d);return r?r.leads:0;});
+  const glArr  = dates.map(d=>{const r=gD.find(x=>x.date===d);return r?r.conv:0;});
 
-  const baseOpts={responsive:true,animation:false,plugins:{legend:{labels:{usePointStyle:true,padding:14,font:{size:12}}}},scales:{x:{grid:{color:'rgba(244,243,238,0.04)'},ticks:{maxRotation:45,maxTicksLimit:12}},y:{grid:{color:'rgba(244,243,238,0.04)'},beginAtZero:true}}};
+  const base={responsive:true,animation:false,
+    plugins:{legend:{labels:{usePointStyle:true,padding:14,font:{size:12}}}},
+    scales:{x:{grid:{color:'rgba(244,243,238,0.04)'},ticks:{maxRotation:45,maxTicksLimit:14}},
+            y:{grid:{color:'rgba(244,243,238,0.04)'},beginAtZero:true}}};
 
   if(cI)cI.destroy();
   cI=new Chart(document.getElementById('chartInvest'),{
@@ -326,65 +394,110 @@ function update(){
       {label:'Meta Ads',data:msArr,backgroundColor:'rgba(24,119,242,0.75)',borderColor:'#1877F2',borderWidth:1,stack:'s'},
       {label:'Google Ads',data:gsArr,backgroundColor:'rgba(234,67,53,0.75)',borderColor:'#EA4335',borderWidth:1,stack:'s'}
     ]},
-    options:{...baseOpts,scales:{...baseOpts.scales,y:{...baseOpts.scales.y,ticks:{callback:v=>'R$'+Number(v).toLocaleString('pt-BR')}}}}
+    options:{...base,scales:{...base.scales,y:{...base.scales.y,ticks:{callback:v=>'R$'+Number(v).toLocaleString('pt-BR')}}}}
   });
 
   if(cL)cL.destroy();
   cL=new Chart(document.getElementById('chartLeads'),{
     type:'line',
-    data:{labels,datasets:[{label:'Leads',data:mlArr,borderColor:'#01FF96',backgroundColor:'rgba(1,255,150,0.1)',pointRadius:3,pointBackgroundColor:'#01FF96',fill:true,tension:.35}]},
-    options:{...baseOpts,plugins:{legend:{display:false}}}
+    data:{labels,datasets:[
+      {label:'Meta (leads)',data:mlArr,borderColor:'#1877F2',backgroundColor:'rgba(24,119,242,0.1)',pointRadius:3,fill:true,tension:.35},
+      {label:'Google (conv.)',data:glArr,borderColor:'#EA4335',backgroundColor:'rgba(234,67,53,0.1)',pointRadius:3,fill:true,tension:.35}
+    ]},
+    options:{...base}
+  });
+
+  // Render Meta section
+  renderMeta(mSpend,mImp,mReach,mClicks,mLeads,mCTR,mCPM,mCPC,mCPL);
+  renderGoogle(gSpend,gImp,gClicks,gConv,gCTR,gCPC);
+}
+
+// ── RENDER META ────────────────────────────────────────────────────────────────
+function renderMeta(spend,imp,reach,clicks,leads,ctr,cpm,cpc,cpl){
+  const el = document.getElementById('meta-body');
+  if(spend===0){el.innerHTML='<div class="section-empty">Sem dados do Meta Ads neste período.</div>';return;}
+
+  const campaigns = (monthData.meta.campaigns||[]);
+  const camRows = campaigns.map(c=>`
+    <tr>
+      <td><span class="campaign-name" title="${c.name}">${c.name}</span></td>
+      <td class="td-num">${brl(c.spend)}</td>
+      <td class="td-num">${num(c.clicks)}</td>
+      <td class="td-num">${pct(c.ctr)}</td>
+      <td class="td-num">${c.leads}</td>
+      <td class="td-num">${c.leads?brl(c.cpl):'—'}</td>
+    </tr>`).join('');
+
+  el.innerHTML=`
+    <div class="metrics-grid">
+      <div class="metric"><div class="metric-label">Investimento</div><div class="metric-value">${brl(spend)}</div></div>
+      <div class="metric"><div class="metric-label">Impressões</div><div class="metric-value">${num(imp)}</div></div>
+      <div class="metric"><div class="metric-label">Alcance</div><div class="metric-value">${num(reach)}</div></div>
+      <div class="metric"><div class="metric-label">Cliques</div><div class="metric-value">${num(clicks)}</div></div>
+      <div class="metric"><div class="metric-label">CTR</div><div class="metric-value">${pct(ctr)}</div></div>
+      <div class="metric"><div class="metric-label">CPM</div><div class="metric-value">${brl(cpm)}</div></div>
+      <div class="metric"><div class="metric-label">CPC</div><div class="metric-value">${brl(cpc)}</div></div>
+      <div class="metric"><div class="metric-label">Leads (WhatsApp)</div><div class="metric-value">${leads}</div></div>
+      <div class="metric"><div class="metric-label">CPL</div><div class="metric-value">${leads?brl(cpl):'—'}</div></div>
+    </div>
+    ${campaigns.length?`<div class="table-wrap"><table>
+      <thead><tr><th>Campanha</th><th>Invest.</th><th>Cliques</th><th>CTR</th><th>Leads</th><th>CPL</th></tr></thead>
+      <tbody>${camRows}</tbody>
+    </table>
+    <p class="note">* Tabela de campanhas exibe totais do mês. KPIs e gráficos respondem ao filtro de período.</p></div>`:''}`;
+}
+
+// ── RENDER GOOGLE ──────────────────────────────────────────────────────────────
+function renderGoogle(spend,imp,clicks,conv,ctr,cpc){
+  const el = document.getElementById('google-body');
+  if(spend===0){el.innerHTML='<div class="section-empty">Sem dados do Google Ads neste período.</div>';return;}
+
+  const campaigns = (monthData.google.campaigns||[]);
+  const camRows = campaigns.map(c=>`
+    <tr>
+      <td><span class="campaign-name">${c.name}</span></td>
+      <td><span class="${c.status==='ENABLED'?'tag-on':'tag-off'}">${c.status==='ENABLED'?'Ativo':'Pausado'}</span></td>
+      <td class="td-num">${brl(c.spend)}</td>
+      <td class="td-num">${num(c.impressions)}</td>
+      <td class="td-num">${num(c.clicks)}</td>
+      <td class="td-num">${pct(c.ctr)}</td>
+      <td class="td-num">${c.conversions}</td>
+      <td class="td-num">${c.cost_per_conv?brl(c.cost_per_conv):'—'}</td>
+    </tr>`).join('');
+
+  el.innerHTML=`
+    <div class="metrics-grid">
+      <div class="metric"><div class="metric-label">Investimento</div><div class="metric-value">${brl(spend)}</div></div>
+      <div class="metric"><div class="metric-label">Impressões</div><div class="metric-value">${num(imp)}</div></div>
+      <div class="metric"><div class="metric-label">Cliques</div><div class="metric-value">${num(clicks)}</div></div>
+      <div class="metric"><div class="metric-label">CTR</div><div class="metric-value">${pct(ctr)}</div></div>
+      <div class="metric"><div class="metric-label">CPC</div><div class="metric-value">${clicks?brl(cpc):'—'}</div></div>
+      <div class="metric"><div class="metric-label">Conversões</div><div class="metric-value">${conv}</div></div>
+    </div>
+    ${campaigns.length?`<div class="table-wrap"><table>
+      <thead><tr><th>Campanha</th><th>Status</th><th>Invest.</th><th>Impressões</th><th>Cliques</th><th>CTR</th><th>Conv.</th><th>CPL</th></tr></thead>
+      <tbody>${camRows}</tbody>
+    </table></div>`:''}`;
+}
+
+// ── FLATPICKR INIT ─────────────────────────────────────────────────────────────
+function initFlatpickr(){
+  const cfg={locale:'pt',dateFormat:'d/m/Y',disableMobile:true};
+  fpFrom=flatpickr('#dateFrom',{...cfg,
+    onChange([d]){if(!d)return;currentFrom=d.toISOString().slice(0,10);fpTo.set('minDate',d);clearDayPresets();update();}
+  });
+  fpTo=flatpickr('#dateTo',{...cfg,
+    onChange([d]){if(!d)return;currentTo=d.toISOString().slice(0,10);fpFrom.set('maxDate',d);clearDayPresets();update();}
   });
 }
 
-function clearActive(){document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));}
+function clearDayPresets(){document.querySelectorAll('.day-preset').forEach(b=>b.classList.remove('active'));}
 
-const fpConfig={
-  locale:'pt',
-  dateFormat:'d/m/Y',
-  minDate:'2026-05-01',
-  maxDate:'2026-05-25',
-  disableMobile:true
-};
-
-const fpFrom = flatpickr('#dateFrom', {
-  ...fpConfig,
-  defaultDate:'2026-05-01',
-  onChange([date]){
-    if(!date) return;
-    currentFrom = date.toISOString().slice(0,10);
-    if(currentFrom > currentTo){ currentTo=currentFrom; fpTo.setDate(date); }
-    fpTo.set('minDate', date);
-    clearActive(); update();
-  }
-});
-
-const fpTo = flatpickr('#dateTo', {
-  ...fpConfig,
-  defaultDate:'2026-05-25',
-  onChange([date]){
-    if(!date) return;
-    currentTo = date.toISOString().slice(0,10);
-    if(currentTo < currentFrom){ currentFrom=currentTo; fpFrom.setDate(date); }
-    fpFrom.set('maxDate', date);
-    clearActive(); update();
-  }
-});
-
-document.querySelectorAll('.preset-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    clearActive(); btn.classList.add('active');
-    currentFrom = btn.dataset.from;
-    currentTo   = btn.dataset.to;
-    fpFrom.setDate(currentFrom);
-    fpTo.setDate(currentTo);
-    fpFrom.set('maxDate', currentTo);
-    fpTo.set('minDate', currentFrom);
-    update();
-  });
-});
-
-update();
+// ── INIT ───────────────────────────────────────────────────────────────────────
+initFlatpickr();
+buildYearTabs();
+buildMonthPills();
+loadMonth();
 </script>
 </body>
 </html>
