@@ -1,735 +1,331 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relatório de Tráfego — Altitude Elevadores — Maio 2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg-primary: #0F2A33;
-      --bg-card: #1E2328;
-      --accent: #01FF96;
-      --text: #F4F3EE;
-      --text-muted: rgba(244, 243, 238, 0.55);
-      --border: rgba(244, 243, 238, 0.08);
-    }
-
-    html, body {
-      background: var(--bg-primary);
-      color: var(--text);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 400;
-      min-height: 100vh;
-    }
-
-    /* ── HEADER ── */
-    .header {
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border);
-      padding: 32px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-    .header-left { display: flex; flex-direction: column; gap: 6px; }
-    .dve-label {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--accent);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    .header h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 26px;
-      color: var(--text);
-      line-height: 1.2;
-    }
-    .header-period {
-      font-size: 13px;
-      color: var(--text-muted);
-      font-weight: 300;
-      margin-top: 2px;
-    }
-    .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-    .platform-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(1, 255, 150, 0.1);
-      border: 1px solid rgba(1, 255, 150, 0.3);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--accent);
-      letter-spacing: 0.5px;
-    }
-    .platform-badge svg { flex-shrink: 0; }
-    .report-date {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    /* ── CONTAINER ── */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 48px 32px;
-    }
-
-    /* ── SECTION TITLE ── */
-    .section-title {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    /* ── KPI GRID ── */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 56px;
-    }
-    .kpi-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .kpi-card.highlight { border-color: rgba(1, 255, 150, 0.25); }
-    .kpi-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    .kpi-value {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 28px;
-      color: var(--accent);
-      line-height: 1;
-    }
-    .kpi-value.neutral { color: var(--text); }
-    .kpi-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 300;
-    }
-
-    /* ── METRICS STRIP ── */
-    .metrics-strip {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      margin-bottom: 40px;
-    }
-    .metric-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 18px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .metric-label {
-      font-size: 10px;
-      color: var(--text-muted);
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    .metric-value {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      font-size: 18px;
-      color: var(--text);
-    }
-
-    /* ── SECTION ── */
-    .section {
-      margin-bottom: 60px;
-    }
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 28px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-    .section-icon {
-      width: 36px;
-      height: 36px;
-      background: rgba(1, 255, 150, 0.1);
-      border: 1px solid rgba(1, 255, 150, 0.25);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-    }
-    .section-name {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--text);
-    }
-
-    /* ── CHART ── */
-    .chart-wrapper {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 28px;
-      margin-bottom: 24px;
-    }
-    .chart-title {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 500;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .chart-canvas-wrap { position: relative; }
-
-    /* ── TABLE ── */
-    .table-wrapper {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-    thead tr {
-      background: rgba(244, 243, 238, 0.04);
-      border-bottom: 1px solid var(--border);
-    }
-    th {
-      padding: 14px 18px;
-      text-align: left;
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--text-muted);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-    th:not(:first-child) { text-align: right; }
-    td {
-      padding: 14px 18px;
-      color: var(--text);
-      border-bottom: 1px solid var(--border);
-      font-weight: 400;
-    }
-    td:not(:first-child) { text-align: right; }
-    tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover { background: rgba(244, 243, 238, 0.02); }
-    .td-accent { color: var(--accent); font-family: 'Montserrat', sans-serif; font-weight: 600; }
-    .td-muted { color: var(--text-muted); }
-    .rank-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      background: rgba(1, 255, 150, 0.1);
-      border-radius: 50%;
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--accent);
-      margin-right: 8px;
-      flex-shrink: 0;
-    }
-    .campaign-cell {
-      display: flex;
-      align-items: center;
-      max-width: 320px;
-    }
-    .campaign-name {
-      font-size: 12px;
-      line-height: 1.4;
-      white-space: normal;
-      word-break: break-word;
-    }
-
-    /* ── DIVIDER ── */
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 48px 0;
-    }
-
-    /* ── FOOTER ── */
-    .footer {
-      background: var(--bg-card);
-      border-top: 1px solid var(--border);
-      padding: 24px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .footer-brand {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--accent);
-    }
-    .footer-info {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: right;
-      line-height: 1.6;
-    }
-
-    /* ── ALERT NOTE ── */
-    .note {
-      background: rgba(1, 255, 150, 0.05);
-      border: 1px solid rgba(1, 255, 150, 0.15);
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 28px;
-    }
-    .note strong { color: var(--accent); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .header { padding: 24px 20px; }
-      .container { padding: 32px 16px; }
-      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-      .metrics-strip { grid-template-columns: repeat(2, 1fr); }
-      .footer { padding: 20px; flex-direction: column; align-items: flex-start; }
-      .footer-info { text-align: left; }
-      .header-right { align-items: flex-start; }
-      th, td { padding: 12px 12px; }
-    }
-    @media (max-width: 480px) {
-      .kpi-grid { grid-template-columns: 1fr 1fr; }
-      .metrics-strip { grid-template-columns: 1fr 1fr; }
-      .kpi-value { font-size: 22px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Altitude Elevadores — Relatório Maio 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--bg:#0F2A33;--card:#1E2328;--accent:#01FF96;--text:#F4F3EE;--muted:rgba(244,243,238,0.55);--border:rgba(244,243,238,0.08);--meta:#1877F2;--google:#EA4335}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;line-height:1.6}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+header{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.logo{font-family:'Montserrat',sans-serif;font-weight:700;font-size:20px;color:var(--accent)}
+.logo span{color:var(--text)}
+.header-meta h1{font-family:'Montserrat',sans-serif;font-weight:700;font-size:22px}
+.header-meta p{color:var(--muted);font-size:13px;margin-top:4px}
+.badges{display:flex;gap:8px;margin-top:10px;justify-content:flex-end;flex-wrap:wrap}
+.badge{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500}
+.badge-meta{background:rgba(24,119,242,0.15);color:#5BA3FF;border:1px solid rgba(24,119,242,0.3)}
+.badge-google{background:rgba(234,67,53,0.15);color:#FF7B73;border:1px solid rgba(234,67,53,0.3)}
+.filter-bar{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin:32px 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.filter-bar label{color:var(--muted);font-size:13px;margin-right:4px}
+.filter-bar input[type=date]{background:#0F2A33;border:1px solid rgba(244,243,238,0.15);border-radius:8px;color:var(--text);padding:8px 12px;font-size:14px;font-family:inherit;outline:none;cursor:pointer}
+.filter-bar input[type=date]:focus{border-color:var(--accent)}
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.preset-btn{background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--muted);padding:6px 14px;font-size:13px;font-family:inherit;cursor:pointer;transition:.15s}
+.preset-btn:hover,.preset-btn.active{background:rgba(1,255,150,0.1);border-color:var(--accent);color:var(--accent)}
+.divider{width:1px;height:32px;background:var(--border)}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px}
+.kpi-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.kpi-value{font-family:'Montserrat',sans-serif;font-weight:700;font-size:28px;color:var(--accent);line-height:1}
+.kpi-sub{color:var(--muted);font-size:12px;margin-top:6px}
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:32px}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px}
+.chart-title{font-size:13px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
+.section{margin-bottom:40px}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.section-dot{width:10px;height:10px;border-radius:50%}
+.section-dot.meta{background:var(--meta)}
+.section-dot.google{background:var(--google)}
+.section-label{font-family:'Montserrat',sans-serif;font-weight:700;font-size:17px}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.metric{background:#161C21;border:1px solid var(--border);border-radius:8px;padding:16px}
+.metric-label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.metric-value{font-family:'Montserrat',sans-serif;font-weight:700;font-size:20px;color:var(--text)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:.5px;padding:10px 12px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.campaign-name{color:var(--text);font-weight:500;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.td-num{font-family:'Montserrat',sans-serif;font-weight:600;font-size:13px}
+.tag-ativo{background:rgba(1,255,150,0.1);color:var(--accent);border:1px solid rgba(1,255,150,.25);font-size:11px;padding:2px 8px;border-radius:10px}
+.tag-pausado{background:rgba(244,243,238,0.06);color:var(--muted);border:1px solid var(--border);font-size:11px;padding:2px 8px;border-radius:10px}
+.note{color:var(--muted);font-size:12px;margin-top:12px;font-style:italic}
+footer{border-top:1px solid var(--border);padding:28px 0;margin-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.footer-text{color:var(--muted);font-size:13px}
+@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.filter-bar{flex-direction:column;align-items:flex-start}.presets{margin-left:0}.header-inner{flex-direction:column;align-items:flex-start}.badges{justify-content:flex-start}}
+@media(max-width:480px){.kpi-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
+<div class="wrap">
 
-<!-- HEADER -->
-<header class="header">
-  <div class="header-left">
-    <span class="dve-label">DVE Assessoria</span>
-    <h1>Altitude Elevadores</h1>
-    <p class="header-period">Relatório de Tráfego Pago &nbsp;·&nbsp; Maio 2026</p>
-  </div>
-  <div class="header-right">
-    <div class="platform-badge">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.5 6.5h-2c-.276 0-.5.224-.5.5v1.5h2.5l-.375 2.5H14V19h-2.5v-6.5H10V10h1.5V9c0-1.657 1.343-3 3-3h2v2.5z"/></svg>
-      Meta Ads
+<header>
+  <div class="header-inner">
+    <div class="logo">DVE <span>Assessoria</span></div>
+    <div class="header-meta">
+      <h1>Altitude Elevadores</h1>
+      <p>Relatório de Tráfego Pago</p>
+      <div class="badges">
+        <span class="badge badge-meta">Meta Ads</span>
+        <span class="badge badge-google">Google Ads</span>
+      </div>
     </div>
-    <p class="report-date">Dados: 01–26 mai 2026</p>
   </div>
 </header>
 
-<!-- MAIN -->
-<main class="container">
-
-  <!-- RESUMO EXECUTIVO -->
-  <section class="section">
-    <p class="section-title">Resumo Executivo</p>
-    <div class="kpi-grid">
-      <div class="kpi-card highlight">
-        <span class="kpi-label">Investimento Total</span>
-        <span class="kpi-value">R$ 5.694</span>
-        <span class="kpi-sub">Meta: R$ 4.500/mês · Gasto: R$ 5.694,60</span>
-      </div>
-      <div class="kpi-card highlight">
-        <span class="kpi-label">Leads (Conversas WhatsApp)</span>
-        <span class="kpi-value">237</span>
-        <span class="kpi-sub">Conversas iniciadas via anúncio</span>
-      </div>
-      <div class="kpi-card highlight">
-        <span class="kpi-label">Custo por Lead</span>
-        <span class="kpi-value">R$ 24,03</span>
-        <span class="kpi-sub">Meta: R$ 15–100 · Dentro do range</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-label">Alcance</span>
-        <span class="kpi-value neutral">97.716</span>
-        <span class="kpi-sub">Pessoas impactadas no período</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- META ADS SECTION -->
-  <section class="section">
-    <div class="section-header">
-      <div class="section-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="#01FF96"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.5 6.5h-2c-.276 0-.5.224-.5.5v1.5h2.5l-.375 2.5H14V19h-2.5v-6.5H10V10h1.5V9c0-1.657 1.343-3 3-3h2v2.5z"/></svg>
-      </div>
-      <span class="section-name">Meta Ads</span>
-    </div>
-
-    <!-- MÉTRICAS -->
-    <div class="metrics-strip">
-      <div class="metric-item">
-        <span class="metric-label">Investimento</span>
-        <span class="metric-value">R$ 5.694,60</span>
-      </div>
-      <div class="metric-item">
-        <span class="metric-label">Impressões</span>
-        <span class="metric-value">236.284</span>
-      </div>
-      <div class="metric-item">
-        <span class="metric-label">Cliques</span>
-        <span class="metric-value">2.424</span>
-      </div>
-      <div class="metric-item">
-        <span class="metric-label">CTR</span>
-        <span class="metric-value">1,03%</span>
-      </div>
-      <div class="metric-item">
-        <span class="metric-label">CPM</span>
-        <span class="metric-value">R$ 24,10</span>
-      </div>
-      <div class="metric-item">
-        <span class="metric-label">CPC Médio</span>
-        <span class="metric-value">R$ 2,35</span>
-      </div>
-      <div class="metric-item">
-        <span class="metric-label">Alcance</span>
-        <span class="metric-value">97.716</span>
-      </div>
-      <div class="metric-item">
-        <span class="metric-label">Leads</span>
-        <span class="metric-value">237</span>
-      </div>
-      <div class="metric-item">
-        <span class="metric-label">CPL</span>
-        <span class="metric-value">R$ 24,03</span>
-      </div>
-      <div class="metric-item">
-        <span class="metric-label">1ª Resposta</span>
-        <span class="metric-value">233</span>
-      </div>
-    </div>
-
-    <!-- GRÁFICO -->
-    <div class="chart-wrapper">
-      <p class="chart-title">Investimento por campanha (R$)</p>
-      <div class="chart-canvas-wrap">
-        <canvas id="chartSpend" height="280"></canvas>
-      </div>
-    </div>
-
-    <!-- TABELA DE CAMPANHAS -->
-    <p class="section-title" style="margin-top:32px;">Desempenho por campanha</p>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>Campanha</th>
-            <th>Investimento</th>
-            <th>Impressões</th>
-            <th>Cliques</th>
-            <th>CTR</th>
-            <th>Leads</th>
-            <th>CPL</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div class="campaign-cell">
-                <span class="rank-badge">1</span>
-                <span class="campaign-name">Ribeirão Preto · Fase 02 (31/03)</span>
-              </div>
-            </td>
-            <td class="td-accent">R$ 1.055,43</td>
-            <td>93.535</td>
-            <td>933</td>
-            <td>1,00%</td>
-            <td class="td-accent">54</td>
-            <td>R$ 19,55</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="campaign-cell">
-                <span class="rank-badge">2</span>
-                <span class="campaign-name">Minas Gerais (24/04)</span>
-              </div>
-            </td>
-            <td class="td-accent">R$ 1.022,46</td>
-            <td>39.599</td>
-            <td>360</td>
-            <td>0,91%</td>
-            <td class="td-accent">43</td>
-            <td>R$ 23,78</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="campaign-cell">
-                <span class="rank-badge">3</span>
-                <span class="campaign-name">Indaiatuba (28/04)</span>
-              </div>
-            </td>
-            <td class="td-accent">R$ 914,16</td>
-            <td>29.425</td>
-            <td>308</td>
-            <td>1,05%</td>
-            <td class="td-accent">35</td>
-            <td>R$ 26,12</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="campaign-cell">
-                <span class="rank-badge">4</span>
-                <span class="campaign-name">Mato Grosso (30/04)</span>
-              </div>
-            </td>
-            <td class="td-accent">R$ 853,28</td>
-            <td>26.340</td>
-            <td>335</td>
-            <td>1,27%</td>
-            <td class="td-accent">39</td>
-            <td>R$ 21,88</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="campaign-cell">
-                <span class="rank-badge">5</span>
-                <span class="campaign-name">Centro-Oeste (30/04)</span>
-              </div>
-            </td>
-            <td>R$ 559,53</td>
-            <td>17.938</td>
-            <td>150</td>
-            <td>0,84%</td>
-            <td>12</td>
-            <td class="td-muted">R$ 46,63</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="campaign-cell">
-                <span class="rank-badge">6</span>
-                <span class="campaign-name">Ribeirão Preto (19/05)</span>
-              </div>
-            </td>
-            <td>R$ 404,99</td>
-            <td>9.839</td>
-            <td>127</td>
-            <td>1,29%</td>
-            <td>21</td>
-            <td>R$ 19,29</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="campaign-cell">
-                <span class="rank-badge">7</span>
-                <span class="campaign-name">Matão (19/05)</span>
-              </div>
-            </td>
-            <td>R$ 376,70</td>
-            <td>9.762</td>
-            <td>109</td>
-            <td>1,12%</td>
-            <td>15</td>
-            <td>R$ 25,11</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="campaign-cell">
-                <span class="rank-badge">8</span>
-                <span class="campaign-name">Indaiatuba (19/05)</span>
-              </div>
-            </td>
-            <td>R$ 350,14</td>
-            <td>6.123</td>
-            <td>80</td>
-            <td>1,31%</td>
-            <td>12</td>
-            <td>R$ 29,18</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="campaign-cell">
-                <span class="rank-badge">9</span>
-                <span class="campaign-name">Centro-Oeste (24/04)</span>
-              </div>
-            </td>
-            <td class="td-muted">R$ 83,71</td>
-            <td class="td-muted">1.817</td>
-            <td class="td-muted">9</td>
-            <td class="td-muted">0,50%</td>
-            <td class="td-muted">1</td>
-            <td class="td-muted">R$ 83,71</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="campaign-cell">
-                <span class="rank-badge">10</span>
-                <span class="campaign-name">São Paulo (24/04)</span>
-              </div>
-            </td>
-            <td class="td-muted">R$ 74,20</td>
-            <td class="td-muted">1.906</td>
-            <td class="td-muted">13</td>
-            <td class="td-muted">0,68%</td>
-            <td class="td-muted">3</td>
-            <td class="td-muted">R$ 24,73</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- GRÁFICO LEADS -->
-    <div class="chart-wrapper" style="margin-top:24px;">
-      <p class="chart-title">Leads por campanha (conversas WhatsApp)</p>
-      <div class="chart-canvas-wrap">
-        <canvas id="chartLeads" height="280"></canvas>
-      </div>
-    </div>
-
-  </section>
-
-</main>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div>
-    <p class="footer-brand">DVE Assessoria</p>
-    <p style="font-size:11px; color: var(--text-muted); margin-top:4px;">dveassessoria.com.br</p>
+<div class="filter-bar">
+  <div><label>De</label><input type="date" id="dateFrom" min="2026-05-01" max="2026-05-25" value="2026-05-01"></div>
+  <div><label>Até</label><input type="date" id="dateTo" min="2026-05-01" max="2026-05-25" value="2026-05-25"></div>
+  <div class="divider"></div>
+  <div class="presets">
+    <button class="preset-btn" data-from="2026-05-01" data-to="2026-05-07">Sem. 1</button>
+    <button class="preset-btn" data-from="2026-05-08" data-to="2026-05-14">Sem. 2</button>
+    <button class="preset-btn" data-from="2026-05-15" data-to="2026-05-21">Sem. 3</button>
+    <button class="preset-btn" data-from="2026-05-22" data-to="2026-05-25">Sem. 4</button>
+    <button class="preset-btn active" data-from="2026-05-01" data-to="2026-05-25">Mês todo</button>
   </div>
-  <div class="footer-info">
-    <p>Altitude Elevadores &nbsp;·&nbsp; Maio 2026</p>
-    <p>Dados: 01–26 mai 2026 &nbsp;·&nbsp; Meta Ads</p>
-    <p>Gerado em 26/05/2026</p>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">Investimento Total</div><div class="kpi-value" id="kpi-invest">—</div><div class="kpi-sub">Meta + Google Ads</div></div>
+  <div class="kpi"><div class="kpi-label">Leads / Conversões</div><div class="kpi-value" id="kpi-leads">—</div><div class="kpi-sub">Total do período</div></div>
+  <div class="kpi"><div class="kpi-label">CPL Médio</div><div class="kpi-value" id="kpi-cpl">—</div><div class="kpi-sub">Custo por lead</div></div>
+  <div class="kpi"><div class="kpi-label">Cliques Totais</div><div class="kpi-value" id="kpi-clicks">—</div><div class="kpi-sub">Meta + Google</div></div>
+</div>
+
+<div class="charts-row">
+  <div class="chart-card">
+    <div class="chart-title">Investimento diário por plataforma</div>
+    <canvas id="chartInvest" height="150"></canvas>
   </div>
+  <div class="chart-card">
+    <div class="chart-title">Leads por dia (Meta)</div>
+    <canvas id="chartLeads" height="150"></canvas>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <div class="section-dot meta"></div>
+    <div class="section-label">Meta Ads</div>
+    <span class="badge badge-meta" style="font-size:11px;padding:3px 10px;border-radius:12px">Facebook · Instagram</span>
+  </div>
+  <div class="metrics-grid">
+    <div class="metric"><div class="metric-label">Investimento</div><div class="metric-value" id="m-spend">—</div></div>
+    <div class="metric"><div class="metric-label">Impressões</div><div class="metric-value" id="m-imp">—</div></div>
+    <div class="metric"><div class="metric-label">Alcance</div><div class="metric-value" id="m-reach">—</div></div>
+    <div class="metric"><div class="metric-label">Cliques</div><div class="metric-value" id="m-clicks">—</div></div>
+    <div class="metric"><div class="metric-label">CTR</div><div class="metric-value" id="m-ctr">—</div></div>
+    <div class="metric"><div class="metric-label">CPM</div><div class="metric-value" id="m-cpm">—</div></div>
+    <div class="metric"><div class="metric-label">CPC</div><div class="metric-value" id="m-cpc">—</div></div>
+    <div class="metric"><div class="metric-label">Leads (WhatsApp)</div><div class="metric-value" id="m-leads">—</div></div>
+    <div class="metric"><div class="metric-label">CPL</div><div class="metric-value" id="m-cpl">—</div></div>
+  </div>
+  <table>
+    <thead><tr><th>Campanha</th><th>Invest.</th><th>Cliques</th><th>CTR</th><th>Leads</th><th>CPL</th></tr></thead>
+    <tbody>
+      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-31.03_FRIO_FASE02_TESTE_SET_RIBEIRÃO-PRETO">Ribeirão Preto · 31.03 Fase 02</span></td><td class="td-num">R$ 1.055,43</td><td class="td-num">933</td><td class="td-num">1,00%</td><td class="td-num">56</td><td class="td-num">R$ 18,85</td></tr>
+      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-MINAS-GERAIS-24-04">Minas Gerais · 24.04</span></td><td class="td-num">R$ 1.022,46</td><td class="td-num">360</td><td class="td-num">0,91%</td><td class="td-num">44</td><td class="td-num">R$ 23,24</td></tr>
+      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-28.04_FRIO_FASE02_TESTE_SET_INDAIATUBA">Indaiatuba · 28.04 Fase 02</span></td><td class="td-num">R$ 914,16</td><td class="td-num">308</td><td class="td-num">1,05%</td><td class="td-num">36</td><td class="td-num">R$ 25,39</td></tr>
+      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-MATO-GROSSO-30-04">Mato Grosso · 30.04</span></td><td class="td-num">R$ 853,28</td><td class="td-num">335</td><td class="td-num">1,27%</td><td class="td-num">39</td><td class="td-num">R$ 21,88</td></tr>
+      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-RIBEIRAO-PRETO-19.05_FRIO_ABO_TESTE_PUB_FASE-02">Ribeirão Preto · 19.05 Fase 02</span></td><td class="td-num">R$ 404,99</td><td class="td-num">127</td><td class="td-num">1,29%</td><td class="td-num">21</td><td class="td-num">R$ 19,29</td></tr>
+      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-CENTRO-OESTE-30-04">Centro-Oeste · 30.04</span></td><td class="td-num">R$ 559,53</td><td class="td-num">150</td><td class="td-num">0,84%</td><td class="td-num">16</td><td class="td-num">R$ 34,97</td></tr>
+      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-MATAO-19.05_FRIO_ABO_TESTE_PUB_FASE-02">Matão · 19.05 Fase 02</span></td><td class="td-num">R$ 376,70</td><td class="td-num">109</td><td class="td-num">1,12%</td><td class="td-num">15</td><td class="td-num">R$ 25,11</td></tr>
+      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-INDAIATUBA-19.05_FRIO_ABO_TESTE_PUB_FASE-02">Indaiatuba · 19.05 Fase 02</span></td><td class="td-num">R$ 350,14</td><td class="td-num">80</td><td class="td-num">1,31%</td><td class="td-num">12</td><td class="td-num">R$ 29,18</td></tr>
+      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-SÃO-PAULO-24-04">São Paulo · 24.04</span></td><td class="td-num">R$ 74,20</td><td class="td-num">13</td><td class="td-num">0,68%</td><td class="td-num">2</td><td class="td-num">R$ 37,10</td></tr>
+      <tr><td><span class="campaign-name" title="ER-DVE-FB-ELEVADORES-WHATSAPP-CENTRO-OESTE-24-04">Centro-Oeste · 24.04</span></td><td class="td-num">R$ 83,71</td><td class="td-num">9</td><td class="td-num">0,50%</td><td class="td-num">2</td><td class="td-num">R$ 41,86</td></tr>
+    </tbody>
+  </table>
+  <p class="note">* Tabela de campanhas exibe totais do mês completo. KPIs e gráficos respondem ao filtro de período.</p>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <div class="section-dot google"></div>
+    <div class="section-label">Google Ads</div>
+    <span class="badge badge-google" style="font-size:11px;padding:3px 10px;border-radius:12px">Search · Uberlândia</span>
+  </div>
+  <div class="metrics-grid">
+    <div class="metric"><div class="metric-label">Investimento</div><div class="metric-value" id="g-spend">—</div></div>
+    <div class="metric"><div class="metric-label">Impressões</div><div class="metric-value" id="g-imp">—</div></div>
+    <div class="metric"><div class="metric-label">Cliques</div><div class="metric-value" id="g-clicks">—</div></div>
+    <div class="metric"><div class="metric-label">CTR</div><div class="metric-value" id="g-ctr">—</div></div>
+    <div class="metric"><div class="metric-label">CPC</div><div class="metric-value" id="g-cpc">—</div></div>
+    <div class="metric"><div class="metric-label">Conversões</div><div class="metric-value" id="g-conv">—</div></div>
+  </div>
+  <table>
+    <thead><tr><th>Campanha</th><th>Status</th><th>Invest.</th><th>Impressões</th><th>Cliques</th><th>CTR</th><th>Conv.</th><th>CPL</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="campaign-name">Leads-Search-Uberlândia · H2</span></td>
+        <td><span class="tag-ativo">Ativo</span></td>
+        <td class="td-num">R$ 130,01</td><td class="td-num">83</td><td class="td-num">13</td><td class="td-num">15,66%</td><td class="td-num">1</td><td class="td-num">R$ 130,01</td>
+      </tr>
+      <tr>
+        <td><span class="campaign-name">Leads-Search-Uberlândia · H3</span></td>
+        <td><span class="tag-pausado">Pausado</span></td>
+        <td class="td-num">R$ 19,85</td><td class="td-num">33</td><td class="td-num">3</td><td class="td-num">9,09%</td><td class="td-num">0</td><td class="td-num">—</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="note">* Campanhas iniciadas em 19/05/2026. Dados em fase inicial de aprendizado.</p>
+</div>
+
+<footer>
+  <span class="footer-text">Relatório gerado por DVE Assessoria · dveassessoria.com.br</span>
+  <span class="footer-text">Maio 2026 · Atualizado em 26/05/2026</span>
 </footer>
 
+</div>
+
 <script>
-  Chart.defaults.color = 'rgba(244, 243, 238, 0.6)';
-  Chart.defaults.borderColor = 'rgba(244, 243, 238, 0.08)';
-  Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+Chart.defaults.color='rgba(244,243,238,0.55)';
+Chart.defaults.borderColor='rgba(244,243,238,0.07)';
 
-  const campaigns = [
-    'Ribeirão Preto\n(31/03)',
-    'Minas Gerais\n(24/04)',
-    'Indaiatuba\n(28/04)',
-    'Mato Grosso\n(30/04)',
-    'Centro-Oeste\n(30/04)',
-    'Ribeirão Preto\n(19/05)',
-    'Matão\n(19/05)',
-    'Indaiatuba\n(19/05)',
-    'Centro-Oeste\n(24/04)',
-    'São Paulo\n(24/04)'
-  ];
+const metaDaily=[
+  {date:"2026-05-01",spend:215.13,imp:14477,reach:10693,clicks:140,leads:17},
+  {date:"2026-05-02",spend:169.40,imp:8487,reach:6586,clicks:81,leads:10},
+  {date:"2026-05-03",spend:222.19,imp:13864,reach:9835,clicks:145,leads:9},
+  {date:"2026-05-04",spend:94.32,imp:4615,reach:3852,clicks:41,leads:5},
+  {date:"2026-05-05",spend:181.97,imp:10101,reach:8210,clicks:84,leads:7},
+  {date:"2026-05-06",spend:223.50,imp:8844,reach:6717,clicks:79,leads:11},
+  {date:"2026-05-07",spend:226.25,imp:9581,reach:7718,clicks:106,leads:9},
+  {date:"2026-05-08",spend:242.24,imp:9174,reach:7506,clicks:84,leads:9},
+  {date:"2026-05-09",spend:208.62,imp:8565,reach:6792,clicks:98,leads:10},
+  {date:"2026-05-10",spend:117.81,imp:4818,reach:3894,clicks:52,leads:5},
+  {date:"2026-05-11",spend:50.79,imp:2875,reach:2428,clicks:35,leads:2},
+  {date:"2026-05-12",spend:288.85,imp:12344,reach:9070,clicks:113,leads:12},
+  {date:"2026-05-13",spend:270.94,imp:9602,reach:7768,clicks:112,leads:7},
+  {date:"2026-05-14",spend:258.98,imp:8050,reach:6309,clicks:87,leads:6},
+  {date:"2026-05-15",spend:224.20,imp:7927,reach:6073,clicks:74,leads:8},
+  {date:"2026-05-16",spend:179.86,imp:7518,reach:5952,clicks:94,leads:8},
+  {date:"2026-05-17",spend:208.48,imp:14720,reach:9726,clicks:157,leads:16},
+  {date:"2026-05-18",spend:247.21,imp:12970,reach:9639,clicks:120,leads:3},
+  {date:"2026-05-19",spend:363.21,imp:13194,reach:10296,clicks:138,leads:14},
+  {date:"2026-05-20",spend:245.09,imp:5282,reach:4317,clicks:76,leads:14},
+  {date:"2026-05-21",spend:140.83,imp:3147,reach:2696,clicks:53,leads:10},
+  {date:"2026-05-22",spend:128.30,imp:2963,reach:2638,clicks:36,leads:5},
+  {date:"2026-05-23",spend:103.36,imp:2320,reach:2057,clicks:22,leads:2},
+  {date:"2026-05-24",spend:134.05,imp:3059,reach:2632,clicks:29,leads:2},
+  {date:"2026-05-25",spend:165.82,imp:3337,reach:2926,clicks:39,leads:8}
+];
 
-  const spendData = [1055.43, 1022.46, 914.16, 853.28, 559.53, 404.99, 376.70, 350.14, 83.71, 74.20];
-  const leadsData = [54, 43, 35, 39, 12, 21, 15, 12, 1, 3];
+const googleDaily=[
+  {date:"2026-05-22",spend:7.29,imp:5,clicks:2,conv:0},
+  {date:"2026-05-25",spend:35.67,imp:47,clicks:4,conv:1},
+  {date:"2026-05-26",spend:106.90,imp:64,clicks:10,conv:0}
+];
 
-  // Chart Spend
-  new Chart(document.getElementById('chartSpend'), {
-    type: 'bar',
-    data: {
-      labels: campaigns,
-      datasets: [{
-        label: 'Investimento (R$)',
-        data: spendData,
-        backgroundColor: 'rgba(1, 255, 150, 0.75)',
-        borderColor: '#01FF96',
-        borderWidth: 1,
-        borderRadius: 4,
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx => ' R$ ' + ctx.raw.toLocaleString('pt-BR', {minimumFractionDigits: 2})
-          }
-        }
-      },
-      scales: {
-        x: {
-          grid: { color: 'rgba(244,243,238,0.06)' },
-          ticks: {
-            callback: val => 'R$ ' + val.toLocaleString('pt-BR'),
-            color: 'rgba(244,243,238,0.5)',
-            font: { size: 11 }
-          }
-        },
-        y: {
-          grid: { display: false },
-          ticks: { color: 'rgba(244,243,238,0.7)', font: { size: 11 } }
-        }
-      }
-    }
+const brl=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const num=v=>Math.round(v).toLocaleString('pt-BR');
+const pct=v=>v.toFixed(2).replace('.',',')+('%');
+const fmt=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
+const filter=(arr,from,to)=>arr.filter(d=>d.date>=from&&d.date<=to);
+
+let cI,cL;
+
+function update(){
+  const from=document.getElementById('dateFrom').value;
+  const to=document.getElementById('dateTo').value;
+  if(!from||!to||from>to)return;
+
+  const mD=filter(metaDaily,from,to);
+  const gD=filter(googleDaily,from,to);
+
+  const mSpend=mD.reduce((a,d)=>a+d.spend,0);
+  const mImp=mD.reduce((a,d)=>a+d.imp,0);
+  const mReach=mD.reduce((a,d)=>a+d.reach,0);
+  const mClicks=mD.reduce((a,d)=>a+d.clicks,0);
+  const mLeads=mD.reduce((a,d)=>a+d.leads,0);
+  const mCTR=mImp?mClicks/mImp*100:0;
+  const mCPM=mImp?mSpend/mImp*1000:0;
+  const mCPC=mClicks?mSpend/mClicks:0;
+  const mCPL=mLeads?mSpend/mLeads:0;
+
+  const gSpend=gD.reduce((a,d)=>a+d.spend,0);
+  const gImp=gD.reduce((a,d)=>a+d.imp,0);
+  const gClicks=gD.reduce((a,d)=>a+d.clicks,0);
+  const gConv=gD.reduce((a,d)=>a+d.conv,0);
+  const gCTR=gImp?gClicks/gImp*100:0;
+  const gCPC=gClicks?gSpend/gClicks:0;
+
+  const totalSpend=mSpend+gSpend;
+  const totalLeads=mLeads+gConv;
+  const totalClicks=mClicks+gClicks;
+  const totalCPL=totalLeads?totalSpend/totalLeads:0;
+
+  fmt('kpi-invest',brl(totalSpend));
+  fmt('kpi-leads',totalLeads.toString());
+  fmt('kpi-cpl',totalLeads?brl(totalCPL):'—');
+  fmt('kpi-clicks',num(totalClicks));
+
+  fmt('m-spend',brl(mSpend));
+  fmt('m-imp',num(mImp));
+  fmt('m-reach',num(mReach));
+  fmt('m-clicks',num(mClicks));
+  fmt('m-ctr',pct(mCTR));
+  fmt('m-cpm',brl(mCPM));
+  fmt('m-cpc',brl(mCPC));
+  fmt('m-leads',mLeads.toString());
+  fmt('m-cpl',mLeads?brl(mCPL):'—');
+
+  fmt('g-spend',brl(gSpend));
+  fmt('g-imp',num(gImp));
+  fmt('g-clicks',num(gClicks));
+  fmt('g-ctr',pct(gCTR));
+  fmt('g-cpc',gClicks?brl(gCPC):'—');
+  fmt('g-conv',gConv.toString());
+
+  // build date range array
+  const dates=[];
+  const cur=new Date(from);
+  const end=new Date(to);
+  while(cur<=end){dates.push(cur.toISOString().slice(0,10));cur.setDate(cur.getDate()+1);}
+  const labels=dates.map(d=>d.slice(5).replace('-','/'));
+  const msArr=dates.map(d=>{const r=mD.find(x=>x.date===d);return r?r.spend:0;});
+  const gsArr=dates.map(d=>{const r=gD.find(x=>x.date===d);return r?r.spend:0;});
+  const mlArr=dates.map(d=>{const r=mD.find(x=>x.date===d);return r?r.leads:0;});
+
+  const baseOpts={responsive:true,animation:false,plugins:{legend:{labels:{usePointStyle:true,padding:14,font:{size:12}}}},scales:{x:{grid:{color:'rgba(244,243,238,0.04)'},ticks:{maxRotation:45,maxTicksLimit:12}},y:{grid:{color:'rgba(244,243,238,0.04)'},beginAtZero:true}}};
+
+  if(cI)cI.destroy();
+  cI=new Chart(document.getElementById('chartInvest'),{
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'Meta Ads',data:msArr,backgroundColor:'rgba(24,119,242,0.75)',borderColor:'#1877F2',borderWidth:1,stack:'s'},
+      {label:'Google Ads',data:gsArr,backgroundColor:'rgba(234,67,53,0.75)',borderColor:'#EA4335',borderWidth:1,stack:'s'}
+    ]},
+    options:{...baseOpts,scales:{...baseOpts.scales,y:{...baseOpts.scales.y,ticks:{callback:v=>'R$'+Number(v).toLocaleString('pt-BR')}}}}
   });
 
-  // Chart Leads
-  new Chart(document.getElementById('chartLeads'), {
-    type: 'bar',
-    data: {
-      labels: campaigns,
-      datasets: [{
-        label: 'Leads',
-        data: leadsData,
-        backgroundColor: 'rgba(1, 255, 150, 0.55)',
-        borderColor: '#01FF96',
-        borderWidth: 1,
-        borderRadius: 4,
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: { label: ctx => ' ' + ctx.raw + ' leads' }
-        }
-      },
-      scales: {
-        x: {
-          grid: { color: 'rgba(244,243,238,0.06)' },
-          ticks: { color: 'rgba(244,243,238,0.5)', font: { size: 11 } }
-        },
-        y: {
-          grid: { display: false },
-          ticks: { color: 'rgba(244,243,238,0.7)', font: { size: 11 } }
-        }
-      }
-    }
+  if(cL)cL.destroy();
+  cL=new Chart(document.getElementById('chartLeads'),{
+    type:'line',
+    data:{labels,datasets:[{label:'Leads',data:mlArr,borderColor:'#01FF96',backgroundColor:'rgba(1,255,150,0.1)',pointRadius:3,pointBackgroundColor:'#01FF96',fill:true,tension:.35}]},
+    options:{...baseOpts,plugins:{legend:{display:false}}}
   });
+}
+
+function clearActive(){document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));}
+
+document.getElementById('dateFrom').addEventListener('change',()=>{clearActive();update();});
+document.getElementById('dateTo').addEventListener('change',()=>{clearActive();update();});
+document.querySelectorAll('.preset-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    clearActive();btn.classList.add('active');
+    document.getElementById('dateFrom').value=btn.dataset.from;
+    document.getElementById('dateTo').value=btn.dataset.to;
+    update();
+  });
+});
+
+update();
 </script>
 </body>
 </html>
