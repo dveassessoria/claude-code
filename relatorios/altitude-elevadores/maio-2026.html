@@ -383,11 +383,12 @@ function renderGoogle(spend,imp,clicks,conv,ctr,cpc,camps){
 // ── FLATPICKR ──────────────────────────────────────────────────────────────────
 const fpCfg={locale:'pt',dateFormat:'d/m/Y',minDate:MIN_DATE,maxDate:MAX_DATE,disableMobile:true};
 
-fpFrom = flatpickr('#dateFrom',{...fpCfg, defaultDate:MAX_DATE,
+fpFrom = flatpickr('#dateFrom',{...fpCfg, defaultDate:MIN_DATE,
   onChange([d]){
     if(!d)return;
     currentFrom=toISO(d);
-    fpTo.set('minDate',d);
+    // Se "De" ficou depois de "Até", ajusta "Até" silenciosamente
+    if(currentFrom>currentTo){ currentTo=currentFrom; fpTo.setDate(d,false); }
     clearPreset(); update();
   }
 });
@@ -396,7 +397,8 @@ fpTo = flatpickr('#dateTo',{...fpCfg, defaultDate:MAX_DATE,
   onChange([d]){
     if(!d)return;
     currentTo=toISO(d);
-    fpFrom.set('maxDate',d);
+    // Se "Até" ficou antes de "De", ajusta "De" silenciosamente
+    if(currentTo<currentFrom){ currentFrom=currentTo; fpFrom.setDate(d,false); }
     clearPreset(); update();
   }
 });
@@ -407,8 +409,8 @@ function setRange(from,to,btnId){
   clearPreset();
   if(btnId) document.getElementById(btnId).classList.add('active');
   currentFrom=from; currentTo=to;
-  fpFrom.setDate(from,false); fpTo.setDate(to,false);
-  fpTo.set('minDate',from); fpFrom.set('maxDate',to);
+  fpFrom.setDate(from,false);
+  fpTo.setDate(to,false);
   update();
 }
 
