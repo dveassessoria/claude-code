@@ -193,9 +193,10 @@ def clickup_find(client_query):
     else:
         print(json.dumps({'error': 'No matching doc found'}))
 
-def _get_pages(doc_id):
+def _get_page_tree(doc_id):
+    """Return full nested page tree (ClickUp nests children in 'pages' key)."""
     r = requests.get(
-        f'{CLICKUP_BASE}/workspaces/{WORKSPACE_ID}/docs/{doc_id}/pages',
+        f'{CLICKUP_BASE}/workspaces/{WORKSPACE_ID}/docs/{doc_id}/pages?content_format=text/md',
         headers=clickup_headers()
     )
     r.raise_for_status()
@@ -214,39 +215,63 @@ def _create_page(doc_id, name, content='', parent_page_id=None):
     r.raise_for_status()
     return r.json()
 
-def clickup_save(doc_id, date_str, content_file):
-    """Create year → month → day page hierarchy and save minuta."""
+def _find_child(page, name):
+    """Find a direct child page by name within a page's 'pages' list."""
+    for child in page.get('pages', []):
+        if child.get('name', '').strip() == name:
+            return child
+    return None
+
+def clickup_save(doc_id, date_str, content_file, meeting_url=''):
+    """
+    Save minuta navigating the existing hierarchy:
+    root_page → year (e.g. "2026") → month (e.g. "Maio") → day (e.g. "27/05/26")
+    Prepends a clickable TLDV link if meeting_url is provided.
+    """
     day, month_num, year = date_str.split('/')
-    month_name  = MONTHS_PT[int(month_num)]
-    year_label  = f'Reuniões {year}'
-    day_label   = f'{day}/{month_num}/{year[2:]}'   # e.g. "27/05/26"
+    month_name = MONTHS_PT[int(month_num)]
+    year_str   = year                              # e.g. "2026"
+    day_label  = f'{day}/{month_num}/{year[2:]}'   # e.g. "27/05/26"
 
     with open(content_file, encoding='utf-8') as f:
         content = f.read()
 
-    pages = _get_pages(doc_id)
+    # Prepend TLDV link if provided
+    if meeting_url:
+        content = f'[Abrir gravacao no TLDV]({meeting_url})\n\n---\n\n' + content
 
-    def find(name, parent_id=None):
-        for p in pages:
-            if p.get('name') == name:
-                if parent_id is None or p.get('parent_page_id') == parent_id:
-                    return p
-        return None
+    # Get full page tree
+    tree = _get_page_tree(doc_id)
+    if not tree:
+        raise RuntimeError('No pages found in this doc.')
 
-    def ensure(name, parent_id=None, page_content=''):
-        nonlocal pages
-        p = find(name, parent_id)
-        if not p:
-            p = _create_page(doc_id, name, page_content, parent_id)
-            pages = _get_pages(doc_id)   # refresh
-            p = find(name, parent_id) or p
-        return p
+    # Root page = first page in the doc (e.g. "Reuniões 2026" or "Reuniões")
+    root_page = tree[0]
+    root_id   = root_page['id']
 
-    year_page  = ensure(year_label)
-    month_page = ensure(month_name, year_page.get('id'))
-    day_page   = _create_page(doc_id, day_label, content, month_page.get('id'))
+    # Year page = direct child of root named e.g. "2026"
+    year_page = _find_child(root_page, year_str)
+    if not year_page:
+        year_page = _create_page(doc_id, year_str, '', root_id)
+        tree = _get_page_tree(doc_id)
+        root_page = tree[0]
+        year_page = _find_child(root_page, year_str) or year_page
+    year_id = year_page['id']
 
-    page_id = day_page.get('id', '')
+    # Month page = direct child of year
+    month_page = _find_child(year_page, month_name)
+    if not month_page:
+        month_page = _create_page(doc_id, month_name, '', year_id)
+        tree = _get_page_tree(doc_id)
+        root_page = tree[0]
+        year_page  = _find_child(root_page, year_str) or year_page
+        month_page = _find_child(year_page, month_name) or month_page
+    month_id = month_page['id']
+
+    # Day page = new child of month
+    day_page = _create_page(doc_id, day_label, content, month_id)
+    page_id  = day_page.get('id', '')
+
     url = f'https://app.clickup.com/{WORKSPACE_ID}/docs/{doc_id}/{page_id}'
     print(json.dumps({'page_id': page_id, 'url': url, 'name': day_label}, ensure_ascii=False))
 

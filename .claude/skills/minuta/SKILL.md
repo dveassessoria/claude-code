@@ -141,27 +141,34 @@ Mostre a lista e pergunte: "Não achei o doc automaticamente. Qual é o correto?
 ## Passo 5 — Salvar no ClickUp
 
 ```bash
-cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && python3 .claude/skills/minuta/api.py clickup_save "{DOC_ID}" "{date_DD/MM/YYYY}" "/tmp/minuta_dve.md"
+cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && python3 .claude/skills/minuta/api.py clickup_save "{DOC_ID}" "{date_DD/MM/YYYY}" "/tmp/minuta_dve.md" "{TLDV_MEETING_URL}"
 ```
 
-O script cria automaticamente:
-- Página do ano (`Reuniões 2026`) se não existir
-- Subpágina do mês (`Maio`) se não existir
-- Subpágina do dia (`27/05/26`) com o conteúdo da minuta
+O `TLDV_MEETING_URL` vem do campo `url` retornado pelo `tldv_list` (formato `https://tldv.io/app/meetings/{id}`).
 
-Retorna JSON com `url`. Guarde essa URL para o próximo passo.
+O script:
+- Navega a hierarquia existente no doc: página raiz → ano ("2026") → mês ("Maio")
+- Cria o nível de ano ou mês somente se não existir
+- Cria a página do dia com o conteúdo da minuta e um link clicável para a gravação no TLDV no topo
+- Retorna JSON com `url` (link interno do ClickUp)
+
+Após salvar, informe o usuário:
+
+> "Minuta salva. Agora abra a página no ClickUp, clique em **Compartilhar > Copiar link público** e me manda o link para eu gerar a mensagem de WhatsApp."
+
+Aguarde o usuário colar o link público.
 
 ---
 
 ## Passo 6 — Gerar mensagem de WhatsApp
 
-Gere a mensagem pronta para copiar. Formato obrigatório:
+Gere a mensagem pronta para copiar usando o **link público** que o usuário colou (não o link interno do ClickUp). Formato obrigatório:
 
 ```
 {saudação} time! Tudo bem?
 
 Segue o resumo da nossa reunião de hoje:
-{url_clickup}
+{url_publico_clickup}
 
 ✅ Próximas Etapas
 
