@@ -322,9 +322,12 @@ def clickup_find_list(client_query):
         'score':       round(best_score, 2),
     }, ensure_ascii=False))
 
+TASK_TEMPLATE_ID = '868ju77ft'
+
 def clickup_create_tasks(list_id, tasks_file):
     """
     Create tasks from a JSON file (array of strings) in the given list.
+    Uses TASK_TEMPLATE_ID if set; falls back to plain task creation.
     Status: backlog. No assignee.
     """
     with open(tasks_file, encoding='utf-8') as f:
@@ -332,11 +335,18 @@ def clickup_create_tasks(list_id, tasks_file):
 
     created = []
     for name in tasks:
-        r = requests.post(
-            f'https://api.clickup.com/api/v2/list/{list_id}/task',
-            headers=clickup_headers(),
-            json={'name': name, 'status': 'backlog'}
-        )
+        if TASK_TEMPLATE_ID:
+            r = requests.post(
+                f'https://api.clickup.com/api/v2/list/{list_id}/taskTemplate/{TASK_TEMPLATE_ID}',
+                headers=clickup_headers(),
+                json={'name': name}
+            )
+        else:
+            r = requests.post(
+                f'https://api.clickup.com/api/v2/list/{list_id}/task',
+                headers=clickup_headers(),
+                json={'name': name, 'status': 'backlog'}
+            )
         r.raise_for_status()
         t = r.json()
         created.append({'id': t['id'], 'name': t['name'], 'url': t.get('url', '')})

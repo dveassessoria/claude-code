@@ -3,16 +3,16 @@
 **Nome:** Danilo Santana
 **Negócio:** DVE Assessoria
 
-**O que faz:** 
+**O que faz:**
 A DVE Assessoria é uma assessoria de RevOps (pioneiros no Brasil) cujo objetivo é aumentar a receita e gerar lucro para outras empresas integrando marketing, comercial e sucesso do cliente.
 
 **Perfil:** Agência
 
 **Fundação:** Aproximadamente 1,5 anos atrás, começando com zero capital
 
-**Atende clientes:** Base atual de 20 clientes ativos (diversos nichos diferentes) 
+**Atende clientes:** Base atual de 20 clientes ativos (diversos nichos diferentes)
 
-**Faturamento atual:** R$ 33.000/mês de MRR (maio de 2026)
+**Faturamento atual:** R$ 36.000/mês de MRR (maio de 2026)
 
 **Como chegamos aqui:** A DVE cresceu 100% por network. Danilo e Rafael foram aproveitando oportunidades que apareciam — sem canal de aquisição estruturado, sem nicho definido. Isso gerou uma base de clientes heterogênea, com contratos de formatos e escopos diferentes.
 
@@ -29,7 +29,7 @@ A DVE Assessoria é uma assessoria de RevOps (pioneiros no Brasil) cujo objetivo
 - Daniela — Editora de Vídeo (Freelancer)
 - Kauan — Editor de Vídeo (Freelancer)
 
-Danilo lidera o time de operação (que entrega o serviço). Rafael lidera o comercial (pré vendas e vendas). 
+Danilo lidera o time de operação (que entrega o serviço). Rafael lidera o comercial (pré vendas e vendas).
 
 ---
 
