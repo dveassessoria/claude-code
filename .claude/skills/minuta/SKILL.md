@@ -192,6 +192,58 @@ Mostre a mensagem dentro de um bloco de código para facilitar o copy.
 
 ---
 
+## Passo 7 — Criar tarefas da DVE no ClickUp
+
+Após gerar a mensagem de WhatsApp, pergunte:
+
+> "Quer que eu crie as tarefas da DVE no ClickUp agora?"
+
+Se o usuário confirmar:
+
+### 7a — Salvar tarefas em arquivo JSON
+
+Salve a lista de tarefas da DVE (somente DVE, não as do cliente) em `/tmp/dve_tasks.json`:
+
+```json
+["Tarefa 1", "Tarefa 2", "Tarefa 3"]
+```
+
+Cada item deve ser o texto exato da tarefa, como estava na seção "DVE" dos próximos passos.
+
+### 7b — Encontrar a lista Tarefas do cliente
+
+```bash
+cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && python3 .claude/skills/minuta/api.py clickup_find_list "{company}"
+```
+
+Retorna JSON com `list_id`, `folder_name` e `score`.
+
+**Se score < 0.4:** mostre os resultados disponíveis e pergunte ao usuário qual é a pasta correta.
+
+### 7c — Criar as tarefas
+
+```bash
+cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && python3 .claude/skills/minuta/api.py clickup_create_tasks "{LIST_ID}" "/tmp/dve_tasks.json"
+```
+
+Retorna JSON com `created` (quantidade) e `tasks` (lista com nome e URL de cada tarefa criada).
+
+### 7d — Confirmar para o usuário
+
+Mostre um resumo limpo:
+
+```
+✅ {N} tarefas criadas em [Nome da Pasta] > Tarefas:
+
+• Tarefa 1
+• Tarefa 2
+• ...
+
+Status: backlog | Atribuição: manual
+```
+
+---
+
 ## Regras gerais
 
 - Uma pergunta por vez. Não pergunte sobre dois pontos ao mesmo tempo.

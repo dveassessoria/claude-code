@@ -275,6 +275,74 @@ def clickup_save(doc_id, date_str, content_file, meeting_url=''):
     url = f'https://app.clickup.com/{WORKSPACE_ID}/docs/{doc_id}/{page_id}'
     print(json.dumps({'page_id': page_id, 'url': url, 'name': day_label}, ensure_ascii=False))
 
+# ── Task creation ─────────────────────────────────────────────────────────────
+
+CLIENT_SPACES = ['90113761810', '90114165992']  # Tipo A, Tipo B
+
+def _all_client_folders():
+    """Return all folders from both client spaces."""
+    folders = []
+    for space_id in CLIENT_SPACES:
+        r = requests.get(
+            f'https://api.clickup.com/api/v2/space/{space_id}/folder?archived=false',
+            headers=clickup_headers()
+        )
+        r.raise_for_status()
+        folders.extend(r.json().get('folders', []))
+    return folders
+
+def clickup_find_list(client_query):
+    """Find the 'Tarefas' list in the best-matching client folder."""
+    folders = _all_client_folders()
+    best, best_score = None, 0.0
+
+    for f in folders:
+        score = SequenceMatcher(None, client_query.lower(), f['name'].lower()).ratio()
+        if client_query.lower() in f['name'].lower() or f['name'].lower() in client_query.lower():
+            score = max(score, 0.75)
+        if score > best_score:
+            best_score, best = score, f
+
+    if not best:
+        print(json.dumps({'error': 'No matching client folder found'}))
+        return
+
+    tarefas = next(
+        (l for l in best.get('lists', []) if 'tarefa' in l['name'].lower()),
+        None
+    )
+    if not tarefas:
+        print(json.dumps({'error': f"No 'Tarefas' list in folder '{best['name']}'"}))
+        return
+
+    print(json.dumps({
+        'list_id':     tarefas['id'],
+        'list_name':   tarefas['name'],
+        'folder_name': best['name'],
+        'score':       round(best_score, 2),
+    }, ensure_ascii=False))
+
+def clickup_create_tasks(list_id, tasks_file):
+    """
+    Create tasks from a JSON file (array of strings) in the given list.
+    Status: backlog. No assignee.
+    """
+    with open(tasks_file, encoding='utf-8') as f:
+        tasks = json.load(f)
+
+    created = []
+    for name in tasks:
+        r = requests.post(
+            f'https://api.clickup.com/api/v2/list/{list_id}/task',
+            headers=clickup_headers(),
+            json={'name': name, 'status': 'backlog'}
+        )
+        r.raise_for_status()
+        t = r.json()
+        created.append({'id': t['id'], 'name': t['name'], 'url': t.get('url', '')})
+
+    print(json.dumps({'created': len(created), 'tasks': created}, ensure_ascii=False))
+
 # ── Entry point ───────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
@@ -286,12 +354,14 @@ if __name__ == '__main__':
     args = sys.argv[2:]
 
     try:
-        if   cmd == 'tldv_list':        tldv_list()
-        elif cmd == 'tldv_transcript':  tldv_transcript(args[0])
-        elif cmd == 'tldv_info':        tldv_info(args[0])
-        elif cmd == 'clickup_docs':     clickup_docs()
-        elif cmd == 'clickup_find':     clickup_find(args[0])
-        elif cmd == 'clickup_save':     clickup_save(args[0], args[1], args[2])
+        if   cmd == 'tldv_list':             tldv_list()
+        elif cmd == 'tldv_transcript':       tldv_transcript(args[0])
+        elif cmd == 'tldv_info':             tldv_info(args[0])
+        elif cmd == 'clickup_docs':          clickup_docs()
+        elif cmd == 'clickup_find':          clickup_find(args[0])
+        elif cmd == 'clickup_save':          clickup_save(args[0], args[1], args[2], args[3] if len(args) > 3 else '')
+        elif cmd == 'clickup_find_list':     clickup_find_list(args[0])
+        elif cmd == 'clickup_create_tasks':  clickup_create_tasks(args[0], args[1])
         else:
             print(f'Comando desconhecido: {cmd}')
             print(__doc__)
