@@ -104,6 +104,10 @@ footer{border-top:1px solid var(--border);padding:28px 0;margin-top:24px;display
 .flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay{color:rgba(244,243,238,0.2) !important}
 .dayContainer{padding:4px 8px 8px}
 .flatpickr-innerContainer{border-top:1px solid var(--border) !important}
+.flatpickr-day.inRange{background:rgba(1,255,150,0.08) !important;border-color:transparent !important;box-shadow:none !important}
+.flatpickr-day.startRange,.flatpickr-day.endRange{background:var(--accent) !important;border-color:var(--accent) !important;color:#0F2A33 !important;font-weight:700}
+.flatpickr-day.startRange.endRange{border-radius:6px !important}
+.fp-wide{width:280px}
 
 @media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.filter-bar{flex-direction:column;align-items:flex-start}.presets{margin-left:0}.header-right h1,.header-right p{text-align:left}.badges{justify-content:flex-start}}
 @media(max-width:480px){.kpi-grid{grid-template-columns:1fr}}
@@ -127,8 +131,7 @@ footer{border-top:1px solid var(--border);padding:28px 0;margin-top:24px;display
 </header>
 
 <div class="filter-bar">
-  <div class="date-group"><label>De</label><input type="text" id="dateFrom" class="fp-input" placeholder="DD/MM/AAAA" readonly></div>
-  <div class="date-group"><label>Até</label><input type="text" id="dateTo" class="fp-input" placeholder="DD/MM/AAAA" readonly></div>
+  <div class="date-group"><label>Período</label><input type="text" id="datePicker" class="fp-input fp-wide" placeholder="Selecione o período..." readonly></div>
   <div class="vdiv"></div>
   <div class="presets">
     <button class="preset-btn" id="p7d">Últimos 7 dias</button>
@@ -238,7 +241,7 @@ function aggregateCampaigns(list, type){
 
 // ── STATE ──────────────────────────────────────────────────────────────────────
 let currentFrom = '', currentTo = '';
-let cI, cL, fpFrom, fpTo;
+let cI, cL, fp;
 let isUpdating = false;
 
 // ── UPDATE ─────────────────────────────────────────────────────────────────────
@@ -380,72 +383,74 @@ function renderGoogle(spend,imp,clicks,conv,ctr,cpc,camps){
       <tbody>${rows}</tbody></table></div>`:''}`;
 }
 
-// ── FLATPICKR ──────────────────────────────────────────────────────────────────
-const fpCfg={locale:'pt',dateFormat:'d/m/Y',minDate:MIN_DATE,maxDate:MAX_DATE,disableMobile:true};
+// ── DATES ──────────────────────────────────────────────────────────────────────
+const today = new Date();
+const todayISO = toISO(today);
+const EFF_TODAY = todayISO > MAX_DATE ? MAX_DATE : todayISO;
 
-fpFrom = flatpickr('#dateFrom',{...fpCfg, defaultDate:MIN_DATE,
-  onChange([d]){
-    if(!d)return;
-    currentFrom=toISO(d);
-    // Se "De" ficou depois de "Até", ajusta "Até" silenciosamente
-    if(currentFrom>currentTo){ currentTo=currentFrom; fpTo.setDate(d,false); }
-    clearPreset(); update();
-  }
-});
-
-fpTo = flatpickr('#dateTo',{...fpCfg, defaultDate:MAX_DATE,
-  onChange([d]){
-    if(!d)return;
-    currentTo=toISO(d);
-    // Se "Até" ficou antes de "De", ajusta "De" silenciosamente
-    if(currentTo<currentFrom){ currentFrom=currentTo; fpFrom.setDate(d,false); }
-    clearPreset(); update();
-  }
-});
+// Init range = este mês
+(function(){
+  const t=new Date(EFF_TODAY);
+  const f=`${t.getFullYear()}-${pad(t.getMonth()+1)}-01`;
+  currentFrom = f < MIN_DATE ? MIN_DATE : f;
+  currentTo   = EFF_TODAY;
+})();
 
 // ── PRESETS ────────────────────────────────────────────────────────────────────
 function clearPreset(){document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));}
+
 function setRange(from,to,btnId){
   clearPreset();
   if(btnId) document.getElementById(btnId).classList.add('active');
   currentFrom=from; currentTo=to;
-  fpFrom.setDate(from,false);
-  fpTo.setDate(to,false);
+  if(fp) fp.setDate([from,to],false);
   update();
 }
 
-const today = new Date();
-const todayISO = toISO(today);
-// Clamp to MAX_DATE
-const effectiveToday = todayISO > MAX_DATE ? MAX_DATE : todayISO;
-
 document.getElementById('p7d').onclick=()=>{
-  const f=toISO(addDays(new Date(effectiveToday),-6));
-  setRange(f<MIN_DATE?MIN_DATE:f, effectiveToday,'p7d');
+  const f=toISO(addDays(new Date(EFF_TODAY),-6));
+  setRange(f<MIN_DATE?MIN_DATE:f, EFF_TODAY,'p7d');
 };
 document.getElementById('p30d').onclick=()=>{
-  const f=toISO(addDays(new Date(effectiveToday),-29));
-  setRange(f<MIN_DATE?MIN_DATE:f, effectiveToday,'p30d');
+  const f=toISO(addDays(new Date(EFF_TODAY),-29));
+  setRange(f<MIN_DATE?MIN_DATE:f, EFF_TODAY,'p30d');
 };
 document.getElementById('pMes').onclick=()=>{
-  const t=new Date(effectiveToday);
+  const t=new Date(EFF_TODAY);
   const f=`${t.getFullYear()}-${pad(t.getMonth()+1)}-01`;
-  setRange(f, effectiveToday,'pMes');
+  setRange(f<MIN_DATE?MIN_DATE:f, EFF_TODAY,'pMes');
 };
 document.getElementById('pMesAnt').onclick=()=>{
-  const t=new Date(effectiveToday); t.setDate(1); t.setMonth(t.getMonth()-1);
+  const t=new Date(EFF_TODAY); t.setDate(1); t.setMonth(t.getMonth()-1);
   const f=toISO(t);
   const last=new Date(t.getFullYear(),t.getMonth()+1,0);
-  const e=toISO(last)>effectiveToday?effectiveToday:toISO(last);
+  const e=toISO(last)>EFF_TODAY?EFF_TODAY:toISO(last);
   setRange(f<MIN_DATE?MIN_DATE:f, e,'pMesAnt');
 };
 document.getElementById('pTudo').onclick=()=>setRange(MIN_DATE,MAX_DATE,'pTudo');
 
-// ── INIT ───────────────────────────────────────────────────────────────────────
-// Start showing current month
-const t=new Date(effectiveToday);
-const initFrom=`${t.getFullYear()}-${pad(t.getMonth()+1)}-01`;
-setRange(initFrom<MIN_DATE?MIN_DATE:initFrom, effectiveToday,'pMes');
+// ── FLATPICKR RANGE ────────────────────────────────────────────────────────────
+fp = flatpickr('#datePicker',{
+  mode        : 'range',
+  locale      : 'pt',
+  dateFormat  : 'd/m/Y',
+  minDate     : MIN_DATE,
+  maxDate     : MAX_DATE,
+  defaultDate : [currentFrom, currentTo],
+  disableMobile: true,
+  conjunction : ' até ',
+  onChange(dates){
+    if(dates.length < 2) return;
+    currentFrom = toISO(dates[0]);
+    currentTo   = toISO(dates[1]);
+    clearPreset();
+    update();
+  }
+});
+
+// ── INIT LOAD ──────────────────────────────────────────────────────────────────
+document.getElementById('pMes').classList.add('active');
+update();
 </script>
 </body>
 </html>
