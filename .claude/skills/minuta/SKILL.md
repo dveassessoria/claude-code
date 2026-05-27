@@ -1,17 +1,18 @@
 ---
 name: minuta
-description: Gera minuta de reunião com clientes. Busca automaticamente as reuniões mais recentes no TLDV via API, extrai transcrição, gera resumo + próximos passos, salva no ClickUp Docs (hierarquia ano → mês → dia) e entrega mensagem de WhatsApp pronta. Dispara com /minuta, "fazer minuta", "gerar minuta", "minuta da reunião".
+description: Gera minuta de CS com temperatura do cliente, análise de churn, pontos de alerta e próximos passos. Busca reuniões no TLDV via API, gera doc completo no ClickUp e mensagem de WhatsApp com link da gravação. Dispara com /minuta, "fazer minuta", "gerar minuta", "minuta da reunião".
 ---
 
 ## O que essa skill faz
 
-Processo 100% automatizado de minuta:
+Processo 100% automatizado de minuta de CS:
 1. Lista as 5 reuniões mais recentes do TLDV
 2. Usuário confirma qual processar
 3. Busca transcrição completa via API
-4. Gera minuta + próximos passos separados por responsável
+4. Gera doc completo: temperatura, resumo, pontos críticos, oportunidades, análise do CS, próximos passos
 5. Salva no doc "Reuniões" do cliente no ClickUp com hierarquia ano → mês → dia
-6. Entrega mensagem de WhatsApp pronta com o link
+6. Entrega mensagem de WhatsApp com link da gravação no TLDV
+7. (Opcional) Cria tarefas da DVE no ClickUp com template padrão
 
 **Script helper:** `.claude/skills/minuta/api.py`
 **Raiz do projeto:** `/Users/macbookairm4/Documents/DVE Assessoria/Claude Code`
@@ -64,23 +65,34 @@ O `tldv_info` retorna JSON com:
 - `year`, `month`, `day_page`
 - `invitees` — lista de participantes
 
+Guarde também a URL da gravação: `https://tldv.io/app/meetings/{MEETING_ID}` — será usada no Passo 6.
+
 ---
 
 ## Passo 3 — Gerar a minuta
 
-Com a transcrição, gere o conteúdo completo da minuta.
+Com a transcrição, gere o conteúdo completo da minuta de CS.
 
 ### Regras de geração
 
-- Extraia APENAS o que foi explicitamente dito ou combinado na reunião. Nunca invente tarefas.
+- Extraia APENAS o que foi explicitamente dito ou combinado na reunião. Nunca invente informações.
 - Se a transcrição estiver incompleta ou confusa, avise antes de continuar.
 - Mantenha o tom direto e profissional.
+- O doc é base de conhecimento interna — pode ser mais rico em análise, mas sem ser prolixo.
 - Próximos passos: apenas ações concretas, não observações gerais.
 
 ### Nome do cliente na minuta
 
 - Se for pessoa física (médico, advogado, nome individual): use o primeiro nome do `client_contact`
 - Se for empresa (CNPJ, nome corporativo, marca): use o `company`
+
+### Escala de temperatura
+
+Avalie o estado geral do cliente com base na transcrição:
+
+- 🔴 **Crítico** — sinais claros de insatisfação, risco real de churn, problemas sem solução
+- 🟡 **Atenção** — preocupações pontuais, expectativas não atendidas, frição notável
+- 🟢 **Saudável** — cliente engajado, satisfeito, alinhado com a DVE
 
 ### Formato obrigatório para salvar no ClickUp
 
@@ -93,9 +105,45 @@ Com a transcrição, gere o conteúdo completo da minuta.
 
 ---
 
+## Temperatura
+
+{🔴 Crítico / 🟡 Atenção / 🟢 Saudável}
+
+_{1-2 linhas justificando a avaliação com base no que foi dito}_
+
+---
+
 ## Resumo
 
-{3 a 5 parágrafos cobrindo: objetivo da reunião, principais pontos discutidos, decisões tomadas, observações relevantes}
+{2-3 parágrafos: objetivo da reunião, principais pontos discutidos, decisões tomadas}
+
+---
+
+## Pontos Positivos
+
+- {o que está funcionando bem no relacionamento ou nos resultados}
+
+---
+
+## Pontos de Alerta
+
+- {riscos, insatisfações, sinais de churn, expectativas não atendidas}
+
+_(Se não houver, escrever "Nenhum identificado nesta reunião.")_
+
+---
+
+## Oportunidades de Melhoria
+
+- {o que podemos fazer melhor para esse cliente: serviço, entrega, comunicação, resultado}
+
+---
+
+## Análise do CS
+
+- {onde o responsável pelo CS errou ou poderia ter conduzido melhor essa reunião}
+
+_(Análise interna. Se a reunião foi bem conduzida, registrar "Reunião bem conduzida." e não inventar críticas.)_
 
 ---
 
@@ -103,14 +151,12 @@ Com a transcrição, gere o conteúdo completo da minuta.
 
 ### DVE
 
-- {tarefa 1}
-- {tarefa 2}
+- {tarefa}
 - ...
 
 ### {Nome do Cliente ou Empresa}
 
-- {tarefa 1}
-- {tarefa 2}
+- {tarefa}
 - ...
 ```
 
@@ -144,31 +190,28 @@ Mostre a lista e pergunte: "Não achei o doc automaticamente. Qual é o correto?
 cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && python3 .claude/skills/minuta/api.py clickup_save "{DOC_ID}" "{date_DD/MM/YYYY}" "/tmp/minuta_dve.md" "{TLDV_MEETING_URL}"
 ```
 
-O `TLDV_MEETING_URL` vem do campo `url` retornado pelo `tldv_list` (formato `https://tldv.io/app/meetings/{id}`).
+O `TLDV_MEETING_URL` é `https://tldv.io/app/meetings/{MEETING_ID}` (construído a partir do ID no Passo 1).
 
 O script:
 - Navega a hierarquia existente no doc: página raiz → ano ("2026") → mês ("Maio")
 - Cria o nível de ano ou mês somente se não existir
 - Cria a página do dia com o conteúdo da minuta e um link clicável para a gravação no TLDV no topo
-- Retorna JSON com `url` (link interno do ClickUp)
 
-Após salvar, informe o usuário:
-
-> "Minuta salva. Agora abra a página no ClickUp, clique em **Compartilhar > Copiar link público** e me manda o link para eu gerar a mensagem de WhatsApp."
-
-Aguarde o usuário colar o link público.
+Após salvar, siga direto para o Passo 6.
 
 ---
 
 ## Passo 6 — Gerar mensagem de WhatsApp
 
-Gere a mensagem pronta para copiar usando o **link público** que o usuário colou (não o link interno do ClickUp). Formato obrigatório:
+Use o `TLDV_MEETING_URL` (`https://tldv.io/app/meetings/{MEETING_ID}`) como link da mensagem.
+
+Formato obrigatório:
 
 ```
 {saudação} time! Tudo bem?
 
 Segue o resumo da nossa reunião de hoje:
-{url_publico_clickup}
+{tldv_meeting_url}
 
 ✅ Próximas Etapas
 
@@ -208,7 +251,13 @@ Salve a lista de tarefas da DVE (somente DVE, não as do cliente) em `/tmp/dve_t
 ["Tarefa 1", "Tarefa 2", "Tarefa 3"]
 ```
 
-Cada item deve ser o texto exato da tarefa, como estava na seção "DVE" dos próximos passos.
+**Regras para nomes de tarefas:**
+- Máximo 5 palavras
+- Sempre começar com verbo no infinitivo (ex: "Criar", "Enviar", "Revisar", "Ajustar")
+- Sem artigos desnecessários — direto ao ponto
+- O detalhe vai na descrição (via template do ClickUp), não no nome
+- Exemplos corretos: "Criar proposta comercial", "Enviar relatório de tráfego", "Ajustar campanha Meta"
+- Exemplos errados: "Precisamos criar uma proposta atualizada com os novos valores", "Ver como está a campanha"
 
 ### 7b — Encontrar a lista Tarefas do cliente
 
@@ -239,7 +288,7 @@ Mostre um resumo limpo:
 • Tarefa 2
 • ...
 
-Status: backlog | Atribuição: manual
+Template aplicado | Status: backlog | Atribuição: manual
 ```
 
 ---
@@ -249,4 +298,6 @@ Status: backlog | Atribuição: manual
 - Uma pergunta por vez. Não pergunte sobre dois pontos ao mesmo tempo.
 - Se a reunião não tiver próximos passos claros, avise o usuário e pergunte se quer prosseguir assim mesmo.
 - Nunca use travessão (—) nos textos gerados.
-- A minuta no ClickUp é completa e detalhada. A mensagem de WhatsApp é só o resumo executivo + próximas ações.
+- O doc no ClickUp é completo e rico — base de conhecimento interna do CS.
+- A mensagem de WhatsApp é o resumo executivo + próximas ações para o cliente.
+- A temperatura e a análise do CS são internas — não aparecem na mensagem do WhatsApp.
