@@ -10,7 +10,7 @@ A DVE Assessoria é uma assessoria de RevOps (pioneiros no Brasil) cujo objetivo
 
 **Fundação:** Aproximadamente 1,5 anos atrás, começando com zero capital
 
-**Atende clientes:** Base atual de 20 clientes ativos (diversos nichos diferentes)
+**Atende clientes:** Base atual de 22 clientes ativos (diversos nichos diferentes)
 
 **Faturamento atual:** R$ 36.000/mês de MRR (maio de 2026)
 
