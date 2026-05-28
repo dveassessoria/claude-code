@@ -2,7 +2,7 @@
 
 ## Fase
 
-Consolidação e escala. A DVE tem 1,5 ano de operação, 20 clientes ativos e R$33k/mês de MRR — tudo construído via network, sem canal de aquisição estruturado.
+Consolidação e escala. A DVE tem 1,5 ano de operação, 20 clientes ativos e R$36k/mês de MRR — tudo construído via network, sem canal de aquisição estruturado.
 
 O problema central hoje é falta de padronização: a base de clientes cresceu com contratos variados (social media, tráfego, manutenção de site, planejamento editorial), o que dificulta escalar com qualidade. A estratégia agora é simplificar o catálogo, criar canais previsíveis de aquisição e aumentar o ticket médio — operando em duas frentes paralelas.
 
