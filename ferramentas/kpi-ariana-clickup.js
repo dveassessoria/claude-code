@@ -9,7 +9,33 @@ const CONFIG = {
   TEAM_ID: 'SEU_TEAM_ID_AQUI',     // ID do workspace (está na URL: app.clickup.com/{ID}/...)
   ARIANA_USER_ID: '',               // Deixar vazio na primeira vez — rodar findArianaId() pra descobrir
   SHEET_NAME: 'Ariana',            // Nome da aba na planilha
-  DATA_START_ROW: 3,               // Linha onde os dados começam (igual ao modelo do Wesley)
+  DATA_START_ROW: 3,               // Linha onde os dados começam
+};
+
+// Mapeamento de status do ClickUp → valores do dropdown da planilha
+const STATUS_MAP = {
+  'backlog'               : 'Backlog',
+  'to do'                 : 'Backlog',
+  'open'                  : 'Backlog',
+  'in progress'           : 'Andamento',
+  'andamento'             : 'Andamento',
+  'aprovação copy'        : 'Aprovação Copy',
+  'aprovacao copy'        : 'Aprovação Copy',
+  'revisão'               : 'Revisão',
+  'revisao'               : 'Revisão',
+  'review'                : 'Revisão',
+  'correção'              : 'Correção',
+  'correcao'              : 'Correção',
+  'correction'            : 'Correção',
+  'atrasado'              : 'Atrasado',
+  'overdue'               : 'Atrasado',
+  'aprovado internamente' : 'Aprovado Internamente',
+  'aprovação cliente'     : 'Aprovação Cliente',
+  'aprovacao cliente'     : 'Aprovação Cliente',
+  'aprovado'              : 'Aprovado',
+  'complete'              : 'Aprovado',
+  'done'                  : 'Aprovado',
+  'closed'                : 'Aprovado',
 };
 
 // ============================================================
@@ -39,30 +65,50 @@ function importarTarefasAriana() {
   tasks.forEach((task, index) => {
     const row = CONFIG.DATA_START_ROW + index;
 
-    const startDate = task.start_date ? new Date(parseInt(task.start_date)) : '';
-    const dueDate   = task.due_date   ? new Date(parseInt(task.due_date))   : '';
+    const startDate    = task.start_date ? new Date(parseInt(task.start_date)) : '';
+    const dueDate      = task.due_date   ? new Date(parseInt(task.due_date))   : '';
+    const deliveryDate = task.date_done  ? new Date(parseInt(task.date_done))  : '';
 
-    // Extrai nome do cliente a partir do nome da lista (ex: "Gramado Premium - Social")
+    // Cliente: extrai do nome da lista (ex: "Gramado Premium - Social" → "Gramado Premium")
     const clienteRaw = task.list?.name || '';
     const cliente = clienteRaw.split(' - ')[0].trim();
 
-    sheet.getRange(row, 1).setValue(task.name);                                                // A - DEMANDA
-    sheet.getRange(row, 2).setValue(cliente);                                                  // B - CLIENTE
-    sheet.getRange(row, 3).setFormula(`=HYPERLINK("${task.url}","Ver no ClickUp")`);          // C - TAREFA (link)
-    // D (STATUS) — preencher manualmente
-    sheet.getRange(row, 5).setValue(startDate);                                                // E - INICIAL
-    sheet.getRange(row, 6).setValue(dueDate);                                                  // F - VENCIMENTO
-    // G (ENTREGA), H (NO PRAZO), I (CORREÇÕES), J-L — preencher manualmente
+    // Status: mapeia do ClickUp para o valor do dropdown
+    const statusClickup = task.status?.status || '';
+    const statusSheet = STATUS_MAP[statusClickup.toLowerCase().trim()] || statusClickup;
+
+    // Preencher colunas
+    sheet.getRange(row, 1).setValue(task.name);                                        // A - NOME TAREFA
+    sheet.getRange(row, 2).setValue(cliente);                                          // B - CLIENTE
+    sheet.getRange(row, 3).setFormula(`=HYPERLINK("${task.url}","Ver no ClickUp")`);  // C - TAREFA (link)
+    sheet.getRange(row, 4).setValue(statusSheet);                                      // D - STATUS
+    sheet.getRange(row, 5).setValue(startDate);                                        // E - INICIAL
+    sheet.getRange(row, 6).setValue(dueDate);                                          // F - VENCIMENTO
+    sheet.getRange(row, 7).setValue(deliveryDate);                                     // G - ENTREGA (date_done do ClickUp)
+
+    // H - NO PRAZO: fórmula automática (Sim se entregou antes do vencimento)
+    sheet.getRange(row, 8).setFormula(
+      `=IF(G${row}="","",IF(G${row}<=F${row},"Sim","Não"))`
+    );
+
+    // I - CORREÇÕES: preencher manualmente
+
+    // L - TEMPO (dias): fórmula automática (dias entre INICIAL e ENTREGA)
+    sheet.getRange(row, 12).setFormula(
+      `=IF(OR(E${row}="",G${row}=""),"",G${row}-E${row})`
+    );
   });
 
   // Formatar datas
   const totalRows = tasks.length;
   if (totalRows > 0) {
-    sheet.getRange(CONFIG.DATA_START_ROW, 5, totalRows, 1).setNumberFormat('dd/MM/yyyy');
-    sheet.getRange(CONFIG.DATA_START_ROW, 6, totalRows, 1).setNumberFormat('dd/MM/yyyy');
+    sheet.getRange(CONFIG.DATA_START_ROW, 5, totalRows, 1).setNumberFormat('dd/MM/yyyy'); // INICIAL
+    sheet.getRange(CONFIG.DATA_START_ROW, 6, totalRows, 1).setNumberFormat('dd/MM/yyyy'); // VENCIMENTO
+    sheet.getRange(CONFIG.DATA_START_ROW, 7, totalRows, 1).setNumberFormat('dd/MM/yyyy'); // ENTREGA
+    sheet.getRange(CONFIG.DATA_START_ROW, 12, totalRows, 1).setNumberFormat('0');          // TEMPO (dias)
   }
 
-  SpreadsheetApp.getUi().alert(`✅ ${tasks.length} tarefas importadas com sucesso!`);
+  SpreadsheetApp.getUi().alert(`✅ ${tasks.length} tarefas importadas!\n\nPreenchimento automático:\n• Nome, cliente, link\n• Status (do ClickUp)\n• Datas: Inicial, Vencimento, Entrega\n• No Prazo e Tempo (dias) — calculados\n\nPreencher manualmente: Correções e Qualidade.`);
 }
 
 // ============================================================
@@ -74,7 +120,13 @@ function buscarTarefas() {
   let hasMore = true;
 
   while (hasMore) {
-    const url = `https://api.clickup.com/api/v2/team/${CONFIG.TEAM_ID}/task?assignees[]=${CONFIG.ARIANA_USER_ID}&include_closed=true&subtasks=true&page=${page}`;
+    const url = [
+      `https://api.clickup.com/api/v2/team/${CONFIG.TEAM_ID}/task`,
+      `?assignees[]=${CONFIG.ARIANA_USER_ID}`,
+      `&include_closed=true`,
+      `&subtasks=true`,
+      `&page=${page}`
+    ].join('');
 
     const response = UrlFetchApp.fetch(url, {
       headers: { 'Authorization': CONFIG.CLICKUP_TOKEN },
@@ -100,7 +152,7 @@ function buscarTarefas() {
 }
 
 // ============================================================
-// HELPER — descobre o ID da Ariana (rodar uma vez)
+// HELPER — descobre o ID da Ariana (rodar uma vez no setup)
 // Resultado aparece em: Ver > Registros de execução
 // ============================================================
 function findArianaId() {
@@ -129,7 +181,22 @@ function findArianaId() {
 }
 
 // ============================================================
-// CRIAR ABA SE NÃO EXISTIR (com cabeçalhos iguais ao Wesley)
+// HELPER — testa o mapeamento de status (opcional)
+// Mostra no log os status únicos encontrados nas tarefas
+// ============================================================
+function verStatusDasTasksAriana() {
+  const tasks = buscarTarefas();
+  const statusUnicos = [...new Set(tasks.map(t => t.status?.status || 'sem status'))];
+
+  Logger.log('=== STATUS ENCONTRADOS NO CLICKUP ===');
+  statusUnicos.forEach(s => {
+    const mapeado = STATUS_MAP[s.toLowerCase().trim()] || '⚠️ SEM MAPEAMENTO — adicionar no STATUS_MAP';
+    Logger.log(`"${s}" → "${mapeado}"`);
+  });
+}
+
+// ============================================================
+// CRIAR ABA SE NÃO EXISTIR (com cabeçalhos iguais ao modelo)
 // ============================================================
 function getOrCreateSheet(name) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -138,26 +205,34 @@ function getOrCreateSheet(name) {
   if (!sheet) {
     sheet = ss.insertSheet(name);
     criarCabecalhos(sheet);
-    Logger.log(`Aba "${name}" criada com sucesso.`);
   }
 
   return sheet;
 }
 
 function criarCabecalhos(sheet) {
-  // Linha 1 — título do mês (igual ao Wesley)
-  sheet.getRange('A1:M1').merge().setValue('Ariana');
-  sheet.getRange('A1').setBackground('#c6efce').setFontWeight('bold').setHorizontalAlignment('center');
+  const mesAtual = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'MMMM yyyy');
 
-  // Linha 2 — cabeçalhos das colunas
+  // Linha 1 — título do mês
+  sheet.getRange('A1:M1').merge().setValue(mesAtual);
+  sheet.getRange('A1')
+    .setBackground('#c6efce')
+    .setFontWeight('bold')
+    .setFontSize(14)
+    .setHorizontalAlignment('center');
+
+  // Linha 2 — cabeçalhos
   const headers = [
-    'DEMANDA', 'CLIENTE', 'TAREFA', 'STATUS', 'INICIAL', 'VENCIMENTO',
+    'NOME TAREFA', 'CLIENTE', 'TAREFA', 'STATUS', 'INICIAL', 'VENCIMENTO',
     'ENTREGA', 'NO PRAZO', 'CORREÇÕES', 'NO PRAZO', 'QUALIDADE', 'TEMPO (dias)'
   ];
 
   const headerRange = sheet.getRange(2, 1, 1, headers.length);
   headerRange.setValues([headers]);
-  headerRange.setBackground('#000000').setFontColor('#ffffff').setFontWeight('bold');
+  headerRange
+    .setBackground('#000000')
+    .setFontColor('#ffffff')
+    .setFontWeight('bold');
 }
 
 // ============================================================
@@ -165,9 +240,10 @@ function criarCabecalhos(sheet) {
 // ============================================================
 function onOpen() {
   SpreadsheetApp.getUi()
-    .createMenu('📋 KPIs Ariana')
+    .createMenu('KPIs Ariana')
     .addItem('Importar tarefas do ClickUp', 'importarTarefasAriana')
     .addSeparator()
+    .addItem('Ver status existentes no ClickUp', 'verStatusDasTasksAriana')
     .addItem('Descobrir ID da Ariana (setup inicial)', 'findArianaId')
     .addToUi();
 }
