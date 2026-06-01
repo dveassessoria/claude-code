@@ -322,7 +322,7 @@ def clickup_find_list(client_query):
         'score':       round(best_score, 2),
     }, ensure_ascii=False))
 
-TASK_TEMPLATE_ID = '868ju77ft'
+TASK_TEMPLATE_ID = '868hdd812'
 
 def clickup_create_tasks(list_id, tasks_file):
     """
@@ -348,7 +348,8 @@ def clickup_create_tasks(list_id, tasks_file):
                 json={'name': name, 'status': 'backlog'}
             )
         r.raise_for_status()
-        t = r.json()
+        raw = r.json()
+        t = raw.get('task', raw)
         created.append({'id': t['id'], 'name': t['name'], 'url': t.get('url', '')})
 
     print(json.dumps({'created': len(created), 'tasks': created}, ensure_ascii=False))
