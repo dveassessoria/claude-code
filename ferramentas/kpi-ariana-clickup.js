@@ -70,17 +70,19 @@ function importarTarefasAriana() {
     const startDate = task.start_date ? new Date(parseInt(task.start_date)) : '';
     const dueDate   = task.due_date   ? new Date(parseInt(task.due_date))   : '';
 
-    // Cliente: extrai do nome da lista (ex: "Gramado Premium - Social" → "Gramado Premium")
-    const clienteRaw = task.list?.name || '';
-    const cliente = clienteRaw.split(' - ')[0].trim();
+    // Cliente: vem do nome da pasta (folder) no ClickUp
+    const cliente = task.folder?.name || task.list?.name || '';
 
     // Status: mapeia do ClickUp para o valor do dropdown
     const statusClickup = task.status?.status || '';
     const statusSheet = STATUS_MAP[statusClickup.toLowerCase().trim()] || statusClickup;
 
-    sheet.getRange(row, 1).setValue(task.name);                                        // A - NOME TAREFA
-    sheet.getRange(row, 2).setValue(cliente);                                          // B - CLIENTE
-    sheet.getRange(row, 3).setFormula(`=HYPERLINK("${task.url}","Ver no ClickUp")`);  // C - TAREFA (link)
+    // Link: construído pelo ID da tarefa para evitar erros de caracteres especiais
+    const taskUrl = `https://app.clickup.com/t/${task.id}`;
+
+    sheet.getRange(row, 1).setValue(task.name);                                           // A - NOME TAREFA
+    sheet.getRange(row, 2).setValue(cliente);                                             // B - CLIENTE
+    sheet.getRange(row, 3).setFormula(`=HYPERLINK("${taskUrl}","Abrir no ClickUp")`);    // C - LINK
     sheet.getRange(row, 4).setValue(statusSheet);                                      // D - STATUS
     sheet.getRange(row, 5).setValue(startDate);                                        // E - INICIAL
     sheet.getRange(row, 6).setValue(dueDate);                                          // F - VENCIMENTO
@@ -238,7 +240,7 @@ function criarCabecalhos(sheet) {
     .setHorizontalAlignment('center');
 
   const headers = [
-    'NOME TAREFA', 'CLIENTE', 'TAREFA', 'STATUS', 'INICIAL', 'VENCIMENTO',
+    'NOME TAREFA', 'CLIENTE', 'LINK', 'STATUS', 'INICIAL', 'VENCIMENTO',
     'ENTREGA', 'NO PRAZO', 'CORREÇÕES', 'NO PRAZO', 'QUALIDADE', 'TEMPO (dias)'
   ];
 
