@@ -8,7 +8,7 @@ const CONFIG = {
   CLICKUP_TOKEN: 'pk_270606797_VOAC2C84I4VTYNR680PUCY5OD9CS2FE8',
   TEAM_ID: '9011393934',
   ARIANA_USER_ID: '290564417',      // Ari (aricriativa.br@gmail.com)
-  SHEET_NAME: 'Maio Diário',       // Nome exato da aba na planilha
+  SHEET_NAME: 'Maio - Diário',     // Nome exato da aba na planilha
   DATA_START_ROW: 3,               // Linha onde os dados começam
   // Mês de referência (0 = Janeiro, 4 = Maio, 11 = Dezembro)
   // Deixar null para usar o mês atual automaticamente
