@@ -155,15 +155,6 @@ def escrever_tarefas(sheet, tasks):
         status = STATUS_MAP.get(status_raw.lower().strip(), "")
         task_url = f"https://app.clickup.com/t/{t['id']}"
 
-        conclusao = ""
-        no_prazo = ""
-        if t.get("date_closed"):
-            conclusao_dt = datetime.fromtimestamp(int(t["date_closed"]) / 1000)
-            conclusao = conclusao_dt.strftime("%d/%m/%Y")
-            if t.get("due_date"):
-                due_dt = datetime.fromtimestamp(int(t["due_date"]) / 1000)
-                no_prazo = "SIM" if conclusao_dt.date() <= due_dt.date() else "NÃO"
-
         linhas.append([
             t.get("name", ""),  # A - NOME TAREFA
             cliente,             # B - CLIENTE
@@ -171,8 +162,8 @@ def escrever_tarefas(sheet, tasks):
             status,              # D - STATUS
             start,               # E - INICIAL
             due,                 # F - VENCIMENTO
-            conclusao,           # G - CONCLUSÃO (data de fechamento no ClickUp)
-            no_prazo,            # H - NO PRAZO (SIM/NÃO automático)
+            "",                  # G - CONCLUSÃO (manual em maio; automático a partir de junho)
+            "",                  # H - NO PRAZO (manual em maio; automático a partir de junho)
         ])
         links.append(task_url)
 
