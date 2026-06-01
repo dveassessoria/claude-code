@@ -74,8 +74,9 @@ function importarTarefasAriana() {
     const cliente = task.folder?.name || task.list?.name || '';
 
     // Status: mapeia do ClickUp para o valor do dropdown
+    // Se não tiver mapeamento, deixa em branco para não violar a validação da planilha
     const statusClickup = task.status?.status || '';
-    const statusSheet = STATUS_MAP[statusClickup.toLowerCase().trim()] || statusClickup;
+    const statusSheet = STATUS_MAP[statusClickup.toLowerCase().trim()] || '';
 
     // Link: construído pelo ID da tarefa para evitar erros de caracteres especiais
     const taskUrl = `https://app.clickup.com/t/${task.id}`;
