@@ -60,6 +60,9 @@ STATUS_MAP = {
     "aprovado internamente": "Aprovado Internamente",
     "aprovação cliente": "Aprovação Cliente", "aprovacao cliente": "Aprovação Cliente",
     "aprovado": "Aprovado", "complete": "Aprovado", "done": "Aprovado", "closed": "Aprovado",
+    "concluido": "Aprovado", "concluído": "Aprovado",
+    "enviado p/ cliente": "Aprovação Cliente",
+    "revisão interna": "Revisão", "revisao interna": "Revisão",
 }
 
 # ── ClickUp ───────────────────────────────────────────────────────────────────
