@@ -83,17 +83,17 @@ function importarTarefasAriana() {
 
     sheet.getRange(row, 1).setValue(task.name);                                           // A - NOME TAREFA
     sheet.getRange(row, 2).setValue(cliente);                                             // B - CLIENTE
-    sheet.getRange(row, 3).setFormula(`=HYPERLINK("${taskUrl}","Abrir no ClickUp")`);    // C - LINK
+    const richText = SpreadsheetApp.newRichTextValue()                                    // C - LINK
+      .setText('Abrir no ClickUp')
+      .setLinkUrl(taskUrl)
+      .build();
+    sheet.getRange(row, 3).setRichTextValue(richText);
     sheet.getRange(row, 4).setValue(statusSheet);                                      // D - STATUS
     sheet.getRange(row, 5).setValue(startDate);                                        // E - INICIAL
     sheet.getRange(row, 6).setValue(dueDate);                                          // F - VENCIMENTO
 
-    // G - ENTREGA: preencher manualmente (olhar comentário da tarefa onde a Ariana avisa entrega)
-
-    // H - NO PRAZO: fórmula automática — calcula assim que ENTREGA for preenchida
-    sheet.getRange(row, 8).setFormula(
-      `=IF(G${row}="","",IF(G${row}<=F${row},"Sim","Não"))`
-    );
+    // G - ENTREGA: preencher manualmente
+    // H - NO PRAZO: calculado pelo onEdit quando ENTREGA for preenchida
   });
 
   // Formatar datas
@@ -248,6 +248,32 @@ function criarCabecalhos(sheet) {
   const headerRange = sheet.getRange(2, 1, 1, headers.length);
   headerRange.setValues([headers]);
   headerRange.setBackground('#000000').setFontColor('#ffffff').setFontWeight('bold');
+}
+
+// ============================================================
+// AUTO NO PRAZO — calcula "Sim"/"Não" ao preencher ENTREGA
+// Dispara automaticamente quando qualquer célula é editada
+// ============================================================
+function onEdit(e) {
+  const sheet = e.range.getSheet();
+  if (sheet.getName() !== CONFIG.SHEET_NAME) return;
+
+  const col = e.range.getColumn();
+  const row = e.range.getRow();
+
+  // Só age quando editar coluna G (ENTREGA), a partir da linha de dados
+  if (col !== 7 || row < CONFIG.DATA_START_ROW) return;
+
+  const entrega    = sheet.getRange(row, 7).getValue(); // G - ENTREGA
+  const vencimento = sheet.getRange(row, 6).getValue(); // F - VENCIMENTO
+  const noPrazoCell = sheet.getRange(row, 8);           // H - NO PRAZO
+
+  if (!entrega) {
+    noPrazoCell.setValue('');
+    return;
+  }
+
+  noPrazoCell.setValue(entrega <= vencimento ? 'Sim' : 'Não');
 }
 
 // ============================================================
