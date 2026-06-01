@@ -4,17 +4,20 @@ Importa tarefas do ClickUp e escreve direto no Google Sheets.
 
 Uso:
   python3 api.py importar <colaborador> <mes>
+  python3 api.py mensal   <colaborador> <mes>
 
 Exemplos:
   python3 api.py importar ariana maio
+  python3 api.py mensal   ariana maio
   python3 api.py importar ariana junho
-  python3 api.py importar ariana julho
+  python3 api.py mensal   ariana junho
 """
 
 import sys
 import os
 import json
 import requests
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from dotenv import dotenv_values
@@ -23,9 +26,9 @@ from dotenv import dotenv_values
 BASE_DIR = Path(__file__).parent.parent.parent.parent  # raiz do projeto
 _env = dotenv_values(BASE_DIR / ".env")
 
-CLICKUP_TOKEN   = _env.get("CLICKUP_API_TOKEN", "")
-TEAM_ID         = "9011393934"
-SPREADSHEET_ID  = _env.get("KPI_SPREADSHEET_ID", "")
+CLICKUP_TOKEN    = _env.get("CLICKUP_API_TOKEN", "")
+TEAM_ID          = "9011393934"
+SPREADSHEET_ID   = _env.get("KPI_SPREADSHEET_ID", "")
 CREDENTIALS_PATH = BASE_DIR / _env.get("GOOGLE_CREDENTIALS_PATH", "")
 
 # ── Colaboradores ─────────────────────────────────────────────────────────────
@@ -65,9 +68,29 @@ STATUS_MAP = {
     "finalizado": "FINALIZADO", "closed": "FINALIZADO",
 }
 
+# ── Categorias para visão mensal ──────────────────────────────────────────────
+# Ordem importa: primeira correspondência vence
+CATEGORIAS_REGRAS = [
+    ("Anúncios",       ["ADS"]),
+    ("Social Media",   ["COPY SM", "Social Media", "Carrossel", "Carrosséis", "Carrosseis",
+                        "Legenda", "Destaques", "Planejamento Mensal", "Calendário de Publicações"]),
+    ("Blog",           ["Blog"]),
+    ("Roteiro",        ["Roteiro", "roteiro"]),
+    ("Bot / WhatsApp", ["BotConversa"]),
+    ("Landing Page",   ["Landing Page"]),
+]
+CATEGORIA_DEFAULT = "Documentos"
+
+def categorizar(nome_tarefa):
+    nome_lower = nome_tarefa.lower()
+    for categoria, keywords in CATEGORIAS_REGRAS:
+        for kw in keywords:
+            if kw.lower() in nome_lower:
+                return categoria
+    return CATEGORIA_DEFAULT
+
 # ── ClickUp ───────────────────────────────────────────────────────────────────
 def buscar_tarefas(user_id, mes_num, ano):
-    """Busca todas as tarefas do colaborador e filtra pelo mês/ano de vencimento."""
     todas = []
     page = 0
 
@@ -84,7 +107,6 @@ def buscar_tarefas(user_id, mes_num, ano):
             break
         page += 1
 
-    # Filtrar por mês/ano e remover tarefas de postagem
     resultado = []
     for t in todas:
         if not t.get("due_date"):
@@ -99,26 +121,28 @@ def buscar_tarefas(user_id, mes_num, ano):
 
     return resultado
 
-# ── Google Sheets ─────────────────────────────────────────────────────────────
-def get_sheet(nome_aba):
+# ── Google Sheets — conexão ───────────────────────────────────────────────────
+def get_spreadsheet():
     import gspread
     from google.oauth2.service_account import Credentials
 
     scopes = ["https://www.googleapis.com/auth/spreadsheets"]
     creds = Credentials.from_service_account_file(str(CREDENTIALS_PATH), scopes=scopes)
     gc = gspread.authorize(creds)
-    planilha = gc.open_by_key(SPREADSHEET_ID)
+    return gc.open_by_key(SPREADSHEET_ID)
 
+def get_sheet(nome_aba):
+    import gspread
+    planilha = get_spreadsheet()
     try:
         sheet = planilha.worksheet(nome_aba)
     except gspread.exceptions.WorksheetNotFound:
         sheet = planilha.add_worksheet(title=nome_aba, rows=500, cols=15)
         configurar_cabecalhos(sheet, nome_aba)
-
     return sheet
 
 def configurar_cabecalhos(sheet, nome_aba):
-    mes_titulo = nome_aba.split(" - ")[0]
+    mes_titulo = nome_aba.split(" (")[0]
     sheet.merge_cells("A1:M1")
     sheet.update("A1", [[mes_titulo]])
     sheet.format("A1", {"textFormat": {"bold": True, "fontSize": 14},
@@ -126,15 +150,13 @@ def configurar_cabecalhos(sheet, nome_aba):
                         "backgroundColor": {"red": 0.776, "green": 0.937, "blue": 0.808}})
 
     headers = ["NOME TAREFA", "CLIENTE", "LINK", "STATUS", "INICIAL",
-               "VENCIMENTO", "ENTREGA", "NO PRAZO", "CORREÇÕES", "NO PRAZO",
-               "QUALIDADE", "TEMPO (dias)"]
+               "VENCIMENTO", "CONCLUSÃO", "NO PRAZO", "CORREÇÕES", "QUALIDADE", "TEMPO (dias)"]
     sheet.update("A2", [headers])
-    sheet.format("A2:L2", {"textFormat": {"bold": True, "foregroundColor": {"red": 1, "green": 1, "blue": 1}},
+    sheet.format("A2:K2", {"textFormat": {"bold": True, "foregroundColor": {"red": 1, "green": 1, "blue": 1}},
                             "backgroundColor": {"red": 0, "green": 0, "blue": 0}})
 
+# ── Google Sheets — escrita diária ────────────────────────────────────────────
 def escrever_tarefas(sheet, tasks):
-    """Limpa dados anteriores e escreve as tarefas a partir da linha 3."""
-    # Limpar dados existentes (mantém cabeçalho)
     ultima_linha = max(len(tasks) + 10, 50)
     sheet.batch_clear([f"A3:M{ultima_linha}"])
 
@@ -156,14 +178,14 @@ def escrever_tarefas(sheet, tasks):
         task_url = f"https://app.clickup.com/t/{t['id']}"
 
         linhas.append([
-            t.get("name", ""),  # A - NOME TAREFA
-            cliente,             # B - CLIENTE
-            "Abrir no ClickUp",  # C - LINK (texto; URL aplicada abaixo)
-            status,              # D - STATUS
-            start,               # E - INICIAL
-            due,                 # F - VENCIMENTO
-            "",                  # G - CONCLUSÃO (manual em maio; automático a partir de junho)
-            "",                  # H - NO PRAZO (manual em maio; automático a partir de junho)
+            t.get("name", ""),
+            cliente,
+            "Abrir no ClickUp",
+            status,
+            start,
+            due,
+            "",   # G - CONCLUSÃO (manual em maio; automático a partir de junho)
+            "",   # H - NO PRAZO (manual em maio; automático a partir de junho)
         ])
         links.append(task_url)
 
@@ -172,10 +194,10 @@ def escrever_tarefas(sheet, tasks):
 
     sheet.update(f"A3:H{2 + len(linhas)}", linhas, value_input_option="USER_ENTERED")
 
-    # Aplicar hiperlinks na coluna C via textFormatRuns (evita erro com HYPERLINK())
+    # Hiperlinks na coluna C via textFormatRuns (evita erro com HYPERLINK())
     requests_body = []
     for i, url in enumerate(links):
-        row = i + 3  # começa na linha 3
+        row = i + 3
         requests_body.append({
             "updateCells": {
                 "range": {
@@ -200,6 +222,107 @@ def escrever_tarefas(sheet, tasks):
 
     return len(linhas)
 
+# ── Google Sheets — escrita mensal ────────────────────────────────────────────
+def escrever_mensal(planilha, mes_nome, dados_diarios):
+    import gspread
+
+    nome_aba = f"{mes_nome} (mensal)"
+
+    # Agregar por categoria
+    grupos = defaultdict(lambda: {"total": 0, "sim": 0, "tempos": []})
+
+    for row in dados_diarios:
+        nome = row[0].strip() if len(row) > 0 else ""
+        if not nome:
+            continue
+
+        inicial_str    = row[4].strip() if len(row) > 4 else ""
+        vencimento_str = row[5].strip() if len(row) > 5 else ""
+        no_prazo       = row[7].strip().upper() if len(row) > 7 else ""
+
+        cat = categorizar(nome)
+        grupos[cat]["total"] += 1
+
+        if no_prazo == "SIM":
+            grupos[cat]["sim"] += 1
+
+        if inicial_str and vencimento_str:
+            try:
+                ini = datetime.strptime(inicial_str, "%d/%m/%Y")
+                ven = datetime.strptime(vencimento_str, "%d/%m/%Y")
+                dias = (ven - ini).days
+                if dias >= 0:
+                    grupos[cat]["tempos"].append(dias)
+            except Exception:
+                pass
+
+    if not grupos:
+        return 0
+
+    # Montar linhas ordenadas por total (maior primeiro)
+    linhas = []
+    total_geral_ent = 0
+    total_geral_sim = 0
+
+    for cat, g in sorted(grupos.items(), key=lambda x: x[1]["total"], reverse=True):
+        total  = g["total"]
+        sim    = g["sim"]
+        atraso = total - sim
+        pct_prazo  = f"{sim / total * 100:.2f}%".replace(".", ",") if total > 0 else "0,00%"
+        pct_atraso = f"{atraso / total * 100:.2f}%".replace(".", ",") if total > 0 else "0,00%"
+        tempos = g["tempos"]
+        tempo_medio = str(round(sum(tempos) / len(tempos), 1)).replace(".", ",") if tempos else "-"
+
+        linhas.append([cat, total, sim, pct_prazo, atraso, pct_atraso, tempo_medio])
+        total_geral_ent += total
+        total_geral_sim += sim
+
+    # Linha de total
+    t_atraso    = total_geral_ent - total_geral_sim
+    t_pct_prazo  = f"{total_geral_sim / total_geral_ent * 100:.2f}%".replace(".", ",") if total_geral_ent > 0 else "0,00%"
+    t_pct_atraso = f"{t_atraso / total_geral_ent * 100:.2f}%".replace(".", ",") if total_geral_ent > 0 else "0,00%"
+    linha_total  = ["Total", total_geral_ent, total_geral_sim, t_pct_prazo, t_atraso, t_pct_atraso, "-"]
+
+    # Aba mensal
+    try:
+        sheet = planilha.worksheet(nome_aba)
+    except gspread.exceptions.WorksheetNotFound:
+        sheet = planilha.add_worksheet(title=nome_aba, rows=100, cols=10)
+
+    sheet.clear()
+
+    # Linha 1: título
+    sheet.merge_cells("A1:G1")
+    sheet.update(values=[[mes_nome]], range_name="A1")
+    sheet.format("A1", {
+        "textFormat": {"bold": True, "fontSize": 14, "italic": True},
+        "horizontalAlignment": "RIGHT",
+        "backgroundColor": {"red": 0.851, "green": 0.918, "blue": 0.827}
+    })
+
+    # Linha 2: cabeçalhos
+    headers = ["DEMANDA", "ENTREGAS (total)", "NO PRAZO (total)",
+               "% NO PRAZO", "EM ATRASO", "% EM ATRASO", "TEMPO MÉDIO"]
+    sheet.update(values=[headers], range_name="A2:G2")
+    sheet.format("A2:G2", {
+        "textFormat": {"bold": True, "foregroundColor": {"red": 1, "green": 1, "blue": 1}},
+        "backgroundColor": {"red": 0, "green": 0, "blue": 0},
+        "horizontalAlignment": "CENTER"
+    })
+
+    # Linhas de categoria
+    ultima = 2 + len(linhas)
+    sheet.update(values=linhas, range_name=f"A3:G{ultima}")
+
+    # Linha de total
+    num_total = ultima + 1
+    sheet.update(values=[linha_total], range_name=f"A{num_total}:G{num_total}")
+    sheet.format(f"A{num_total}:G{num_total}", {
+        "textFormat": {"bold": True},
+        "backgroundColor": {"red": 0.851, "green": 0.918, "blue": 0.827}
+    })
+
+    return total_geral_ent
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 def cmd_importar(colaborador_key, mes_key):
@@ -232,6 +355,39 @@ def cmd_importar(colaborador_key, mes_key):
     print(f"✅ {total} tarefas importadas na aba '{nome_aba}'.")
 
 
+def cmd_mensal(colaborador_key, mes_key):
+    colaborador = COLABORADORES.get(colaborador_key.lower())
+    if not colaborador:
+        disponiveis = ", ".join(COLABORADORES.keys())
+        print(f"Colaborador '{colaborador_key}' não encontrado. Disponíveis: {disponiveis}")
+        sys.exit(1)
+
+    mes_num = MESES.get(mes_key.lower())
+    if not mes_num:
+        print(f"Mês '{mes_key}' não reconhecido.")
+        sys.exit(1)
+
+    mes_nome = MESES_NOME[mes_num]
+    nome_aba_diario = f"{mes_nome} (diário)"
+
+    planilha = get_spreadsheet()
+
+    print(f"Lendo dados de '{nome_aba_diario}'...")
+    try:
+        import gspread
+        sheet_diario = planilha.worksheet(nome_aba_diario)
+    except Exception:
+        print(f"Aba '{nome_aba_diario}' não encontrada. Rode 'importar {colaborador_key} {mes_key}' primeiro.")
+        sys.exit(1)
+
+    rows = sheet_diario.get_all_values()
+    dados = rows[2:]  # pula título (row 0) e cabeçalho (row 1)
+
+    print(f"Gerando visão mensal...")
+    total = escrever_mensal(planilha, mes_nome, dados)
+    print(f"✅ Mensal de {mes_nome} gerada — {total} tarefas em {len([r for r in dados if r[0].strip()])} linhas.")
+
+
 if __name__ == "__main__":
     args = sys.argv[1:]
 
@@ -241,6 +397,8 @@ if __name__ == "__main__":
 
     if args[0] == "importar" and len(args) == 3:
         cmd_importar(args[1], args[2])
+    elif args[0] == "mensal" and len(args) == 3:
+        cmd_mensal(args[1], args[2])
     else:
         print(f"Comando não reconhecido: {' '.join(args)}")
         print(__doc__)
