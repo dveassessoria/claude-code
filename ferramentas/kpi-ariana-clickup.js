@@ -15,6 +15,15 @@ const CONFIG = {
   MES_REFERENCIA: null,
 };
 
+// Status do ClickUp que NÃO devem ser importados (tarefas de postagem)
+const STATUS_IGNORAR = [
+  'pronto para postar',
+  'programado',
+  'postado',
+  'publicado',
+  'agendado',
+];
+
 // Mapeamento de status do ClickUp → valores do dropdown da planilha
 const STATUS_MAP = {
   'backlog'               : 'Backlog',
@@ -127,8 +136,14 @@ function filtrarPorMes(tasks) {
 
   return tasks.filter(task => {
     if (!task.due_date) return false;
+
     const due = new Date(parseInt(task.due_date));
-    return due.getMonth() === mes && due.getFullYear() === ano;
+    if (due.getMonth() !== mes || due.getFullYear() !== ano) return false;
+
+    const status = (task.status?.status || '').toLowerCase().trim();
+    if (STATUS_IGNORAR.includes(status)) return false;
+
+    return true;
   });
 }
 
