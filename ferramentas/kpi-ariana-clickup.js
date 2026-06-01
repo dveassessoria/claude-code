@@ -10,9 +10,6 @@ const CONFIG = {
   ARIANA_USER_ID: '290564417',      // Ari (aricriativa.br@gmail.com)
   SHEET_NAME: 'Maio - Diário',     // Nome exato da aba na planilha
   DATA_START_ROW: 3,               // Linha onde os dados começam
-  // Mês de referência (0 = Janeiro, 4 = Maio, 11 = Dezembro)
-  // Deixar null para usar o mês atual automaticamente
-  MES_REFERENCIA: null,
 };
 
 // Status do ClickUp que NÃO devem ser importados (tarefas de postagem)
@@ -59,7 +56,7 @@ function importarTarefasAriana() {
 
   const sheet = getOrCreateSheet(CONFIG.SHEET_NAME);
   const todasTasks = buscarTarefas();
-  const tasks = filtrarPorMes(todasTasks);
+  const tasks = filtrarPorMes(todasTasks, CONFIG.SHEET_NAME);
 
   if (tasks.length === 0) {
     SpreadsheetApp.getUi().alert('Nenhuma tarefa encontrada para a Ariana no mês de referência.');
@@ -126,13 +123,34 @@ function importarTarefasAriana() {
 }
 
 // ============================================================
-// FILTRAR TAREFAS PELO MÊS DE REFERÊNCIA
+// DETECTAR MÊS E ANO A PARTIR DO NOME DA ABA
+// Lê "Maio - Diário", "Junho - Mensal", etc. e extrai o mês
+// ============================================================
+const MESES_PT = {
+  'janeiro': 0, 'fevereiro': 1, 'março': 2,  'marco': 2,
+  'abril': 3,   'maio': 4,      'junho': 5,
+  'julho': 6,   'agosto': 7,    'setembro': 8,
+  'outubro': 9, 'novembro': 10, 'dezembro': 11,
+};
+
+function detectarMesDoNomeDaAba(nomeDaAba) {
+  const partes = nomeDaAba.toLowerCase().split(/[\s\-–]+/);
+  for (const parte of partes) {
+    if (MESES_PT[parte] !== undefined) {
+      return MESES_PT[parte];
+    }
+  }
+  // Se não encontrar, usa o mês atual
+  return new Date().getMonth();
+}
+
+// ============================================================
+// FILTRAR TAREFAS PELO MÊS DA ABA
 // Usa a data de vencimento (due_date) como referência
 // ============================================================
-function filtrarPorMes(tasks) {
-  const hoje = new Date();
-  const mes = CONFIG.MES_REFERENCIA !== null ? CONFIG.MES_REFERENCIA : hoje.getMonth();
-  const ano = hoje.getFullYear();
+function filtrarPorMes(tasks, nomeDaAba) {
+  const mes = detectarMesDoNomeDaAba(nomeDaAba);
+  const ano = new Date().getFullYear();
 
   return tasks.filter(task => {
     if (!task.due_date) return false;
