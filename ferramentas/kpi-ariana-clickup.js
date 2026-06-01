@@ -8,8 +8,11 @@ const CONFIG = {
   CLICKUP_TOKEN: 'pk_270606797_VOAC2C84I4VTYNR680PUCY5OD9CS2FE8',
   TEAM_ID: '9011393934',
   ARIANA_USER_ID: '290564417',      // Ari (aricriativa.br@gmail.com)
-  SHEET_NAME: 'Ariana',            // Nome da aba na planilha
+  SHEET_NAME: 'Maio Diário',       // Nome exato da aba na planilha
   DATA_START_ROW: 3,               // Linha onde os dados começam
+  // Mês de referência (0 = Janeiro, 4 = Maio, 11 = Dezembro)
+  // Deixar null para usar o mês atual automaticamente
+  MES_REFERENCIA: null,
 };
 
 // Mapeamento de status do ClickUp → valores do dropdown da planilha
@@ -46,10 +49,11 @@ function importarTarefasAriana() {
   }
 
   const sheet = getOrCreateSheet(CONFIG.SHEET_NAME);
-  const tasks = buscarTarefas();
+  const todasTasks = buscarTarefas();
+  const tasks = filtrarPorMes(todasTasks);
 
   if (tasks.length === 0) {
-    SpreadsheetApp.getUi().alert('Nenhuma tarefa encontrada para a Ariana.');
+    SpreadsheetApp.getUi().alert('Nenhuma tarefa encontrada para a Ariana no mês de referência.');
     return;
   }
 
@@ -107,6 +111,22 @@ function importarTarefasAriana() {
     `• Entrega (ver comentário da tarefa no ClickUp)\n` +
     `• Correções e Qualidade`
   );
+}
+
+// ============================================================
+// FILTRAR TAREFAS PELO MÊS DE REFERÊNCIA
+// Usa a data de vencimento (due_date) como referência
+// ============================================================
+function filtrarPorMes(tasks) {
+  const hoje = new Date();
+  const mes = CONFIG.MES_REFERENCIA !== null ? CONFIG.MES_REFERENCIA : hoje.getMonth();
+  const ano = hoje.getFullYear();
+
+  return tasks.filter(task => {
+    if (!task.due_date) return false;
+    const due = new Date(parseInt(task.due_date));
+    return due.getMonth() === mes && due.getFullYear() === ano;
+  });
 }
 
 // ============================================================
