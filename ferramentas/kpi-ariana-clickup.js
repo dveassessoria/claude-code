@@ -5,8 +5,8 @@
 
 // ⚙️ CONFIGURAÇÃO — preencha aqui antes de rodar
 const CONFIG = {
-  CLICKUP_TOKEN: 'SEU_TOKEN_AQUI',  // Seu token de API do ClickUp
-  TEAM_ID: 'SEU_TEAM_ID_AQUI',     // ID do workspace (está na URL: app.clickup.com/{ID}/...)
+  CLICKUP_TOKEN: 'pk_270606797_VOAC2C84I4VTYNR680PUCY5OD9CS2FE8',
+  TEAM_ID: '9011393934',
   ARIANA_USER_ID: '',               // Deixar vazio na primeira vez — rodar findArianaId() pra descobrir
   SHEET_NAME: 'Ariana',            // Nome da aba na planilha
   DATA_START_ROW: 3,               // Linha onde os dados começam
