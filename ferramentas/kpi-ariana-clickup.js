@@ -26,9 +26,7 @@ const STATUS_MAP = {
   'review'                : 'Revisão',
   'correção'              : 'Correção',
   'correcao'              : 'Correção',
-  'correction'            : 'Correção',
   'atrasado'              : 'Atrasado',
-  'overdue'               : 'Atrasado',
   'aprovado internamente' : 'Aprovado Internamente',
   'aprovação cliente'     : 'Aprovação Cliente',
   'aprovacao cliente'     : 'Aprovação Cliente',
@@ -65,9 +63,8 @@ function importarTarefasAriana() {
   tasks.forEach((task, index) => {
     const row = CONFIG.DATA_START_ROW + index;
 
-    const startDate    = task.start_date ? new Date(parseInt(task.start_date)) : '';
-    const dueDate      = task.due_date   ? new Date(parseInt(task.due_date))   : '';
-    const deliveryDate = task.date_done  ? new Date(parseInt(task.date_done))  : '';
+    const startDate = task.start_date ? new Date(parseInt(task.start_date)) : '';
+    const dueDate   = task.due_date   ? new Date(parseInt(task.due_date))   : '';
 
     // Cliente: extrai do nome da lista (ex: "Gramado Premium - Social" → "Gramado Premium")
     const clienteRaw = task.list?.name || '';
@@ -77,25 +74,18 @@ function importarTarefasAriana() {
     const statusClickup = task.status?.status || '';
     const statusSheet = STATUS_MAP[statusClickup.toLowerCase().trim()] || statusClickup;
 
-    // Preencher colunas
     sheet.getRange(row, 1).setValue(task.name);                                        // A - NOME TAREFA
     sheet.getRange(row, 2).setValue(cliente);                                          // B - CLIENTE
     sheet.getRange(row, 3).setFormula(`=HYPERLINK("${task.url}","Ver no ClickUp")`);  // C - TAREFA (link)
     sheet.getRange(row, 4).setValue(statusSheet);                                      // D - STATUS
     sheet.getRange(row, 5).setValue(startDate);                                        // E - INICIAL
     sheet.getRange(row, 6).setValue(dueDate);                                          // F - VENCIMENTO
-    sheet.getRange(row, 7).setValue(deliveryDate);                                     // G - ENTREGA (date_done do ClickUp)
 
-    // H - NO PRAZO: fórmula automática (Sim se entregou antes do vencimento)
+    // G - ENTREGA: preencher manualmente (olhar comentário da tarefa onde a Ariana avisa entrega)
+
+    // H - NO PRAZO: fórmula automática — calcula assim que ENTREGA for preenchida
     sheet.getRange(row, 8).setFormula(
       `=IF(G${row}="","",IF(G${row}<=F${row},"Sim","Não"))`
-    );
-
-    // I - CORREÇÕES: preencher manualmente
-
-    // L - TEMPO (dias): fórmula automática (dias entre INICIAL e ENTREGA)
-    sheet.getRange(row, 12).setFormula(
-      `=IF(OR(E${row}="",G${row}=""),"",G${row}-E${row})`
     );
   });
 
@@ -104,11 +94,19 @@ function importarTarefasAriana() {
   if (totalRows > 0) {
     sheet.getRange(CONFIG.DATA_START_ROW, 5, totalRows, 1).setNumberFormat('dd/MM/yyyy'); // INICIAL
     sheet.getRange(CONFIG.DATA_START_ROW, 6, totalRows, 1).setNumberFormat('dd/MM/yyyy'); // VENCIMENTO
-    sheet.getRange(CONFIG.DATA_START_ROW, 7, totalRows, 1).setNumberFormat('dd/MM/yyyy'); // ENTREGA
-    sheet.getRange(CONFIG.DATA_START_ROW, 12, totalRows, 1).setNumberFormat('0');          // TEMPO (dias)
   }
 
-  SpreadsheetApp.getUi().alert(`✅ ${tasks.length} tarefas importadas!\n\nPreenchimento automático:\n• Nome, cliente, link\n• Status (do ClickUp)\n• Datas: Inicial, Vencimento, Entrega\n• No Prazo e Tempo (dias) — calculados\n\nPreencher manualmente: Correções e Qualidade.`);
+  SpreadsheetApp.getUi().alert(
+    `✅ ${tasks.length} tarefas importadas!\n\n` +
+    `Preenchido automaticamente:\n` +
+    `• Nome, cliente e link\n` +
+    `• Status\n` +
+    `• Vencimento\n` +
+    `• No Prazo (calcula ao preencher Entrega)\n\n` +
+    `Preencher manualmente:\n` +
+    `• Entrega (ver comentário da tarefa no ClickUp)\n` +
+    `• Correções e Qualidade`
+  );
 }
 
 // ============================================================
@@ -143,7 +141,6 @@ function buscarTarefas() {
 
     allTasks.push(...tasks);
 
-    // ClickUp retorna max 100 por página
     hasMore = tasks.length === 100;
     page++;
   }
@@ -181,8 +178,8 @@ function findArianaId() {
 }
 
 // ============================================================
-// HELPER — testa o mapeamento de status (opcional)
-// Mostra no log os status únicos encontrados nas tarefas
+// HELPER — testa o mapeamento de status (rodar se achar status errado)
+// Resultado aparece em: Ver > Registros de execução
 // ============================================================
 function verStatusDasTasksAriana() {
   const tasks = buscarTarefas();
@@ -196,7 +193,7 @@ function verStatusDasTasksAriana() {
 }
 
 // ============================================================
-// CRIAR ABA SE NÃO EXISTIR (com cabeçalhos iguais ao modelo)
+// CRIAR ABA SE NÃO EXISTIR
 // ============================================================
 function getOrCreateSheet(name) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -213,7 +210,6 @@ function getOrCreateSheet(name) {
 function criarCabecalhos(sheet) {
   const mesAtual = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'MMMM yyyy');
 
-  // Linha 1 — título do mês
   sheet.getRange('A1:M1').merge().setValue(mesAtual);
   sheet.getRange('A1')
     .setBackground('#c6efce')
@@ -221,7 +217,6 @@ function criarCabecalhos(sheet) {
     .setFontSize(14)
     .setHorizontalAlignment('center');
 
-  // Linha 2 — cabeçalhos
   const headers = [
     'NOME TAREFA', 'CLIENTE', 'TAREFA', 'STATUS', 'INICIAL', 'VENCIMENTO',
     'ENTREGA', 'NO PRAZO', 'CORREÇÕES', 'NO PRAZO', 'QUALIDADE', 'TEMPO (dias)'
@@ -229,10 +224,7 @@ function criarCabecalhos(sheet) {
 
   const headerRange = sheet.getRange(2, 1, 1, headers.length);
   headerRange.setValues([headers]);
-  headerRange
-    .setBackground('#000000')
-    .setFontColor('#ffffff')
-    .setFontWeight('bold');
+  headerRange.setBackground('#000000').setFontColor('#ffffff').setFontWeight('bold');
 }
 
 // ============================================================
