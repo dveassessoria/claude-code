@@ -51,18 +51,18 @@ STATUS_IGNORAR = {"pronto para postar", "programado", "postado", "publicado", "a
 
 # ── Mapeamento de status ──────────────────────────────────────────────────────
 STATUS_MAP = {
-    "backlog": "Backlog", "to do": "Backlog", "open": "Backlog",
-    "in progress": "Andamento", "andamento": "Andamento",
-    "aprovação copy": "Aprovação Copy", "aprovacao copy": "Aprovação Copy",
-    "revisão": "Revisão", "revisao": "Revisão", "review": "Revisão",
-    "correção": "Correção", "correcao": "Correção",
-    "atrasado": "Atrasado",
-    "aprovado internamente": "Aprovado Internamente",
-    "aprovação cliente": "Aprovação Cliente", "aprovacao cliente": "Aprovação Cliente",
-    "aprovado": "Aprovado", "complete": "Aprovado", "done": "Aprovado", "closed": "Aprovado",
-    "concluido": "Aprovado", "concluído": "Aprovado",
-    "enviado p/ cliente": "Aprovação Cliente",
-    "revisão interna": "Revisão", "revisao interna": "Revisão",
+    "backlog": "BACKLOG", "to do": "BACKLOG", "open": "BACKLOG",
+    "andamento": "ANDAMENTO", "in progress": "ANDAMENTO",
+    "revisão interna": "REVISÃO INTERNA", "revisao interna": "REVISÃO INTERNA",
+    "revisão": "REVISÃO INTERNA", "revisao": "REVISÃO INTERNA", "review": "REVISÃO INTERNA",
+    "aprovação copy": "REVISÃO INTERNA", "aprovacao copy": "REVISÃO INTERNA",
+    "correção": "CORREÇÃO", "correcao": "CORREÇÃO",
+    "enviar no grupo": "ENVIAR NO GRUPO",
+    "enviado p/ cliente": "ENVIADO P/ CLIENTE",
+    "aprovação cliente": "ENVIADO P/ CLIENTE", "aprovacao cliente": "ENVIADO P/ CLIENTE",
+    "aprovado": "APROVADO", "aprovado internamente": "APROVADO",
+    "concluido": "CONCLUIDO", "concluído": "CONCLUIDO", "complete": "CONCLUIDO", "done": "CONCLUIDO",
+    "finalizado": "FINALIZADO", "closed": "FINALIZADO",
 }
 
 # ── ClickUp ───────────────────────────────────────────────────────────────────
