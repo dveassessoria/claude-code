@@ -172,7 +172,7 @@ def escrever_tarefas(sheet, tasks):
 
     sheet.update(f"A3:H{2 + len(linhas)}", linhas, value_input_option="USER_ENTERED")
 
-    # Aplicar hiperlinks na coluna C
+    # Aplicar hiperlinks na coluna C via textFormatRuns (evita erro com HYPERLINK())
     requests_body = []
     for i, url in enumerate(links):
         row = i + 3  # começa na linha 3
@@ -185,8 +185,13 @@ def escrever_tarefas(sheet, tasks):
                     "startColumnIndex": 2,
                     "endColumnIndex": 3,
                 },
-                "rows": [{"values": [{"userEnteredValue": {"formulaValue": f'=HYPERLINK("{url}","Abrir no ClickUp")'}}]}],
-                "fields": "userEnteredValue"
+                "rows": [{"values": [{
+                    "userEnteredValue": {"stringValue": "Abrir no ClickUp"},
+                    "textFormatRuns": [
+                        {"startIndex": 0, "format": {"link": {"uri": url}}}
+                    ]
+                }]}],
+                "fields": "userEnteredValue,textFormatRuns"
             }
         })
 
