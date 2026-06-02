@@ -72,16 +72,23 @@ STATUS_MAP = {
 FIELD_DATA_ENTREGA = "e6187410-0f09-4f62-8828-510842081759"
 
 # ── Categorias para visão mensal ──────────────────────────────────────────────
-# Ordem importa: primeira correspondência vence
+# Ordem importa: primeira correspondência vence.
+# Social Media Mensal = pacote mensal do cliente (COPY SM, COPY - Social Media, Social Media {Mês})
+# Social Media        = conteúdo pontual/esporádico (posts, carrosseis, legendas avulsas)
+_MESES_PT = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+              "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"]
+
 CATEGORIAS_REGRAS = [
-    ("Anúncios",              ["ADS"]),
-    ("Social Media Mensal",   ["Planejamento Mensal", "Calendário de Publicações"]),
-    ("Social Media",          ["COPY SM", "Social Media", "Carrossel", "Carrosséis", "Carrosseis",
-                               "Legenda", "Destaques"]),
-    ("Blog",                  ["Blog"]),
-    ("Roteiro",               ["Roteiro", "roteiro"]),
-    ("Bot / WhatsApp",        ["BotConversa"]),
-    ("Landing Page",          ["Landing Page"]),
+    ("Anúncios",            ["ADS"]),
+    ("Social Media Mensal", ["COPY SM", "COPY - Social Media", "Planejamento Mensal",
+                             "Calendário de Publicações"]
+                            + [f"Social Media {m}" for m in _MESES_PT]),
+    ("Social Media",        ["Social Media", "Carrossel", "Carrosséis", "Carrosseis",
+                             "Legenda", "Destaques"]),
+    ("Blog",                ["Blog"]),
+    ("Roteiro",             ["Roteiro", "roteiro"]),
+    ("Bot / WhatsApp",      ["BotConversa"]),
+    ("Landing Page",        ["Landing Page"]),
 ]
 CATEGORIA_DEFAULT = "Documentos"
 
