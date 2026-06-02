@@ -215,6 +215,10 @@ def escrever_tarefas(sheet, tasks):
 
     sheet.update(f"A3:J{2 + len(linhas)}", linhas, value_input_option="USER_ENTERED")
 
+    # Formatar colunas de data como dd/MM
+    ultima = 2 + len(linhas)
+    sheet.format(f"E3:G{ultima}", {"numberFormat": {"type": "DATE", "pattern": "dd/MM"}})
+
     # Hiperlinks na coluna C via textFormatRuns (evita erro com HYPERLINK())
     requests_body = []
     for i, url in enumerate(links):
