@@ -182,7 +182,8 @@ def escrever_tarefas(sheet, tasks):
 
         # Ler campo "Data de Entrega" preenchido pela automação do ClickUp
         conclusao = ""
-        no_prazo = ""
+        no_prazo  = ""
+        tempo_dias = ""
         for cf in t.get("custom_fields", []):
             if cf.get("id") == FIELD_DATA_ENTREGA and cf.get("value"):
                 conclusao_dt = datetime.fromtimestamp(int(cf["value"]) / 1000)
@@ -190,24 +191,29 @@ def escrever_tarefas(sheet, tasks):
                 if t.get("due_date"):
                     due_dt = datetime.fromtimestamp(int(t["due_date"]) / 1000)
                     no_prazo = "SIM" if conclusao_dt.date() <= due_dt.date() else "NÃO"
+                if t.get("start_date"):
+                    ini_dt = datetime.fromtimestamp(int(t["start_date"]) / 1000)
+                    tempo_dias = (conclusao_dt.date() - ini_dt.date()).days
                 break
 
         linhas.append([
-            t.get("name", ""),
-            cliente,
-            "Abrir no ClickUp",
-            status,
-            start,
-            due,
-            conclusao,  # G - CONCLUSÃO (automático via campo ClickUp)
-            no_prazo,   # H - NO PRAZO (calculado automaticamente)
+            t.get("name", ""),  # A
+            cliente,             # B
+            "Abrir no ClickUp", # C
+            status,              # D
+            start,               # E - INICIAL
+            due,                 # F - VENCIMENTO
+            conclusao,           # G - CONCLUSÃO (auto via ClickUp ou manual)
+            no_prazo,            # H - NO PRAZO (calculado quando G vem do ClickUp)
+            "",                  # I - CORREÇÕES (manual)
+            tempo_dias,          # J - TEMPO (dias) (calculado quando G vem do ClickUp)
         ])
         links.append(task_url)
 
     if not linhas:
         return 0
 
-    sheet.update(f"A3:H{2 + len(linhas)}", linhas, value_input_option="USER_ENTERED")
+    sheet.update(f"A3:J{2 + len(linhas)}", linhas, value_input_option="USER_ENTERED")
 
     # Hiperlinks na coluna C via textFormatRuns (evita erro com HYPERLINK())
     requests_body = []
@@ -229,34 +235,6 @@ def escrever_tarefas(sheet, tasks):
                     ]
                 }]}],
                 "fields": "userEnteredValue,textFormatRuns"
-            }
-        })
-
-    # Fórmulas em H (NO PRAZO) e J (TEMPO dias) — recalculam ao preencher G (CONCLUSÃO)
-    for i in range(len(linhas)):
-        row = i + 3
-        # H: SIM se CONCLUSÃO <= VENCIMENTO, NÃO se passou do prazo
-        requests_body.append({
-            "updateCells": {
-                "range": {"sheetId": sheet.id,
-                          "startRowIndex": row - 1, "endRowIndex": row,
-                          "startColumnIndex": 7, "endColumnIndex": 8},
-                "rows": [{"values": [{"userEnteredValue": {
-                    "formulaValue": f'=IF(G{row}="","",IF(G{row}<=F{row},"SIM","NÃO"))'
-                }}]}],
-                "fields": "userEnteredValue"
-            }
-        })
-        # J: dias entre INICIAL e CONCLUSÃO
-        requests_body.append({
-            "updateCells": {
-                "range": {"sheetId": sheet.id,
-                          "startRowIndex": row - 1, "endRowIndex": row,
-                          "startColumnIndex": 9, "endColumnIndex": 10},
-                "rows": [{"values": [{"userEnteredValue": {
-                    "formulaValue": f'=IF(G{row}="","",DAYS(G{row},E{row}))'
-                }}]}],
-                "fields": "userEnteredValue"
             }
         })
 
