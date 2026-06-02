@@ -232,6 +232,34 @@ def escrever_tarefas(sheet, tasks):
             }
         })
 
+    # Fórmulas em H (NO PRAZO) e J (TEMPO dias) — recalculam ao preencher G (CONCLUSÃO)
+    for i in range(len(linhas)):
+        row = i + 3
+        # H: SIM se CONCLUSÃO <= VENCIMENTO, NÃO se passou do prazo
+        requests_body.append({
+            "updateCells": {
+                "range": {"sheetId": sheet.id,
+                          "startRowIndex": row - 1, "endRowIndex": row,
+                          "startColumnIndex": 7, "endColumnIndex": 8},
+                "rows": [{"values": [{"userEnteredValue": {
+                    "formulaValue": f'=IF(G{row}="","",IF(G{row}<=F{row},"SIM","NÃO"))'
+                }}]}],
+                "fields": "userEnteredValue"
+            }
+        })
+        # J: dias entre INICIAL e CONCLUSÃO
+        requests_body.append({
+            "updateCells": {
+                "range": {"sheetId": sheet.id,
+                          "startRowIndex": row - 1, "endRowIndex": row,
+                          "startColumnIndex": 9, "endColumnIndex": 10},
+                "rows": [{"values": [{"userEnteredValue": {
+                    "formulaValue": f'=IF(G{row}="","",DAYS(G{row},E{row}))'
+                }}]}],
+                "fields": "userEnteredValue"
+            }
+        })
+
     if requests_body:
         sheet.spreadsheet.batch_update({"requests": requests_body})
 
