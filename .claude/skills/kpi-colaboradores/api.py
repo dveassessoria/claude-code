@@ -74,13 +74,14 @@ FIELD_DATA_ENTREGA = "e6187410-0f09-4f62-8828-510842081759"
 # ── Categorias para visão mensal ──────────────────────────────────────────────
 # Ordem importa: primeira correspondência vence
 CATEGORIAS_REGRAS = [
-    ("Anúncios",       ["ADS"]),
-    ("Social Media",   ["COPY SM", "Social Media", "Carrossel", "Carrosséis", "Carrosseis",
-                        "Legenda", "Destaques", "Planejamento Mensal", "Calendário de Publicações"]),
-    ("Blog",           ["Blog"]),
-    ("Roteiro",        ["Roteiro", "roteiro"]),
-    ("Bot / WhatsApp", ["BotConversa"]),
-    ("Landing Page",   ["Landing Page"]),
+    ("Anúncios",              ["ADS"]),
+    ("Social Media Mensal",   ["Planejamento Mensal", "Calendário de Publicações"]),
+    ("Social Media",          ["COPY SM", "Social Media", "Carrossel", "Carrosséis", "Carrosseis",
+                               "Legenda", "Destaques"]),
+    ("Blog",                  ["Blog"]),
+    ("Roteiro",               ["Roteiro", "roteiro"]),
+    ("Bot / WhatsApp",        ["BotConversa"]),
+    ("Landing Page",          ["Landing Page"]),
 ]
 CATEGORIA_DEFAULT = "Documentos"
 
@@ -254,16 +255,17 @@ def escrever_mensal(planilha, mes_nome, dados_diarios):
     nome_aba = f"{mes_nome} (mensal)"
 
     # Agregar por categoria
-    grupos = defaultdict(lambda: {"total": 0, "sim": 0, "tempos": []})
+    # Lê: NO PRAZO (col H = idx 7), CORREÇÕES (col I = idx 8), TEMPO (col J = idx 9)
+    grupos = defaultdict(lambda: {"total": 0, "sim": 0, "correcoes": 0, "tempos": []})
 
     for row in dados_diarios:
         nome = row[0].strip() if len(row) > 0 else ""
         if not nome:
             continue
 
-        inicial_str    = row[4].strip() if len(row) > 4 else ""
-        vencimento_str = row[5].strip() if len(row) > 5 else ""
-        no_prazo       = row[7].strip().upper() if len(row) > 7 else ""
+        no_prazo  = row[7].strip().upper() if len(row) > 7 else ""
+        corr_str  = row[8].strip()         if len(row) > 8 else ""
+        tempo_str = row[9].strip()         if len(row) > 9 else ""
 
         cat = categorizar(nome)
         grupos[cat]["total"] += 1
@@ -271,42 +273,47 @@ def escrever_mensal(planilha, mes_nome, dados_diarios):
         if no_prazo == "SIM":
             grupos[cat]["sim"] += 1
 
-        if inicial_str and vencimento_str:
-            try:
-                ini = datetime.strptime(inicial_str, "%d/%m/%Y")
-                ven = datetime.strptime(vencimento_str, "%d/%m/%Y")
-                dias = (ven - ini).days
-                if dias >= 0:
-                    grupos[cat]["tempos"].append(dias)
-            except Exception:
-                pass
+        try:
+            grupos[cat]["correcoes"] += int(float(corr_str)) if corr_str else 0
+        except Exception:
+            pass
+
+        try:
+            t = float(tempo_str.replace(",", ".")) if tempo_str else None
+            if t is not None and t >= 0:
+                grupos[cat]["tempos"].append(t)
+        except Exception:
+            pass
 
     if not grupos:
         return 0
 
     # Montar linhas ordenadas por total (maior primeiro)
     linhas = []
-    total_geral_ent = 0
-    total_geral_sim = 0
+    total_geral_ent  = 0
+    total_geral_sim  = 0
+    total_geral_corr = 0
 
     for cat, g in sorted(grupos.items(), key=lambda x: x[1]["total"], reverse=True):
-        total  = g["total"]
-        sim    = g["sim"]
-        atraso = total - sim
+        total     = g["total"]
+        sim       = g["sim"]
+        atraso    = total - sim
+        correcoes = g["correcoes"]
         pct_prazo  = f"{sim / total * 100:.2f}%".replace(".", ",") if total > 0 else "0,00%"
         pct_atraso = f"{atraso / total * 100:.2f}%".replace(".", ",") if total > 0 else "0,00%"
-        tempos = g["tempos"]
+        tempos     = g["tempos"]
         tempo_medio = str(round(sum(tempos) / len(tempos), 1)).replace(".", ",") if tempos else "-"
 
-        linhas.append([cat, total, sim, pct_prazo, atraso, pct_atraso, tempo_medio])
-        total_geral_ent += total
-        total_geral_sim += sim
+        linhas.append([cat, total, sim, pct_prazo, atraso, pct_atraso, correcoes, tempo_medio])
+        total_geral_ent  += total
+        total_geral_sim  += sim
+        total_geral_corr += correcoes
 
     # Linha de total
-    t_atraso    = total_geral_ent - total_geral_sim
+    t_atraso     = total_geral_ent - total_geral_sim
     t_pct_prazo  = f"{total_geral_sim / total_geral_ent * 100:.2f}%".replace(".", ",") if total_geral_ent > 0 else "0,00%"
     t_pct_atraso = f"{t_atraso / total_geral_ent * 100:.2f}%".replace(".", ",") if total_geral_ent > 0 else "0,00%"
-    linha_total  = ["Total", total_geral_ent, total_geral_sim, t_pct_prazo, t_atraso, t_pct_atraso, "-"]
+    linha_total  = ["Total", total_geral_ent, total_geral_sim, t_pct_prazo, t_atraso, t_pct_atraso, total_geral_corr, "-"]
 
     # Aba mensal
     try:
@@ -317,7 +324,7 @@ def escrever_mensal(planilha, mes_nome, dados_diarios):
     sheet.clear()
 
     # Linha 1: título
-    sheet.merge_cells("A1:G1")
+    sheet.merge_cells("A1:H1")
     sheet.update(values=[[mes_nome]], range_name="A1")
     sheet.format("A1", {
         "textFormat": {"bold": True, "fontSize": 14, "italic": True},
@@ -327,9 +334,9 @@ def escrever_mensal(planilha, mes_nome, dados_diarios):
 
     # Linha 2: cabeçalhos
     headers = ["DEMANDA", "ENTREGAS (total)", "NO PRAZO (total)",
-               "% NO PRAZO", "EM ATRASO", "% EM ATRASO", "TEMPO MÉDIO"]
-    sheet.update(values=[headers], range_name="A2:G2")
-    sheet.format("A2:G2", {
+               "% NO PRAZO", "EM ATRASO", "% EM ATRASO", "CORREÇÕES", "TEMPO MÉDIO"]
+    sheet.update(values=[headers], range_name="A2:H2")
+    sheet.format("A2:H2", {
         "textFormat": {"bold": True, "foregroundColor": {"red": 1, "green": 1, "blue": 1}},
         "backgroundColor": {"red": 0, "green": 0, "blue": 0},
         "horizontalAlignment": "CENTER"
@@ -337,12 +344,12 @@ def escrever_mensal(planilha, mes_nome, dados_diarios):
 
     # Linhas de categoria
     ultima = 2 + len(linhas)
-    sheet.update(values=linhas, range_name=f"A3:G{ultima}")
+    sheet.update(values=linhas, range_name=f"A3:H{ultima}")
 
     # Linha de total
     num_total = ultima + 1
-    sheet.update(values=[linha_total], range_name=f"A{num_total}:G{num_total}")
-    sheet.format(f"A{num_total}:G{num_total}", {
+    sheet.update(values=[linha_total], range_name=f"A{num_total}:H{num_total}")
+    sheet.format(f"A{num_total}:H{num_total}", {
         "textFormat": {"bold": True},
         "backgroundColor": {"red": 0.851, "green": 0.918, "blue": 0.827}
     })
