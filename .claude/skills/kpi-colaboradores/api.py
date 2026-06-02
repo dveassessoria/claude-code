@@ -68,6 +68,9 @@ STATUS_MAP = {
     "finalizado": "FINALIZADO", "closed": "FINALIZADO",
 }
 
+# ── Campo customizado ClickUp ─────────────────────────────────────────────────
+FIELD_DATA_ENTREGA = "e6187410-0f09-4f62-8828-510842081759"
+
 # ── Categorias para visão mensal ──────────────────────────────────────────────
 # Ordem importa: primeira correspondência vence
 CATEGORIAS_REGRAS = [
@@ -177,6 +180,18 @@ def escrever_tarefas(sheet, tasks):
         status = STATUS_MAP.get(status_raw.lower().strip(), "")
         task_url = f"https://app.clickup.com/t/{t['id']}"
 
+        # Ler campo "Data de Entrega" preenchido pela automação do ClickUp
+        conclusao = ""
+        no_prazo = ""
+        for cf in t.get("custom_fields", []):
+            if cf.get("id") == FIELD_DATA_ENTREGA and cf.get("value"):
+                conclusao_dt = datetime.fromtimestamp(int(cf["value"]) / 1000)
+                conclusao = conclusao_dt.strftime("%d/%m/%Y")
+                if t.get("due_date"):
+                    due_dt = datetime.fromtimestamp(int(t["due_date"]) / 1000)
+                    no_prazo = "SIM" if conclusao_dt.date() <= due_dt.date() else "NÃO"
+                break
+
         linhas.append([
             t.get("name", ""),
             cliente,
@@ -184,8 +199,8 @@ def escrever_tarefas(sheet, tasks):
             status,
             start,
             due,
-            "",   # G - CONCLUSÃO (manual em maio; automático a partir de junho)
-            "",   # H - NO PRAZO (manual em maio; automático a partir de junho)
+            conclusao,  # G - CONCLUSÃO (automático via campo ClickUp)
+            no_prazo,   # H - NO PRAZO (calculado automaticamente)
         ])
         links.append(task_url)
 
