@@ -197,7 +197,19 @@ O script:
 - Cria o nível de ano ou mês somente se não existir
 - Cria a página do dia com o conteúdo da minuta e um link clicável para a gravação no TLDV no topo
 
-Após salvar, siga direto para o Passo 6.
+### 5b — Salvar localmente no workspace
+
+Imediatamente após o ClickUp, salve também no workspace local. Converta a data de DD/MM/YYYY para YYYY-MM-DD para o nome do arquivo.
+
+```bash
+mkdir -p "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code/clientes/{company}/reunioes"
+cp /tmp/minuta_dve.md "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code/clientes/{company}/reunioes/{YYYY-MM-DD}.md"
+```
+
+Exemplo real: se `company = "Gramado"` e `date = "27/05/2026"`, o arquivo fica em:
+`clientes/Gramado/reunioes/2026-05-27.md`
+
+Após salvar nos dois lugares, siga direto para o Passo 6.
 
 ---
 
