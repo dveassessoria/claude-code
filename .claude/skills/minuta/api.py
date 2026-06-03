@@ -10,7 +10,7 @@ Commands:
   clickup_save <doc_id> <DD/MM/YYYY> <content_file>  save minuta with year/month/day hierarchy
 """
 
-import sys, os, json, re, requests
+import sys, os, json, re, requests, unicodedata
 from datetime import datetime, timezone, timedelta
 from difflib import SequenceMatcher
 
@@ -275,6 +275,136 @@ def clickup_save(doc_id, date_str, content_file, meeting_url=''):
     url = f'https://app.clickup.com/{WORKSPACE_ID}/docs/{doc_id}/{page_id}'
     print(json.dumps({'page_id': page_id, 'url': url, 'name': day_label}, ensure_ascii=False))
 
+# ── Export (ClickUp → local) ──────────────────────────────────────────────────
+
+def _strip_diacritics(s):
+    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+
+def _normalize_folder_name(name):
+    name = _strip_diacritics(name.lower())
+    name = re.sub(r'[^a-z0-9\s-]', '', name)
+    name = re.sub(r'\s+', '-', name.strip())
+    return name
+
+def _find_local_folder(base_dir, client_name):
+    """Match client_name to the best existing folder, or return a new normalized name."""
+    normalized = _normalize_folder_name(client_name)
+    if not os.path.isdir(base_dir):
+        return normalized
+    folders = [d for d in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, d))]
+    # Exact match
+    if normalized in folders:
+        return normalized
+    # Substring: normalized appears in folder or folder starts with normalized
+    for folder in folders:
+        if normalized in folder or folder.startswith(normalized):
+            return folder
+    # Fuzzy fallback
+    best, best_score = None, 0.0
+    for folder in folders:
+        score = SequenceMatcher(None, normalized, folder).ratio()
+        if score > best_score:
+            best_score, best = score, folder
+    if best and best_score >= 0.5:
+        return best
+    return normalized
+
+def _get_page_content(doc_id, page_id):
+    r = requests.get(
+        f'{CLICKUP_BASE}/workspaces/{WORKSPACE_ID}/docs/{doc_id}/pages/{page_id}?content_format=text/md',
+        headers=clickup_headers()
+    )
+    r.raise_for_status()
+    return r.json().get('content', '')
+
+def _day_label_to_date(day_label, year):
+    """Convert '27/05/26' or '27/05/2026' to '2026-05-27'."""
+    parts = day_label.strip().split('/')
+    if len(parts) != 3:
+        return None
+    day, month, yr = parts
+    yr = ('20' + yr) if len(yr) == 2 else yr
+    return f'{yr}-{month.zfill(2)}-{day.zfill(2)}'
+
+def clickup_export(doc_id, year, output_dir):
+    """Export all meeting pages for a given year to output_dir as YYYY-MM-DD.md files."""
+    os.makedirs(output_dir, exist_ok=True)
+    tree = _get_page_tree(doc_id)
+    if not tree:
+        print(json.dumps({'error': 'No pages found', 'doc_id': doc_id}))
+        return
+    root_page = tree[0]
+    year_page = _find_child(root_page, year)
+    if not year_page:
+        print(json.dumps({'exported': 0, 'doc_id': doc_id, 'note': f'Year {year} not found'}))
+        return
+    saved, errors = [], []
+    for month_page in year_page.get('pages', []):
+        for day_page in month_page.get('pages', []):
+            day_label = day_page.get('name', '')
+            page_id   = day_page.get('id')
+            file_date = _day_label_to_date(day_label, year)
+            if not file_date:
+                errors.append(f'Bad date: {day_label}')
+                continue
+            try:
+                content = _get_page_content(doc_id, page_id)
+            except Exception as e:
+                errors.append(f'{file_date}: {e}')
+                continue
+            with open(os.path.join(output_dir, f'{file_date}.md'), 'w', encoding='utf-8') as f:
+                f.write(content)
+            saved.append(file_date)
+    result = {'exported': len(saved), 'dates': saved, 'output_dir': output_dir}
+    if errors:
+        result['errors'] = errors
+    print(json.dumps(result, ensure_ascii=False))
+
+EXPORT_SKIP = {'teste', '__test', 'deletar', 'onboarding dve'}
+
+def clickup_export_all(year, base_dir):
+    """Export meetings for all real clients into base_dir/{client}/reunioes/."""
+    docs = [d for d in _all_docs() if 'reuni' in d['name'].lower()]
+    docs = [d for d in docs if not any(skip in d['name'].lower() for skip in EXPORT_SKIP)]
+    results = []
+    for doc in docs:
+        client_raw  = re.sub(r'^reuni[oõ]es\s*[-–]?\s*', '', doc['name'], flags=re.IGNORECASE).strip()
+        folder_name = _find_local_folder(base_dir, client_raw)
+        output_dir  = os.path.join(base_dir, folder_name, 'reunioes')
+        print(f'→ {client_raw} ({doc["id"]}) → {folder_name}/reunioes', file=sys.stderr)
+        os.makedirs(output_dir, exist_ok=True)
+        tree = _get_page_tree(doc['id'])
+        if not tree:
+            results.append({'client': client_raw, 'folder': folder_name, 'exported': 0, 'error': 'No pages'})
+            continue
+        root_page = tree[0]
+        year_page = _find_child(root_page, year)
+        if not year_page:
+            results.append({'client': client_raw, 'folder': folder_name, 'exported': 0, 'note': f'No {year} page'})
+            continue
+        saved, errors = [], []
+        for month_page in year_page.get('pages', []):
+            for day_page in month_page.get('pages', []):
+                day_label = day_page.get('name', '')
+                page_id   = day_page.get('id')
+                file_date = _day_label_to_date(day_label, year)
+                if not file_date:
+                    errors.append(f'Bad date: {day_label}')
+                    continue
+                try:
+                    content = _get_page_content(doc['id'], page_id)
+                except Exception as e:
+                    errors.append(f'{file_date}: {str(e)}')
+                    continue
+                with open(os.path.join(output_dir, f'{file_date}.md'), 'w', encoding='utf-8') as f:
+                    f.write(content)
+                saved.append(file_date)
+        r = {'client': client_raw, 'folder': folder_name, 'exported': len(saved), 'dates': saved}
+        if errors:
+            r['errors'] = errors
+        results.append(r)
+    print(json.dumps({'total_clients': len(results), 'clients': results}, ensure_ascii=False, indent=2))
+
 # ── Task creation ─────────────────────────────────────────────────────────────
 
 CLIENT_SPACES = ['90113761810', '90114165992']  # Tipo A, Tipo B
@@ -373,6 +503,8 @@ if __name__ == '__main__':
         elif cmd == 'clickup_save':          clickup_save(args[0], args[1], args[2], args[3] if len(args) > 3 else '')
         elif cmd == 'clickup_find_list':     clickup_find_list(args[0])
         elif cmd == 'clickup_create_tasks':  clickup_create_tasks(args[0], args[1])
+        elif cmd == 'clickup_export':        clickup_export(args[0], args[1], args[2])
+        elif cmd == 'clickup_export_all':    clickup_export_all(args[0], args[1])
         else:
             print(f'Comando desconhecido: {cmd}')
             print(__doc__)
