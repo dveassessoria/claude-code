@@ -421,23 +421,25 @@ def clickup_export_all(year, base_dir):
             continue
         saved, errors = [], []
         for year_page in year_pages:
-         for month_page in year_page.get('pages', []):
-            for day_page in month_page.get('pages', []):
-                day_label = day_page.get('name', '')
-                page_id   = day_page.get('id')
-                file_date = _day_label_to_date(day_label, year)
-                if not file_date:
-                    errors.append(f'Bad date: {day_label}')
-                    continue
-                try:
-                    content = _get_page_content(doc['id'], page_id)
-                except Exception as e:
-                    errors.append(f'{file_date}: {str(e)}')
-                    continue
-                with open(os.path.join(output_dir, f'{file_date}.md'), 'w', encoding='utf-8') as f:
-                    f.write(content)
-                saved.append(file_date)
-        r = {'client': client_raw, 'folder': folder_name, 'exported': len(saved), 'dates': saved}
+            for month_page in year_page.get('pages', []):
+                for day_page in month_page.get('pages', []):
+                    day_label = day_page.get('name', '')
+                    page_id   = day_page.get('id')
+                    file_date = _day_label_to_date(day_label, year)
+                    if not file_date:
+                        errors.append(f'Bad date: {day_label}')
+                        continue
+                    try:
+                        content = _get_page_content(doc['id'], page_id)
+                    except Exception as e:
+                        errors.append(f'{file_date}: {str(e)}')
+                        continue
+                    filepath = os.path.join(output_dir, f'{file_date}.md')
+                    with open(filepath, 'w', encoding='utf-8') as f:
+                        f.write(content)
+                    if file_date not in saved:
+                        saved.append(file_date)
+        r = {'client': client_raw, 'folder': folder_name, 'exported': len(saved), 'dates': sorted(saved)}
         if errors:
             r['errors'] = errors
         results.append(r)
