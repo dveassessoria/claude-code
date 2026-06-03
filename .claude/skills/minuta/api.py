@@ -318,12 +318,18 @@ def _get_page_content(doc_id, page_id):
     return r.json().get('content', '')
 
 def _day_label_to_date(day_label, year):
-    """Convert '27/05/26' or '27/05/2026' to '2026-05-27'."""
+    """Convert '27/05/26', '27/05/2026', or '27/05' to 'YYYY-MM-DD'."""
     parts = day_label.strip().split('/')
-    if len(parts) != 3:
+    if len(parts) == 2:
+        day, month = parts
+        yr = year  # infer from context
+    elif len(parts) == 3:
+        day, month, yr = parts
+        yr = ('20' + yr) if len(yr) == 2 else yr
+    else:
         return None
-    day, month, yr = parts
-    yr = ('20' + yr) if len(yr) == 2 else yr
+    if not day.isdigit() or not month.isdigit():
+        return None
     return f'{yr}-{month.zfill(2)}-{day.zfill(2)}'
 
 def clickup_export(doc_id, year, output_dir):
