@@ -60,6 +60,7 @@ MONTHS_PT = {
     5: 'Maio',    6: 'Junho',     7: 'Julho',  8: 'Agosto',
     9: 'Setembro',10: 'Outubro', 11: 'Novembro',12: 'Dezembro',
 }
+MONTH_NAMES_PT = set(MONTHS_PT.values())
 
 BRT = timezone(timedelta(hours=-3))
 
@@ -309,6 +310,35 @@ def _find_local_folder(base_dir, client_name):
         return best
     return normalized
 
+def _find_year_pages(tree, year):
+    """
+    Returns all pages whose direct children are month pages for the given year.
+    Handles the 4 structural patterns seen across ClickUp Reuniões docs:
+      1. Root IS the year page  ("2026" at root)
+      2. Root name contains year  ("Reuniões 2026" or "Reuniões - 2026")
+      3. Year is a direct child of root  (root "Reuniões" → child "2026")
+      4. No year layer — months directly under root  (root "Reuniões" → months)
+    """
+    result = []
+    for root in tree:
+        name = (root.get('name') or '').strip()
+        children = root.get('pages', [])
+        child_names = {(c.get('name') or '').strip() for c in children}
+
+        if name == year:                                          # pattern 1
+            result.append(root)
+        elif year in name and child_names & MONTH_NAMES_PT:      # pattern 2
+            result.append(root)
+        else:
+            year_child = _find_child(root, year)
+            if year_child:                                        # pattern 3
+                result.append(year_child)
+            elif child_names & MONTH_NAMES_PT and not any(      # pattern 4
+                cn.isdigit() and len(cn) == 4 for cn in child_names
+            ):
+                result.append(root)
+    return result
+
 def _get_page_content(doc_id, page_id):
     r = requests.get(
         f'{CLICKUP_BASE}/workspaces/{WORKSPACE_ID}/docs/{doc_id}/pages/{page_id}?content_format=text/md',
@@ -339,29 +369,31 @@ def clickup_export(doc_id, year, output_dir):
     if not tree:
         print(json.dumps({'error': 'No pages found', 'doc_id': doc_id}))
         return
-    root_page = tree[0]
-    year_page = _find_child(root_page, year)
-    if not year_page:
+    year_pages = _find_year_pages(tree, year)
+    if not year_pages:
         print(json.dumps({'exported': 0, 'doc_id': doc_id, 'note': f'Year {year} not found'}))
         return
     saved, errors = [], []
-    for month_page in year_page.get('pages', []):
-        for day_page in month_page.get('pages', []):
-            day_label = day_page.get('name', '')
-            page_id   = day_page.get('id')
-            file_date = _day_label_to_date(day_label, year)
-            if not file_date:
-                errors.append(f'Bad date: {day_label}')
-                continue
-            try:
-                content = _get_page_content(doc_id, page_id)
-            except Exception as e:
-                errors.append(f'{file_date}: {e}')
-                continue
-            with open(os.path.join(output_dir, f'{file_date}.md'), 'w', encoding='utf-8') as f:
-                f.write(content)
-            saved.append(file_date)
-    result = {'exported': len(saved), 'dates': saved, 'output_dir': output_dir}
+    for year_page in year_pages:
+        for month_page in year_page.get('pages', []):
+            for day_page in month_page.get('pages', []):
+                day_label = day_page.get('name', '')
+                page_id   = day_page.get('id')
+                file_date = _day_label_to_date(day_label, year)
+                if not file_date:
+                    errors.append(f'Bad date: {day_label}')
+                    continue
+                try:
+                    content = _get_page_content(doc_id, page_id)
+                except Exception as e:
+                    errors.append(f'{file_date}: {e}')
+                    continue
+                filepath = os.path.join(output_dir, f'{file_date}.md')
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    f.write(content)
+                if file_date not in saved:
+                    saved.append(file_date)
+    result = {'exported': len(saved), 'dates': sorted(saved), 'output_dir': output_dir}
     if errors:
         result['errors'] = errors
     print(json.dumps(result, ensure_ascii=False))
@@ -383,13 +415,13 @@ def clickup_export_all(year, base_dir):
         if not tree:
             results.append({'client': client_raw, 'folder': folder_name, 'exported': 0, 'error': 'No pages'})
             continue
-        root_page = tree[0]
-        year_page = _find_child(root_page, year)
-        if not year_page:
+        year_pages = _find_year_pages(tree, year)
+        if not year_pages:
             results.append({'client': client_raw, 'folder': folder_name, 'exported': 0, 'note': f'No {year} page'})
             continue
         saved, errors = [], []
-        for month_page in year_page.get('pages', []):
+        for year_page in year_pages:
+         for month_page in year_page.get('pages', []):
             for day_page in month_page.get('pages', []):
                 day_label = day_page.get('name', '')
                 page_id   = day_page.get('id')
