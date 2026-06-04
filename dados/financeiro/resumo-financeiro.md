@@ -97,15 +97,121 @@ Fonte: planilhas DVE - Financeiro e DVE - Fluxo de Caixa
 
 ---
 
-## Fluxo de caixa 2025 — Dezembro
+## Fluxo de caixa 2025 — Resumo por mês (dados disponíveis)
 
-| Categoria | Total |
-|-----------|-------|
-| Entradas | R$ 30.713,97 |
-| Saídas | -R$ 29.049,86 |
-| Saldo | R$ 1.664,11 |
+| Mês | Entradas | Saídas | Saldo | Status |
+|-----|----------|--------|-------|--------|
+| Janeiro | — | — | R$ 2.621,32 | Positivo |
+| Fevereiro | — | — | -R$ 210,86 | Negativo |
+| Março | — | — | R$ 7.354,02 | Positivo |
+| Abril | — | — | -R$ 6.397,64 | Negativo |
+| Maio | — | — | R$ 2.360,00 | Positivo |
+| Junho | R$ 33.626,40 | -R$ 17.110,56 | R$ 16.515,84 | Positivo |
+| Julho | R$ 26.194,83 | -R$ 25.537,68 | R$ 657,15 | Positivo |
+| Agosto | R$ 20.543,46 | -R$ 24.869,12 | -R$ 4.325,66 | Negativo |
+| Setembro | R$ 31.574,70 | -R$ 22.726,31 | R$ 8.848,39 | Positivo |
+| Outubro | R$ 23.638,85 | -R$ 25.711,57 | -R$ 2.072,72 | Negativo |
+| Novembro | R$ 30.938,85 | -R$ 23.923,04 | R$ 7.015,81 | Positivo |
+| Dezembro | R$ 30.713,97 | -R$ 29.049,86 | R$ 1.664,11 | Positivo |
 
-**Recebimentos Dez/2025:**
+*Jan-Mai: saldo extraído do resumo anual; fluxo detalhado não disponível.*
+
+---
+
+## Fluxo de caixa 2025 — Detalhe por mês
+
+### Junho/2025
+**Entradas:** R$ 33.626,40 | **Saídas:** -R$ 17.110,56 | **Saldo:** R$ 16.515,84
+
+Principais recebimentos:
+- ID VISUAL + SITE Rapha e Aline: R$ 6.749,43
+- Raniel Xavier: R$ 3.581,66
+- SITE Bethânia Guimarães: R$ 3.000,00
+- SITE + PDF Construtora Senior: R$ 2.750,00
+- Gabriela Bavay: R$ 2.500,00
+- Gramado Premium: R$ 2.000,00
+- Lobato: R$ 2.000,00
+- Altitude Elevadores: R$ 2.106,81
+- SITE Marina Varela: R$ 1.500,00 | SITE Cintia Sena: R$ 1.500,00
+- SITE + CONTRATO Neilton Guedes: R$ 1.900,00
+
+### Julho/2025
+**Entradas:** R$ 26.194,83 | **Saídas:** -R$ 25.537,68 | **Saldo:** R$ 657,15
+
+Principais recebimentos:
+- Rapha e Aline: R$ 5.432,83
+- Gabriela Bavay: R$ 3.000,00
+- Raniel: R$ 3.500,00
+- ID VISUAL Kevyn: R$ 2.000,00
+- Gramado Premium: R$ 2.000,00
+- Altitude: R$ 2.062,00
+- Lobato: R$ 2.000,00
+- Neilton: R$ 1.500,00 | LP + PDF Altitude: R$ 1.500,00
+- Fernanda Pedrosa: R$ 1.700,00
+
+### Agosto/2025
+**Entradas:** R$ 20.543,46 | **Saídas:** -R$ 24.869,12 | **Saldo:** -R$ 4.325,66
+
+Principais recebimentos:
+- Gabriela Bavay: R$ 3.000,00
+- Raniel: R$ 3.000,00
+- Rapha e Aline: R$ 4.481,46
+- Gramado Premium: R$ 2.000,00 | LP Dubai: R$ 1.000,00
+- Altitude: R$ 2.062,00
+- Lobato: R$ 2.000,00
+- Neilton: R$ 1.500,00 | LP Odirlei: R$ 1.500,00
+
+### Setembro/2025
+**Entradas:** R$ 31.574,70 | **Saídas:** -R$ 22.726,31 | **Saldo:** R$ 8.848,39
+
+Principais recebimentos:
+- Rapha e Aline: R$ 5.500,00
+- Planejamento Rafaela Lobo: R$ 4.500,00
+- Gabriela Bavay: R$ 3.000,00
+- Raniel Xavier: R$ 3.000,00
+- Gramado Premium: R$ 2.000,00 | LP Gramado: R$ 1.000,00
+- Altitude Elevadores: R$ 2.000,00
+- Lobato Leilões: R$ 2.000,00
+- Realeza Car Service: R$ 2.000,00
+- Neilton Guedes: R$ 1.500,00 + R$ 600,00 (GMN)
+- Marina Varela: R$ 1.974,70
+
+### Outubro/2025
+**Entradas:** R$ 23.638,85 | **Saídas:** -R$ 25.711,57 | **Saldo:** -R$ 2.072,72
+
+Principais recebimentos:
+- Rapha e Aline: R$ 5.438,85
+- Raniel Xavier: R$ 3.000,00
+- Gramado Premium: R$ 2.000,00
+- Marina Varela: R$ 2.000,00
+- Altitude Elevadores: R$ 2.000,00
+- Neilton Guedes: R$ 1.900,00
+- Gabriela Bavay: R$ 2.000,00
+- Lobato: R$ 1.800,00
+- LP Wall Print: R$ 1.700,00
+
+### Novembro/2025
+**Entradas:** R$ 30.938,85 | **Saídas:** -R$ 23.923,04 | **Saldo:** R$ 7.015,81
+
+Principais recebimentos:
+- Rapha e Aline: R$ 5.438,85
+- Rafaela Lobo: R$ 5.000,00
+- Gabriela Bavay: R$ 3.000,00
+- Marina Varela: R$ 2.000,00 + R$ 600,00 (GMN)
+- Gramado Premium: R$ 2.000,00
+- Altitude Elevadores: R$ 2.000,00
+- Neilton Guedes: R$ 1.900,00
+- Lobato: R$ 2.000,00
+- SITE Rafaela Lobo: R$ 1.500,00
+- My Best: R$ 1.500,00
+- Raniel Xavier: R$ 1.000,00
+- Lusinei: R$ 1.000,00 | Nunes Barbearia: R$ 1.000,00
+- LP Esplêndida Viagens: R$ 1.000,00
+
+### Dezembro/2025
+**Entradas:** R$ 30.713,97 | **Saídas:** -R$ 29.049,86 | **Saldo:** R$ 1.664,11
+
+Principais recebimentos:
 - Rapha e Aline: R$ 5.432,52
 - Rafaela Lobo: R$ 5.000,00
 - Gabriela Bavay: R$ 4.000,00
@@ -116,8 +222,7 @@ Fonte: planilhas DVE - Financeiro e DVE - Fluxo de Caixa
 - Lobato: R$ 1.800,00
 - Wallprint: R$ 1.581,45
 - Débora Nutri (ID visual): R$ 1.500,00
-- Nunes Barbearia: R$ 1.000,00
-- Raniel Xavier: R$ 1.000,00
+- Nunes Barbearia: R$ 1.000,00 | Raniel Xavier: R$ 1.000,00
 
 ---
 
@@ -204,6 +309,12 @@ Clientes identificados nos fluxos de caixa como recorrentes:
 | DVE - Financeiro - Metas.csv | Metas 2025/2026/2027 |
 | DVE - Financeiro - 2025.csv | Resumo anual 2025 |
 | DVE - Financeiro - 2026.csv | Resumo mensal 2026 (Jan-Mai) |
+| DVE - Fluxo de Caixa - 2025 - JUN.csv | Junho 2025 |
+| DVE - Fluxo de Caixa - 2025 - JUL.csv | Julho 2025 |
+| DVE - Fluxo de Caixa - 2025 - AGO.csv | Agosto 2025 |
+| DVE - Fluxo de Caixa - 2025 - SET.csv | Setembro 2025 |
+| DVE - Fluxo de Caixa - 2025 - OUT.csv | Outubro 2025 |
+| DVE - Fluxo de Caixa - 2025 - NOV.csv | Novembro 2025 |
 | DVE - Fluxo de Caixa - 2025 - DEZ.csv | Dezembro 2025 |
 | DVE - Fluxo de Caixa - 2026 - JAN.csv | Janeiro 2026 |
 | DVE - Fluxo de Caixa - 2026 - FEV.csv | Fevereiro 2026 |
