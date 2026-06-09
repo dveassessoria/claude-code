@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Dashboard Google Ads — Scriptus Comunicação
-Gera um arquivo dashboard.html com dados atualizados.
+Gera dashboard.html e atualiza a planilha Google Sheets.
 Rodar: python3 gerar_dashboard.py
 """
 
@@ -10,10 +10,13 @@ import os
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
+import gspread
 
 CUSTOMER_ID = "7294357892"
 SKILLS_DIR = Path.home() / ".claude/skills/google-ads-ratos/scripts"
 OUTPUT_FILE = Path(__file__).parent / "dashboard.html"
+SHEETS_CREDENTIALS = Path.home() / ".claude/skills/google-ads-ratos/planilha-kpis.json"
+SPREADSHEET_ID = "1KRTWZ-t2jZGqK0VbCJkCgOffkA8rQHiDSqgrqO8ZnSU"
 
 
 def run_insights(subcommand, extra_args):
@@ -419,6 +422,99 @@ new Chart(ctx, {{
     return html
 
 
+def update_sheets(account, campaigns_data, daily_data):
+    gc = gspread.service_account(filename=str(SHEETS_CREDENTIALS))
+    sh = gc.open_by_key(SPREADSHEET_ID)
+    now = datetime.now()
+    since_date = (now - timedelta(days=29)).strftime("%d/%m/%Y")
+    today_fmt = now.strftime("%d/%m/%Y")
+
+    # --- Aba 1: Resumo e Campanhas ---
+    ws1 = sh.worksheet("Resumo e Campanhas")
+    ws1.clear()
+
+    m = account[0]["metrics"]
+    total_cost = m["cost"]
+    total_clicks = int(m["clicks"])
+    total_impressions = int(m["impressions"])
+    total_conv = m["conversions"]
+    cpa = round(m["cost_per_conversion"] / 1_000_000, 2) if total_conv > 0 else ""
+    cpc = round(m["average_cpc"] / 1_000_000, 2)
+    ctr = round(m["ctr"] * 100, 2)
+    cvr = round(m["conversions_from_interactions_rate"] * 100, 2)
+    imp_share = round(m["search_impression_share"] * 100, 2)
+
+    resumo_rows = [
+        [f"SCRIPTUS COMUNICAÇÃO - Google Ads"],
+        [f"Período: {since_date} a {today_fmt}"],
+        ["Atualizado em: " + now.strftime("%d/%m/%Y %H:%M")],
+        [],
+        ["RESUMO DA CONTA"],
+        ["Métrica", "Valor"],
+        ["Investimento (R$)", round(total_cost, 2)],
+        ["Cliques", total_clicks],
+        ["Impressões", total_impressions],
+        ["CTR (%)", ctr],
+        ["Conversões", total_conv],
+        ["CPA (R$)", cpa],
+        ["CPC Médio (R$)", cpc],
+        ["Taxa de Conversão (%)", cvr],
+        ["Impression Share (%)", imp_share],
+        [],
+        ["CAMPANHAS"],
+        ["Campanha", "Status", "Cliques", "Impressões", "CTR (%)", "Investimento (R$)", "Conversões", "CPA (R$)"],
+    ]
+
+    for row in sorted(campaigns_data, key=lambda x: x["metrics"]["cost"], reverse=True):
+        c = row["campaign"]
+        cm = row["metrics"]
+        status = "Ativa" if c["status"] == "ENABLED" else "Pausada"
+        camp_cpa = round(cm["cost_per_conversion"] / 1_000_000, 2) if cm["conversions"] > 0 else ""
+        resumo_rows.append([
+            c["name"], status,
+            int(cm["clicks"]), int(cm["impressions"]),
+            round(cm["ctr"] * 100, 2),
+            round(cm["cost"], 2),
+            cm["conversions"],
+            camp_cpa,
+        ])
+
+    ws1.update(resumo_rows, "A1")
+
+    # --- Aba 2: Dados Diários ---
+    ws2 = sh.worksheet("Dados Diários")
+    ws2.clear()
+
+    daily_by_date = {}
+    for row in daily_data:
+        date = row["segments"]["date"]
+        dm = row["metrics"]
+        if date not in daily_by_date:
+            daily_by_date[date] = {"clicks": 0, "conversions": 0.0, "cost": 0.0, "impressions": 0}
+        daily_by_date[date]["clicks"] += int(dm["clicks"])
+        daily_by_date[date]["conversions"] += dm["conversions"]
+        daily_by_date[date]["cost"] += dm["cost"]
+        daily_by_date[date]["impressions"] += int(dm["impressions"])
+
+    daily_rows = [["Data", "Cliques", "Impressões", "Investimento (R$)", "Conversões", "CTR (%)", "CPA (R$)"]]
+    for date in sorted(daily_by_date.keys()):
+        d = daily_by_date[date]
+        day_ctr = round(d["clicks"] / d["impressions"] * 100, 2) if d["impressions"] > 0 else 0
+        day_cpa = round(d["cost"] / d["conversions"], 2) if d["conversions"] > 0 else ""
+        daily_rows.append([
+            date,
+            d["clicks"],
+            d["impressions"],
+            round(d["cost"], 2),
+            d["conversions"],
+            day_ctr,
+            day_cpa,
+        ])
+
+    ws2.update(daily_rows, "A1")
+    print(f"Planilha atualizada: https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}")
+
+
 def main():
     print("Buscando dados do Google Ads — Scriptus...")
 
@@ -429,9 +525,11 @@ def main():
     campaigns_data = run_campaigns(["--date-range", "LAST_30_DAYS"])
     daily_data = run_insights("daily", ["--since", since, "--until", today])
 
-    print("Gerando dashboard...")
-    html = build_dashboard(account, campaigns_data, daily_data)
+    print("Atualizando planilha Google Sheets...")
+    update_sheets(account, campaigns_data, daily_data)
 
+    print("Gerando dashboard HTML...")
+    html = build_dashboard(account, campaigns_data, daily_data)
     OUTPUT_FILE.write_text(html, encoding="utf-8")
     print(f"Dashboard salvo em: {OUTPUT_FILE}")
 
