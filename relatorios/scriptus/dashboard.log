@@ -1,0 +1,4 @@
+Erro ao rodar insights.py account: ERRO: SDK 'google-ads' nao instalado.
+  Instale com: pip3 install google-ads protobuf
+
+Buscando dados do Google Ads — Scriptus...
