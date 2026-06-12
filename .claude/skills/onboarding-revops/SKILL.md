@@ -208,16 +208,42 @@ Retorna JSON com todos os IDs criados.
 
 ## Passo 6 — Criar estrutura no Google Drive
 
-```bash
-cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && python3 .claude/skills/onboarding-revops/api.py drive_setup "{COMPANY}"
+O Google Drive usa o MCP `mcp__claude_ai_Google_Drive__create_file` com autenticação OAuth da conta DVE. Não pode rodar em script Python independente.
+
+Execute via MCP na seguinte ordem:
+
+**6a.** Buscar a pasta pai "1. Clientes":
+```
+mcp__claude_ai_Google_Drive__search_files
+query: "name = '1. Clientes'"
 ```
 
-O script cria:
-- Pasta `{COMPANY}` dentro de `[WORK] - DVE Assessoria > 3. Operação > 1. Clientes`
-- Subpastas: Anúncios, Documentos, Comercial, Identidade Visual, Fotos e Vídeos, Listas de Clientes, Planilhas, Contrato
-- Dentro de Anúncios: RM 01 a RM 05, cada um com: Prontos, Revisão, Arquivos Brutos
+**6b.** Criar a pasta raiz do cliente:
+```
+mcp__claude_ai_Google_Drive__create_file
+name: "{COMPANY}"
+mimeType: application/vnd.google-apps.folder
+parents: ["{ID_1_CLIENTES}"]
+```
 
-Retorna JSON com os IDs das pastas criadas (incluindo `contrato_folder_id` e `drive_folder_url`).
+**6c.** Criar as 8 subpastas dentro da pasta do cliente (em paralelo):
+- Anúncios
+- Documentos
+- Comercial
+- Identidade Visual
+- Fotos e Vídeos
+- Listas de Clientes
+- Planilhas
+- Contrato
+
+**6d.** Criar dentro de Anúncios as pastas RM 01, RM 02, RM 03, RM 04, RM 05.
+
+**6e.** Dentro de cada RM, criar: Prontos, Revisão, Arquivos Brutos.
+
+Guardar:
+- `DRIVE_FOLDER_URL` = link da pasta raiz do cliente
+- `DRIVE_CONTRATO_URL` = link da pasta Contrato
+- `DRIVE_FOTOS_URL` = link da pasta Fotos e Vídeos (usar na mensagem de WhatsApp)
 
 ---
 
@@ -481,7 +507,8 @@ Ficamos muito felizes em dar início ao trabalho com a {COMPANY}. {data_reunião
 
 {lista numerada dos acessos que o cliente precisa providenciar, baseada na seção "Acessos necessários" do documento de onboarding}
 
-Além disso, se possível, vão separando fotos e vídeos da empresa, da equipe e dos serviços. Vamos criar uma pasta no Google Drive para vocês enviarem esses materiais e já usarmos na produção dos primeiros anúncios.
+Além disso, se possível, vão separando fotos e vídeos da empresa, da equipe e dos serviços. Já criamos uma pasta no Google Drive para vocês enviarem esses materiais:
+{DRIVE_FOTOS_URL}
 
 {se houver outros próximos passos do cliente no documento de onboarding, incluir aqui}
 
