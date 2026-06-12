@@ -248,12 +248,210 @@ cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && python3 .claude
 cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && python3 .claude/skills/onboarding-revops/api.py clickup_tarefas "{TAREFAS_LIST_ID}"
 ```
 
-O script replica a estrutura completa da tarefa mãe de onboarding RevOps:
-- **Onboarding RevOps** (mãe, status: backlog)
-  - Fase 1 - Boas Vindas (8 subtarefas)
-  - Fase 2 - Diagnóstico (10 subtarefas)
-  - Fase 3 - Estruturação (3 subtarefas)
-  - Fase 4 - Ativação (7 subtarefas)
+O script replica a estrutura completa abaixo. Criar em ordem (pai antes dos filhos). Todas as tarefas com `status: backlog`.
+
+**Hierarquia completa:**
+
+```
+Onboarding RevOps  [tarefa mãe]
+
+  Fase 1 - Boas Vindas
+  DESC: Alinhar expectativas, organizar o ambiente e garantir todos os acessos necessários para execução.
+
+    Enviar mensagem de boas vindas no grupo de WhatsApp
+    DESC: Todos os membros do squad devem mandar uma mensagem de boas vindas no WhatsApp se apresentando de forma profissional a equipe do novo cliente.
+    Definição de pronto: Todos os membros do squad enviaram a mensagem no grupo.
+    Responsável: Todos os membros do squad
+
+    Realizar reunião de onboarding com o cliente
+    DESC: Fazer a reunião de onboarding para alinhar objetivos, escopo, expectativas e forma de trabalho do projeto RevOps. Devemos gravar essa reunião com o TLDV e seguir o escopo do documento da reunião de onboarding.
+    Definição de pronto: Reunião realizada e principais decisões registradas no documento de onboarding.
+    Responsável: Customer Success
+
+    Criar documento de onboarding do cliente
+    DESC: Pegar gravação no TLDV e criar documento de onboarding com informações estratégicas, acessos, decisões e visão geral do projeto. Esse documento deve ser criado na parte "Documentos" que fica dentro da pasta do cliente no ClickUp.
+    Definição de pronto: Documento criado e salvo no Google Drive e ClickUp do cliente.
+    Responsável: Customer Success
+
+    Criar ClickUp
+    DESC: Criar pasta do cliente dentro do ClickUp com as seguintes sessões: Anúncios (lista), Tarefas (lista), Documentos (docs).
+    Definição de pronto: ClickUp criado com as 3 sessões com os status da tarefa configurados corretamente.
+    Responsável: Customer Success
+
+    Criar Google Drive
+    DESC: Criar e organizar as pastas do projeto do cliente para centralizar todos os arquivos no Google Drive. Pastas: Anúncios, Fotos e Vídeos, Identidade Visual, Planilhas, Marketing, Comercial, CS, Planejamento RevOps.
+    Definição de pronto: Google Drive criado com estrutura padrão e compartilhado no grupo do cliente.
+    Responsável: Customer Success
+
+    Coletar Acessos Necessários
+    DESC: Solicitar e validar todos os acessos essenciais para execução do projeto: Acesso Wordpress, Domínio, Hospedagem, CRM, Playbook de Vendas, Meta Ads, Google Ads.
+    Definição de pronto: Todos os acessos recebidos, testados e funcionando.
+    Responsável: Customer Success
+
+    Solicitar Fotos, Vídeos, ID Visual e outros
+    DESC: Precisamos que o cliente faça o upload de fotos, vídeos, ID Visual (Logo, PDF, Tipografia, etc) e outros materiais relevantes para o projeto como planilhas e documentos.
+    Solicitar: Fotos do Serviço/Produto, Vídeos do Serviço/Produto, Identidade Visual (Logo, PDF, Tipografia, Paleta de Cor), Planilhas, Documentos, Proposta Comercial.
+    Definição de pronto: Cliente fez o upload de todos os materiais solicitados na pasta correta do Drive.
+    Responsável: Customer Success
+
+    Definir as Reuniões do Google Agenda
+    DESC: Alinhar com o cliente qual será a frequência, dia e horários das nossas reuniões quinzenais de alinhamento.
+    Definição de pronto: Reuniões criadas no Google Agenda (da DVE), adicionado o e-mail de todos os participantes e comunicado no grupo.
+    Responsável: Customer Success
+
+  Fase 2 - Diagnóstico
+
+    Realizar Benchmark
+    DESC: Analisar concorrentes diretos e referências do mercado para identificar padrões e oportunidades. Realizar pesquisa com pelo menos 5 empresas do segmento analisando: canais de aquisição, funil de marketing, anúncios, oferta escalada, diferencial competitivo, posicionamento, provas sociais, processo comercial e follow up.
+    Definição de pronto: Benchmark documentado no Google Docs, adicionado ao Drive, link no ClickUp, aprovado internamente e pelo cliente.
+    Responsável: Analista
+
+    Analisar Campanhas de Tráfego
+    DESC: Analisar o histórico das campanhas de tráfego pago e mapear os criativos e públicos vencedores.
+    Definição de pronto: Análise do desempenho das campanhas documentado em Planilha e/ou Google Docs.
+    Responsável: Danilo
+
+    Analisar Presença Digital
+    DESC: Analisar como o cliente se posiciona hoje no digital em todos os canais ativos, mapeando gargalos, alavancas de crescimento e próximos passos.
+    Definição de pronto: Análise registrada em Google Docs com pontos fortes, pontos fracos e oportunidades.
+    Responsável: Davi
+
+    Analisar e Criar Oferta
+    DESC: Analisar se a oferta do cliente realmente é boa. Ver a gravação no TLDV na parte que fala sobre a oferta e também o site.
+    Definição de pronto: Oferta atual analisada e documentada com ajustes sugeridos.
+    Responsável: Danilo
+
+    Analisar diferencial competitivo
+    DESC: Ver a reunião de onboarding no TLDV e analisar a parte que o cliente fala sobre o diferencial competitivo. Verificar se o diferencial realmente é relevante para o mercado e ICP. Caso não for relevante, comunicar com o cliente para criar um.
+    Definição de pronto: Diferencial competitivo analisado e documentado.
+    Responsável: Danilo
+
+    Analisar e Criar ICP e Personas
+    DESC: Definir o perfil de cliente ideal e as personas que o funil deve atrair.
+    Definição de pronto: ICP e personas documentados e aprovados.
+    Responsável: Líder de Receita
+
+    Analisar e Mapear Jornada de Compra
+    DESC: Mapear o caminho do cliente desde o primeiro contato até a venda.
+    Definição de pronto: Jornada documentada com etapas claras.
+    Responsável: Líder de Receita
+
+    Analisar e Definir Funil de Captação
+    DESC: Definir a estrutura do funil (topo, meio e fundo) alinhada ao ICP e à jornada de compra do cliente.
+    Definição de pronto: Funil analisado e documentado.
+    Responsável: Líder de Receita
+
+    Criar Planejamento RevOps
+    DESC: Consolidar todas as decisões da fase de diagnóstico em um plano único de ação.
+    Definição de pronto: Planejamento RevOps documentado e validado internamente.
+    Responsável: Líder de Receita
+
+    Realizar Reunião de Apresentação do Planejamento
+    DESC: Apresentar o diagnóstico e alinhar expectativas antes da implementação.
+    Definição de pronto: Planejamento aprovado pelo cliente.
+    Responsável: Líder de Receita
+
+  Fase 3 - Estruturação
+
+    Marketing  [sub-pai]
+
+      Configurar tracking e eventos
+      DESC: Configurar todas as ferramentas de tracking necessárias para mensurar leads, conversões e desempenho das campanhas.
+      Definição de pronto: Eventos configurados, testados e disparando corretamente.
+      Responsável: Gestor de Tráfego
+
+      Configurar contas de anúncios
+      DESC: Configurar contas de anúncios que serão usadas na operação.
+      Definição de pronto: Conta(s) configurada(s) e pronta(s) para criação de campanhas.
+      Responsável: Gestor de Tráfego
+
+      Criar planilha de tráfego
+      DESC: Criar planilha para controle de investimentos, métricas e decisões de tráfego.
+      Definição de pronto: Planilha criada, estruturada e salva no Drive do cliente.
+      Responsável: Gestor de Tráfego
+
+      Criar planilha de leads - Landing Page
+      DESC: Criar planilha para registrar todos os leads cadastrados na Landing Page.
+      Definição de pronto: Planilha criada e integrada ao Wordpress.
+      Responsável: Webdesigner
+
+      Escrever copy da landing page
+      DESC: Escrever toda a copy da landing page com base no ICP, oferta e diferencial competitivo definidos.
+      Definição de pronto: Copy finalizada, revisada e aprovada internamente.
+      Responsável: Copywriter
+
+      Criar design da landing page
+      DESC: Criar o design visual da landing page seguindo o wireframe e a identidade do cliente.
+      Checklist: Design responsivo (desktop/mobile), identidade visual respeitada, CTA destacado visualmente, layout focado em conversão.
+      Definição de pronto: Design final aprovado internamente.
+
+      Implementar Landing Page no Wordpress
+
+      Integrar landing page ao tracking e fluxo de leads
+
+      Revisar landing page antes da ativação
+      DESC: Revisão final da landing page para evitar erros antes de iniciar campanhas.
+      Definição de pronto: Landing page revisada e liberada para tráfego.
+      Responsável: Líder de Receita
+
+      Definir estratégia de campanhas de tráfego
+
+      Criar Copy | RM 01
+
+    Comercial  [sub-pai]
+
+      Definir processos comerciais
+
+      Implementar CRM
+
+      Integrar leads ao CRM
+
+      Criar playbook de vendas
+
+      Criar Copy PDF Comercial
+
+      Criar Design PDF Comercial
+
+      Criar Planilha RevOps
+
+      Testar Processo Comercial antes da ativação
+
+    Sucesso do Cliente  [sub-pai]
+
+      Definir modelo de acompanhamento do cliente
+
+      Definir métricas de sucesso do cliente
+
+      Criar pesquisa de satisfação / NPS
+
+      Definir momentos de aplicação da pesquisa
+
+      Criar rotina de feedback com o cliente
+
+      Definir processo de tratamento de insatisfação
+
+      Criar registro de histórico do cliente
+
+      Validar estrutura de CS antes da ativação
+
+  Fase 4 - Ativação
+
+    Subir Campanhas de Tráfego
+
+    Validar Jornada de Compra
+
+    Analisar métricas iniciais da operação
+
+    Brainstorm interno após ativação
+
+    Definir rotina de acompanhamento recorrente
+
+    Formalizar encerramento do onboarding
+
+    Registrar lições aprendidas do onboarding
+```
+
+**Importante sobre níveis:** A Fase 3 tem 3 camadas: Onboarding RevOps > Fase 3 - Estruturação > Marketing/Comercial/CS > subtarefas de cada área. Criar cada nível com o `parent` apontando para o ID do pai imediato criado na chamada anterior.
 
 ---
 
@@ -268,7 +466,7 @@ ClickUp
 • Pasta: {COMPANY} (Tipo A - Clientes)
 • Listas: Anúncios e Tarefas (com colunas configuradas)
 • Docs: Docs - {COMPANY} | Reuniões {COMPANY}
-• Tarefas: Onboarding RevOps com 4 fases e 28 subtarefas
+• Tarefas: Onboarding RevOps com 4 fases (56 subtarefas no total)
 
 Google Drive
 • Pasta: {COMPANY} com 8 subpastas
