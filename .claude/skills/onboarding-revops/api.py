@@ -4,15 +4,16 @@ onboarding-revops/api.py
 
 Commands:
   clickup_setup    <company> <onboarding_file> <date_DD/MM/YYYY> <tldv_url>
+                   (cria pasta, listas, views, docs E todas as tarefas de onboarding)
   zapsign_find     <company>
   clickup_contrato <doc1_id> <drive_contrato_url> <zapsign_url> <date_DD/MM/YYYY>
-  clickup_tarefas  <tarefas_list_id>
+  clickup_tarefas  <tarefas_list_id>   (fallback: re-criar tarefas em lista existente)
 
 Note: Drive setup uses Claude's Google Drive MCP (OAuth via claude.ai) and
 cannot run from a standalone script. See SKILL.md Passo 6 for MCP instructions.
 """
 
-import sys, os, json, requests
+import sys, os, json, time, requests
 from difflib import SequenceMatcher
 
 # ── Config ────────────────────────────────────────────────────────────────────
@@ -151,26 +152,26 @@ def clickup_setup(company, onboarding_file, date_str, tldv_url):
         content = f.read()
     content_with_link = f'[Abrir gravação no TLDV]({tldv_url})\n\n---\n\n{content}'
 
-    _log(f'[1/8] Criando pasta "{company}"...')
+    _log(f'[1/9] Criando pasta "{company}"...')
     folder    = _create_folder(company)
     folder_id = folder['id']
 
-    _log('[2/8] Criando lista Anúncios...')
+    _log('[2/9] Criando lista Anúncios...')
     anuncios    = _create_list(folder_id, 'Anúncios', override=True, statuses=ANUNCIOS_STATUSES)
     anuncios_id = anuncios['id']
 
-    _log('[3/8] Criando lista Tarefas...')
+    _log('[3/9] Criando lista Tarefas...')
     tarefas    = _create_list(folder_id, 'Tarefas')
     tarefas_id = tarefas['id']
 
-    _log('[4/8] Criando views Lista...')
+    _log('[4/9] Criando views Lista...')
     _create_view(anuncios_id)
     _create_view(tarefas_id)
 
-    _log('[5/8] Criando Doc Docs...')
+    _log('[5/9] Criando Doc Docs...')
     doc1_id = _create_doc(f'Docs - {company}', folder_id)
 
-    _log('[6/8] Criando guias em Docs...')
+    _log('[6/9] Criando guias em Docs...')
     _create_page(doc1_id, 'Onboarding', content_with_link)
     _create_page(doc1_id, 'Acessos')
     _create_page(doc1_id, 'Entregáveis', ENTREGAVEIS)
@@ -178,10 +179,10 @@ def clickup_setup(company, onboarding_file, date_str, tldv_url):
     _create_page(doc1_id, 'Tráfego Pago')
     _create_page(doc1_id, 'ICP e Personas')
 
-    _log('[7/8] Criando Doc Reuniões...')
+    _log('[7/9] Criando Doc Reuniões...')
     doc2_id = _create_doc(f'Reuniões {company}', folder_id)
 
-    _log('[8/8] Criando hierarquia de reunião...')
+    _log('[8/9] Criando hierarquia de reunião...')
     root  = _create_page(doc2_id, 'Reuniões')
     root_id = root.get('id', '')
     year_p  = _create_page(doc2_id, year, parent_page_id=root_id)
@@ -190,12 +191,16 @@ def clickup_setup(company, onboarding_file, date_str, tldv_url):
     month_id = month_p.get('id', '')
     _create_page(doc2_id, day_label, content_with_link, parent_page_id=month_id)
 
+    _log('[9/9] Criando tarefas de onboarding (56 tarefas — ~20s)...')
+    mae_task_id = _build_tasks(tarefas_id, ONBOARDING_TASKS)
+
     print(json.dumps({
-        'folder_id':       folder_id,
+        'folder_id':        folder_id,
         'anuncios_list_id': anuncios_id,
         'tarefas_list_id':  tarefas_id,
         'doc1_id':          doc1_id,
         'doc2_id':          doc2_id,
+        'mae_task_id':      mae_task_id,
         'note': 'Verificar modelo de status da lista Anúncios: Editar status > selecionar "Anúncios" > Aplicar alterações',
     }, ensure_ascii=False, indent=2))
 
@@ -442,6 +447,7 @@ def _create_task(list_id, name, description, parent_id=None):
         body['parent'] = parent_id
     r = requests.post(f'{CU2}/list/{list_id}/task', headers=_cu(), json=body)
     r.raise_for_status()
+    time.sleep(0.3)   # evita rate limit do ClickUp (~100 req/min)
     return r.json()
 
 def _build_tasks(list_id, task_def, parent_id=None, depth=0):

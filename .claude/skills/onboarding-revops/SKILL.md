@@ -194,15 +194,16 @@ Execute via script:
 cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && python3 .claude/skills/onboarding-revops/api.py clickup_setup "{COMPANY}" "{ONBOARDING_CONTENT_FILE}" "{date_DD/MM/YYYY}" "{TLDV_MEETING_URL}"
 ```
 
-O script faz tudo em sequência:
+O script faz tudo em sequência (9 etapas internas, ~30–40s no total):
 1. Cria a pasta do cliente no Space "Tipo A - Clientes"
 2. Cria lista Anúncios com `override_statuses: true` + statuses corretos
 3. Cria lista Tarefas com statuses corretos
 4. Cria view "Lista" com 5 colunas em ambas as listas
 5. Cria Doc "Docs - {COMPANY}" com 6 guias (Onboarding com conteúdo, Acessos, Entregáveis com os 9 entregáveis, Benchmark, Tráfego Pago, ICP e Personas)
 6. Cria Doc "Reuniões {COMPANY}" com hierarquia Reuniões > Ano > Mês > Data (conteúdo do onboarding)
+7. Cria toda a hierarquia de 56 tarefas de onboarding na lista Tarefas (com 0.3s de intervalo entre chamadas para respeitar o rate limit do ClickUp)
 
-Retorna JSON com todos os IDs criados.
+Retorna JSON com: `folder_id`, `anuncios_list_id`, `tarefas_list_id`, `doc1_id`, `doc2_id`, `mae_task_id`.
 
 ---
 
@@ -269,13 +270,15 @@ cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && python3 .claude
 
 ---
 
-## Passo 9 — Criar tarefas de onboarding no ClickUp
+## Passo 9 — Tarefas (criadas automaticamente no Passo 5)
+
+As tarefas são criadas automaticamente pelo `clickup_setup`. Este passo existe apenas como **fallback**: se as tarefas falharem no meio do processo ou precisarem ser recriadas em uma lista existente, execute:
 
 ```bash
 cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && python3 .claude/skills/onboarding-revops/api.py clickup_tarefas "{TAREFAS_LIST_ID}"
 ```
 
-O script replica a estrutura completa abaixo. Criar em ordem (pai antes dos filhos). Todas as tarefas com `status: backlog`.
+O script cria a estrutura completa abaixo. Todas as tarefas com `status: backlog`.
 
 **Hierarquia completa:**
 
@@ -482,7 +485,7 @@ Onboarding RevOps  [tarefa mãe]
 
 ---
 
-## Passo 10 — Gerar mensagem de WhatsApp para o grupo do cliente
+## Passo 10 — Gerar mensagem de WhatsApp para o grupo do cliente (gerada automaticamente)
 
 Com base nas informações do documento de onboarding (acessos necessários, data/hora da próxima reunião, próximos passos do cliente), gere a mensagem de boas-vindas e orientação para enviar no grupo do WhatsApp.
 
