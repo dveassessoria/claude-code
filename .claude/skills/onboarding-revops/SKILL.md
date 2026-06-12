@@ -11,6 +11,7 @@ Processo completo de onboarding de um novo cliente de RevOps:
 3. Cria estrutura completa no ClickUp (pasta, listas Anúncios e Tarefas, docs, tarefas de onboarding)
 4. Cria estrutura completa no Google Drive (pasta do cliente com subpastas)
 5. Busca o contrato no ZapSign e cria guia no ClickUp com os links
+6. Gera mensagem de WhatsApp com os próximos passos para enviar ao grupo do cliente
 
 **Script helper:** `.claude/skills/onboarding-revops/api.py`
 **Raiz do projeto:** `/Users/macbookairm4/Documents/DVE Assessoria/Claude Code`
@@ -455,7 +456,41 @@ Onboarding RevOps  [tarefa mãe]
 
 ---
 
-## Passo 10 — Resumo final para o usuário
+## Passo 10 — Gerar mensagem de WhatsApp para o grupo do cliente
+
+Com base nas informações do documento de onboarding (acessos necessários, data/hora da próxima reunião, próximos passos do cliente), gere a mensagem de boas-vindas e orientação para enviar no grupo do WhatsApp.
+
+### Regras da mensagem
+
+- Tom humano, direto e profissional. Sem formalidade excessiva.
+- Saudação baseada no horário atual (BRT): 05h–11h59 = "Bom dia", 12h–17h59 = "Boa tarde", 18h–04h59 = "Boa noite"
+- Nunca usar travessão (—).
+- Listar apenas os acessos que o cliente precisa providenciar (não os que a DVE vai configurar).
+- Mencionar o Google Drive para envio de fotos e vídeos.
+- Confirmar data e horário da próxima reunião.
+- **Exibir a mensagem dentro de um bloco de código** (``` ```) para que o botão de copiar apareça.
+
+### Formato obrigatório
+
+```
+{Bom dia/Boa tarde/Boa noite}, {nome do contato principal}! Tudo bem?
+
+Ficamos muito felizes em dar início ao trabalho com a {COMPANY}. {data_reunião} às {hora_reunião} faremos a reunião técnica para configurar tudo. Para aproveitar ao máximo o tempo da reunião, precisamos que vocês cheguem preparados com alguns acessos.
+
+*O que reunir até {data_reunião}:*
+
+{lista numerada dos acessos que o cliente precisa providenciar, baseada na seção "Acessos necessários" do documento de onboarding}
+
+Além disso, se possível, vão separando fotos e vídeos da empresa, da equipe e dos serviços. Vamos criar uma pasta no Google Drive para vocês enviarem esses materiais e já usarmos na produção dos primeiros anúncios.
+
+{se houver outros próximos passos do cliente no documento de onboarding, incluir aqui}
+
+Qualquer dúvida, estou à disposição aqui no grupo. Até {data_reunião}!
+```
+
+---
+
+## Passo 11 — Resumo final para o usuário
 
 Apresente um resumo limpo do que foi criado:
 
@@ -479,6 +514,7 @@ Contrato
 Próximos passos manuais:
 • Upload do PDF do contrato na pasta Contrato do Drive
 • Verificar modelo de status da lista Anúncios no ClickUp (abrir "Editar status" > selecionar "Anúncios" > "Aplicar alterações")
+• Enviar a mensagem de WhatsApp acima no grupo do cliente
 ```
 
 ---
