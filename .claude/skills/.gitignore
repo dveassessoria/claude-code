@@ -1,0 +1,9 @@
+# Credenciais e segredos — nunca subir para o GitHub
+.env
+ftp.env
+google-credentials.json
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
