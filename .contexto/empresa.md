@@ -150,8 +150,22 @@ O CS é responsável por:
 - Repasse de correções e ajustes do cliente para o time interno
 - Participação como ouvinte em todas as reuniões, rodando a skill /minuta e enviando minuta e próximos passos ao cliente
 
-**Fixo:** a definir na contratação
-**Bônus mensal:** R$ 500, pago ao atingir os KPIs definidos. Gatilho absoluto: qualquer churn no mês cancela o bônus, independente dos outros indicadores.
+### Salário base variável por cliente
+
+R$ 87 por grupo/cliente ativo. O salário ajusta automaticamente conforme a carteira:
+- 23 clientes = R$ 2.000
+- Se um cliente cancela, o salário cai R$ 87 no mês seguinte
+
+### Bônus mensal (até R$ 500)
+
+| KPI | Meta | Peso | Bônus |
+|-----|------|------|-------|
+| Contato proativo | Tipo A diário, Tipo B 3x/semana | 40% | R$ 200 |
+| Churn | 0% no mês | 20% | R$ 100 |
+| Minuta após reunião | Enviada em até 1h após a reunião | 20% | R$ 100 |
+| Tempo de resposta | Responder em até 1h em horário comercial | 20% | R$ 100 |
+
+O CS foi informado que churn é a única métrica que ele não controla 100% e está alinhado com isso. Churn por motivo externo comprovado (cliente fecha empresa, corte de budget por crise) pode ser avaliado caso a caso pelo gestor sem penalizar automaticamente o bônus.
 
 ---
 
