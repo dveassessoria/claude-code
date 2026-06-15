@@ -13,7 +13,7 @@ Workspace de operações da DVE Assessoria. Aqui ficam todos os clientes, entreg
 - `dados/` — arquivos para análise (CSV, PDF, relatórios)
 - `marca/` — identidade visual e guia de design
 - `Recursos Humanos/` — gestão de pessoas e processos seletivos
-  - `cargos/` — descritivos de vaga por cargo (CS, Gestor de Tráfego, Designer, Editor de Vídeo, Copywriter, Social Media)
+  - `cargos/` — descritivos de vaga por cargo (CS, Gestor de Tráfego, Designer, Editor de Vídeo, Copywriter, Social Media, BDR, SDR, Closer)
   - `davi/` — perfil, KPIs e feedback do colaborador
 - `templates/skills/` — templates de skills prontos para personalizar com /mapear
 - `templates/ferramentas/catalogo.md` — APIs e ferramentas disponíveis para usar em skills
