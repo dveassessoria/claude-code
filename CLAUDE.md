@@ -12,6 +12,9 @@ Workspace de operações da DVE Assessoria. Aqui ficam todos os clientes, entreg
 - `conteudo/` — produção de conteúdo (copy, roteiros, posts)
 - `dados/` — arquivos para análise (CSV, PDF, relatórios)
 - `marca/` — identidade visual e guia de design
+- `Recursos Humanos/` — gestão de pessoas e processos seletivos
+  - `cargos/` — descritivos de vaga por cargo (CS, Gestor de Tráfego, Designer, Editor de Vídeo, Copywriter, Social Media)
+  - `davi/` — perfil, KPIs e feedback do colaborador
 - `templates/skills/` — templates de skills prontos para personalizar com /mapear
 - `templates/ferramentas/catalogo.md` — APIs e ferramentas disponíveis para usar em skills
 - `tarefas.md` — lista de tarefas corrente
@@ -82,6 +85,8 @@ Evitar: textos genéricos, superficiais, robotizados ou sem profundidade. Frases
 - Clientes novos: criar pasta em `clientes/[nome-cliente]/` com `briefing.md` dentro
 - Conteúdo produzido salvar em `conteudo/`
 - Arquivos para análise jogar em `dados/`
+- Descritivos de vaga salvar em `Recursos Humanos/cargos/[nome-do-cargo]/`
+- Arquivos de colaboradores (perfil, KPIs, feedback) salvar em `Recursos Humanos/[nome]/`
 
 ## Ferramentas conectadas
 
