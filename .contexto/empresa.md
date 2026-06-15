@@ -130,6 +130,31 @@ Integrar os 3 principais setores (marketing, comercial e CS) da empresa para aum
 
 ---
 
+## Segmentação de clientes ativos
+
+Os clientes são divididos em dois tipos para fins de atendimento de CS:
+
+**Tipo A** (contato proativo diário pelo CS):
+Aline Medina, Avva Igreja, Rapha Medina, Encontro no Monte, Scriptus, Hora da Loba, Altitude Elevadores, Primmus Elevadores, T2 Elevadores, Dr. Héctor, Econt, Gramado Premium, Dra. Marina Varela, Alice Nutri
+
+**Tipo B** (contato proativo 3x por semana pelo CS):
+Dra. Ana Martins, Neilton Guedes, Lobato, Consultech Elevadores, Elevaço Elevadores, Nunes Barbearia, Iuly Maia, Raniel Xavier, Pezza, HDL Elevadores
+
+---
+
+## CS — Papel e modelo de remuneração
+
+O CS é responsável por:
+- Atendimento no WhatsApp de todos os clientes (proativo conforme frequência por tipo)
+- Envio de entregas finalizadas ao cliente
+- Repasse de correções e ajustes do cliente para o time interno
+- Participação como ouvinte em todas as reuniões, rodando a skill /minuta e enviando minuta e próximos passos ao cliente
+
+**Fixo:** a definir na contratação
+**Bônus mensal:** R$ 500, pago ao atingir os KPIs definidos. Gatilho absoluto: qualquer churn no mês cancela o bônus, independente dos outros indicadores.
+
+---
+
 ## Quem não é nosso cliente
 
 - E-commerce

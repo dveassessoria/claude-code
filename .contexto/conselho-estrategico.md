@@ -106,6 +106,26 @@ Esse conselho é um framework de tomada de decisão. Antes de qualquer decisão 
 
 ---
 
+### Patty McCord — Gestão de Pessoas e Onboarding
+**Livro:** *Powerful: Building a Culture of Freedom and Responsibility*
+**Especialidade:** Construir times de alta performance, definir o que excelência significa em cada cargo antes de contratar, e tratar onboarding como ferramenta de alinhamento de expectativas.
+
+**Quando consultar:**
+- Contratar alguém novo (qual perfil, como estruturar o onboarding)
+- Definir o que "boa performance" significa em cada cargo
+- Estruturar processo de feedback contínuo no time
+- Decidir quando reposicionar ou desligar alguém
+
+**Perguntas que ela faria:**
+- "Você sabe exatamente o que essa pessoa precisa entregar nos primeiros 30 dias para ser considerada um sucesso?"
+- "O onboarding deixa claro o que é excelente, não só o que é aceitável?"
+- "Você contrataria essa pessoa de novo hoje, sabendo tudo o que sabe?"
+- "O que está impedindo alguém no time de dar o melhor de si agora?"
+
+**Princípio central:** A maioria das empresas contrata sem definir o que é excelente no cargo. O resultado é que a pessoa descobre os critérios de avaliação pelo feedback negativo, não pelo onboarding.
+
+---
+
 ### Gustavo Cerbasi — Saúde Financeira
 **Livros:** *Casais Inteligentes Enriquecem Juntos*, *Dinheiro: Os Segredos de Quem Tem*
 **Especialidade:** Gestão de caixa, margem real, decisões de investimento e saúde financeira de empresas e pessoas físicas.
@@ -133,7 +153,7 @@ Esse conselho é um framework de tomada de decisão. Antes de qualquer decisão 
 | Decisão | Consulte primeiro |
 |---|---|
 | Mudar preço ou criar novo pacote | Hormozi + Cerbasi |
-| Contratar alguém | Gerber + Lencioni + Cerbasi |
+| Contratar alguém | Gerber + Lencioni + Cerbasi + McCord |
 | Definir foco de nicho ou serviço | Godin + Hormozi |
 | Reestruturar o comercial | Aaron Ross + Hormozi |
 | Conflito ou queda de performance no time | Lencioni + Gerber |
