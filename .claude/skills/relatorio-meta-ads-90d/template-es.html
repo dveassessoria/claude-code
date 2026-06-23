@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auditoría Meta Ads: {{NOME_CLIENTE}} | Chatflux</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    :root {
+      --bg:     #10131c;
+      --card:   #16191f;
+      --accent: #19e65a;
+      --accent2:#51f5ab;
+      --text:   #d5dbe6;
+      --muted:  rgba(213,219,230,0.5);
+      --border: rgba(213,219,230,0.08);
+      --red:    #ff4c4c;
+      --orange: #ffa040;
+      --yellow: #ffd740;
+    }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:15px; line-height:1.6; }
+
+    header { background:var(--card); border-bottom:1px solid var(--border); padding:28px 48px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    .logo-svg { height:28px; width:auto; }
+    .header-meta { text-align:right; }
+    .header-meta p { font-size:13px; color:var(--muted); }
+    .header-meta strong { color:var(--text); font-weight:600; }
+
+    .hero { padding:52px 48px 40px; border-bottom:1px solid var(--border); position:relative; overflow:hidden; }
+    .hero::before { content:''; position:absolute; top:-60px; left:-60px; width:320px; height:320px; background:radial-gradient(circle,rgba(25,230,90,0.07) 0%,transparent 70%); pointer-events:none; }
+    .hero-label { font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+    .hero h1 { font-size:32px; font-weight:800; line-height:1.2; margin-bottom:8px; color:#fff; }
+    .hero-sub { color:var(--muted); font-size:14px; }
+    .hero-scope { margin-top:20px; display:inline-flex; align-items:center; gap:8px; background:rgba(25,230,90,0.08); border:1px solid rgba(25,230,90,0.2); border-radius:6px; padding:8px 14px; font-size:13px; color:var(--accent2); }
+    .hero-scope strong { color:var(--accent); }
+
+    .hero-metric { padding:40px 48px; border-bottom:1px solid var(--border); background:linear-gradient(135deg,rgba(25,230,90,0.04) 0%,transparent 60%); }
+    .hero-metric-inner { display:flex; align-items:center; gap:48px; flex-wrap:wrap; }
+    .big-metric { display:flex; flex-direction:column; gap:4px; }
+    .big-metric-label { font-size:12px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); }
+    .big-metric-value { font-size:64px; font-weight:800; color:#fff; line-height:1; }
+    .big-metric-unit { font-size:18px; font-weight:400; color:var(--muted); margin-left:4px; }
+    .big-metric-note { font-size:13px; color:var(--muted); margin-top:4px; }
+    .hero-metric-divider { width:1px; height:80px; background:var(--border); flex-shrink:0; }
+    .hero-secondary { display:flex; flex-direction:column; gap:14px; }
+    .sec-metric { display:flex; align-items:baseline; gap:8px; }
+    .sec-metric-val { font-size:22px; font-weight:700; color:#fff; }
+    .sec-metric-label { font-size:13px; color:var(--muted); }
+
+    .section { padding:40px 48px; border-bottom:1px solid var(--border); }
+    .section-title { font-size:15px; font-weight:700; color:#fff; margin-bottom:24px; display:flex; align-items:center; gap:10px; }
+    .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    .metrics-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); gap:12px; }
+    .metric-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:18px 20px; }
+    .metric-label { font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+    .metric-value { font-size:24px; font-weight:800; line-height:1; margin-bottom:4px; color:#fff; }
+    .metric-note { font-size:12px; color:var(--muted); }
+    .metric-card.c-red { border-color:rgba(255,76,76,0.3); } .metric-card.c-red .metric-value { color:var(--red); }
+    .metric-card.c-orange { border-color:rgba(255,160,64,0.3); } .metric-card.c-orange .metric-value { color:var(--orange); }
+    .metric-card.c-green { border-color:rgba(25,230,90,0.2); } .metric-card.c-green .metric-value { color:var(--accent); }
+    .metric-card.c-accent { background:rgba(25,230,90,0.05); border-color:rgba(25,230,90,0.3); } .metric-card.c-accent .metric-value { color:var(--accent); font-size:28px; }
+
+    .funnel { display:flex; flex-direction:column; }
+    .funnel-row { display:grid; grid-template-columns:1fr 140px 140px; align-items:center; border-bottom:1px solid var(--border); padding:14px 0; }
+    .funnel-row:last-child { border-bottom:none; }
+    .funnel-row.header { padding-bottom:8px; }
+    .funnel-row.header .funnel-metric,.funnel-row.header .funnel-val,.funnel-row.header .funnel-cost { font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--muted); }
+    .funnel-row.highlight { background:rgba(25,230,90,0.04); border-radius:8px; padding:16px 12px; margin:4px -12px; border:1px solid rgba(25,230,90,0.15); }
+    .funnel-metric { font-size:14px; font-weight:500; }
+    .funnel-metric small { display:block; font-size:12px; color:var(--muted); font-weight:400; margin-top:2px; }
+    .funnel-val { font-size:20px; font-weight:700; color:#fff; text-align:right; }
+    .funnel-row.highlight .funnel-val { color:var(--accent); font-size:22px; }
+    .funnel-cost { font-size:14px; font-weight:600; color:var(--muted); text-align:right; }
+    .funnel-row.highlight .funnel-cost { color:var(--accent2); font-size:15px; }
+
+    /* Full funnel (Meta → Chatflux → Consulta) */
+    .full-funnel { display:flex; flex-direction:column; gap:0; }
+    .ff-row { display:grid; grid-template-columns:36px 1fr 100px 100px 120px; align-items:center; gap:16px; padding:14px 0; border-bottom:1px solid var(--border); }
+    .ff-row:last-child { border-bottom:none; }
+    .ff-row.hdr { padding-bottom:8px; }
+    .ff-row.hdr span { font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--muted); }
+    .ff-step { width:36px; height:36px; border-radius:50%; background:rgba(25,230,90,0.1); border:1px solid rgba(25,230,90,0.2); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:var(--accent); flex-shrink:0; }
+    .ff-label { font-size:14px; font-weight:600; color:#fff; }
+    .ff-label small { display:block; font-size:12px; color:var(--muted); font-weight:400; margin-top:2px; }
+    .ff-num { font-size:20px; font-weight:800; color:#fff; text-align:right; }
+    .ff-rate { font-size:13px; color:var(--muted); text-align:right; }
+    .ff-cost { font-size:14px; font-weight:600; text-align:right; color:var(--muted); }
+    .ff-row.highlight-row .ff-num { color:var(--accent); }
+    .ff-row.highlight-row .ff-cost { color:var(--accent2); font-size:15px; font-weight:700; }
+
+    /* ROI Card */
+    .roi-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .roi-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:24px; }
+    .roi-card.main { background:rgba(25,230,90,0.05); border-color:rgba(25,230,90,0.25); grid-column:1/-1; display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; align-items:center; }
+    .roi-item { display:flex; flex-direction:column; gap:6px; }
+    .roi-item-label { font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+    .roi-item-val { font-size:32px; font-weight:800; color:var(--accent); line-height:1; }
+    .roi-item-note { font-size:12px; color:var(--muted); }
+    .roi-divider { width:1px; background:var(--border); align-self:stretch; }
+
+    /* Channel table */
+    .channel-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .channel-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:22px; }
+    .channel-card.winner { border-color:rgba(25,230,90,0.25); }
+    .channel-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+    .channel-name { font-size:15px; font-weight:700; color:#fff; }
+    .channel-badge { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:3px 8px; border-radius:4px; }
+    .badge-green { background:rgba(25,230,90,0.12); color:var(--accent); }
+    .badge-muted { background:rgba(213,219,230,0.07); color:var(--muted); }
+    .channel-stats { display:flex; flex-direction:column; gap:12px; }
+    .channel-stat { display:flex; justify-content:space-between; align-items:baseline; }
+    .channel-stat-label { font-size:13px; color:var(--muted); }
+    .channel-stat-val { font-size:15px; font-weight:700; color:#fff; }
+    .channel-bar { margin-top:12px; }
+    .channel-bar-label { display:flex; justify-content:space-between; font-size:12px; margin-bottom:5px; }
+    .channel-bar-track { height:6px; background:var(--border); border-radius:99px; overflow:hidden; }
+    .channel-bar-fill { height:100%; border-radius:99px; background:var(--accent); }
+    .channel-bar-fill.low { background:var(--orange); }
+
+    /* Monthly table */
+    .monthly-table { width:100%; border-collapse:collapse; }
+    .monthly-table th { text-align:left; font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--muted); padding:10px 16px; border-bottom:1px solid var(--border); }
+    .monthly-table td { padding:13px 16px; font-size:14px; border-bottom:1px solid var(--border); }
+    .monthly-table tr:last-child td { border-bottom:none; }
+    .monthly-table tr:hover td { background:rgba(213,219,230,0.02); }
+    .month-label { font-weight:600; color:#fff; }
+    .rate-pill { display:inline-block; padding:2px 8px; border-radius:4px; font-size:12px; font-weight:600; background:rgba(25,230,90,0.1); color:var(--accent); }
+
+    /* Ads table */
+    .ads-table { width:100%; border-collapse:collapse; }
+    .ads-table th { text-align:left; font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--muted); padding:10px 16px; border-bottom:1px solid var(--border); }
+    .ads-table td { padding:14px 16px; font-size:14px; border-bottom:1px solid var(--border); vertical-align:middle; }
+    .ads-table tr:last-child td { border-bottom:none; }
+    .ad-name { font-weight:600; color:#fff; }
+    .ad-sub { font-size:12px; color:var(--muted); margin-top:2px; }
+    .budget-bar { height:4px; background:var(--border); border-radius:99px; margin-top:6px; overflow:hidden; }
+    .budget-bar-fill { height:100%; border-radius:99px; background:var(--accent); }
+    .budget-bar-fill.low { background:rgba(213,219,230,0.15); }
+    .badge-winner { display:inline-block; font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; padding:2px 7px; border-radius:4px; background:rgba(25,230,90,0.12); color:var(--accent); margin-left:8px; }
+
+    /* Alerts */
+    .alerts { display:flex; flex-direction:column; gap:12px; }
+    .alert-card { background:var(--card); border:1px solid var(--border); border-left:3px solid var(--orange); border-radius:0 8px 8px 0; padding:18px 20px; display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:start; }
+    .alert-card.critical { border-left-color:var(--red); }
+    .alert-card.info { border-left-color:rgba(25,230,90,0.5); }
+    .alert-icon { font-size:18px; line-height:1.4; }
+    .alert-title { font-size:14px; font-weight:700; color:#fff; margin-bottom:4px; }
+    .alert-body { font-size:13px; color:var(--muted); line-height:1.6; }
+    .alert-action { margin-top:8px; font-size:12px; color:var(--accent2); font-weight:500; }
+    .alert-action::before { content:'→ '; }
+
+    footer { padding:28px 48px; text-align:center; border-top:1px solid var(--border); font-size:12px; color:var(--muted); }
+    footer strong { color:var(--text); font-weight:600; }
+
+    @media(max-width:680px) {
+      header,.hero,.hero-metric,.section { padding:24px 20px; }
+      .hero h1 { font-size:24px; }
+      .big-metric-value { font-size:48px; }
+      .hero-metric-divider { display:none; }
+      .roi-card.main { grid-template-columns:1fr; }
+      .channel-grid { grid-template-columns:1fr; }
+      .ff-row { grid-template-columns:28px 1fr 80px; }
+      .ff-rate,.ff-cost { display:none; }
+    }
+
+    @media print {
+      @page { margin: 14mm 12mm; size: A4 portrait; }
+
+      .metric-card,
+      .funnel-row,
+      .alert-card,
+      .channel-card,
+      .roi-card,
+      .ads-table tr,
+      .hero-metric-inner,
+      .hero-scope,
+      .hero,
+      .hero-metric,
+      .metrics-grid,
+      .funnel {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .section-title, h1, h2 {
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
+      .section > div > div,
+      .section > div[style] {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .section div[style*="display:flex;gap:14px"] {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      header { break-after: avoid; page-break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <svg class="logo-svg" viewBox="0 0 1357 346" xmlns="http://www.w3.org/2000/svg" aria-label="Chatflux">
+    <path fill="#19e65a" d="m763.42 44.606 3.258-.035 3.544.01c1.24-.01 2.48-.018 3.757-.027 3.392-.019 6.785-.025 10.177-.023 2.836 0 5.671-.008 8.507-.017 6.69-.019 13.381-.022 20.072-.015 6.896.007 13.79-.016 20.686-.053 5.927-.031 11.854-.042 17.782-.038 3.537.002 7.073-.004 10.61-.028 3.946-.027 7.89-.013 11.835.005l3.538-.04c8.826.091 8.826.091 12.501 3.056 4.838 5.436 4.651 10.494 4.625 17.474l.05 2.645c.004 5.576-.337 9.719-3.362 14.48-5.297 3.764-10.362 4.573-16.71 4.454l-2.517.002a770.992 770.992 0 0 1-8.148-.065c-1.894-.008-3.789-.014-5.683-.018-4.965-.015-9.93-.054-14.894-.098-5.968-.049-11.936-.067-17.904-.09-9.049-.039-18.096-.116-27.144-.185v46l15.504-.105c3.25-.016 6.499-.03 9.748-.041a3480.13 3480.13 0 0 0 15.458-.08c4.156-.033 8.312-.05 12.469-.059 1.582-.005 3.164-.016 4.747-.032a636.61 636.61 0 0 1 6.67-.024l3.829-.02c5.236.529 9.152 1.938 12.95 5.736 4.013 6.482 3.516 15.82 2.164 23.11-1.615 5.053-3.98 7.052-8.539 9.515-3.569.481-3.569.481-7.566.454l-2.22.002a603.966 603.966 0 0 1-7.206-.065c-1.673-.008-3.346-.014-5.019-.018-4.39-.015-8.779-.054-13.168-.098-4.485-.041-8.97-.06-13.454-.08A5589.26 5589.26 0 0 1 798 170l.02 2.89c.061 8.99.106 17.98.135 26.97.016 4.621.037 9.243.071 13.865.033 4.46.05 8.922.059 13.383.005 1.7.016 3.402.032 5.103.022 2.385.025 4.768.024 7.153l.032 2.127c-.027 4.35-.74 7.035-3.373 10.509-4.004 3.209-7.266 3.385-12.313 3.398l-2.094.01a453.95 453.95 0 0 1-4.367-.017 419 419 0 0 0-6.656.02c-1.419-.003-2.838-.007-4.258-.013l-3.886-.01c-3.745-.424-5.535-.99-8.426-3.388-3.6-5.445-3.409-10.395-3.34-16.687l-.002-3.224c.002-3.507.025-7.012.049-10.519a5647.437 5647.437 0 0 1 .087-26.51c.036-7.685.05-15.37.067-23.056.03-11.668.087-23.336.139-35.004h-87l.375 34 .103 10.695.082 6.384c.018 1.41.032 2.821.043 4.232-.264 12.964-.264 12.964 4.46 24.689 3.511 2.391 5.616 2.669 9.785 2.426 3.892-.77 6.086-2.84 8.25-6.059 1.548-4.062 1.339-8.398 1.468-12.699.233-5.467.233-5.467 2.434-7.668 4.418-.515 8.868-.417 13.312-.437l3.749-.1c10.168-.06 10.168-.06 13.232 2.814 5.22 8.325 3.708 22.2 2.023 31.493-3.405 11.007-11.003 20.062-21.023 25.773-17.319 8.26-37.526 8.344-55.484 2.031-11.636-4.519-19.619-13.226-24.622-24.449-4.702-11.266-4.46-23.065-4.382-35.043l.008-5.132c.008-4.467.027-8.933.05-13.4.02-4.572.03-9.144.04-13.716.02-8.945.055-17.89.097-26.834l-3.762.14c-1.642.038-3.284.075-4.926.11l-2.474.102c-4.112.066-6.283-.017-9.882-2.188-2.59-2.865-2.575-4.494-2.55-8.32l.008-3.598.086-3.746-.008-3.746c.097-8.934.097-8.934 1.69-12.114 2.503-2.258 4.025-2.101 7.361-2.03l3.252.038 3.392.102 3.428.055c2.796.047 5.59.113 8.385.195l.139-2.2c.436-6.557 1.226-13.051 2.173-19.55l.32-2.398c.812-5.325 2.1-10.463 5.368-14.852 4.834-3.257 10.839-2.409 16.437-2.437l3.432-.1 3.315-.022 3.017-.04C658 60 658 60 663 65v35h87c-.119-14.869-.119-14.869-.27-29.737-.009-1.871-.017-3.743-.023-5.615l-.046-2.916c-.003-5.292.163-9.267 3.339-13.732 3.57-2.565 6.047-3.377 10.42-3.394ZM248.313 37.75l3.708-.063 3.592-.015 3.275-.028c4.756.544 7.877 2.12 11.256 5.502 2.276 3.5 2.432 6.266 2.402 10.306l.031 2.22c.03 2.407.031 4.814.032 7.223.015 1.674.032 3.348.05 5.023.044 4.397.064 8.795.08 13.192.019 4.492.06 8.983.1 13.474.076 8.805.126 17.61.161 26.416l1.236-1.667 1.629-2.186 1.61-2.167c7.308-9.493 17.806-14.973 29.525-16.98 16.618-1.372 31.807-.453 46 9 .59.383 1.18.766 1.79 1.16 13.094 9.776 18.467 27.405 20.777 42.794 1.004 8.28.763 16.685.769 25.01l.02 6.023c.012 4.181.016 8.362.015 12.544 0 5.352.027 10.703.061 16.055.022 4.134.026 8.268.025 12.402.003 1.974.012 3.948.027 5.922.02 2.754.014 5.507.002 8.262l.034 2.45c-.069 6.169-1.956 9.761-6.333 14.228-3.117 1.639-5.675 1.539-9.183 1.548l-2.032.01c-1.415.001-2.83-.004-4.244-.017-2.155-.016-4.309 0-6.464.02a5332513241.185 5332513241.185 0 0 1-7.914-.022c-3.674-.427-5.472-1.094-8.35-3.389-3.063-4.065-3.433-7.552-3.4-12.49l-.022-2.234c-.02-2.433-.02-4.866-.02-7.3-.011-1.705-.025-3.41-.04-5.117-.036-4.495-.056-8.99-.071-13.486-.025-7.158-.065-14.316-.122-21.474-.016-2.479-.02-4.957-.023-7.435.264-21.396.264-21.396-8.716-40.112-4.354-4.028-9.148-5.122-14.899-5.665-8.958.76-16.548 3.548-22.687 10.313-8.945 13.298-9.285 28.066-9.305 43.582-.004 2.305-.02 4.609-.04 6.914-.055 6.538-.087 13.077-.111 19.616-.016 4.031-.046 8.062-.085 12.093-.012 1.525-.018 3.05-.018 4.576 0 2.124-.018 4.248-.04 6.372l-.016 3.651c-.546 4.528-2.082 7.158-5.63 9.984-3.444 1.515-6.089 1.6-9.849 1.61l-2.027.01a407.36 407.36 0 0 1-4.226-.017c-2.147-.016-4.292 0-6.438.02a5138711458.637 5138711458.637 0 0 1-7.88-.022c-3.693-.43-5.475-1.031-8.335-3.389-2.932-4.722-3.43-8.766-3.381-14.198l-.014-2.453c-.012-2.704-.003-5.407.007-8.11-.004-1.943-.01-3.884-.016-5.826-.014-5.269-.008-10.537.001-15.806.008-5.514 0-11.029-.004-16.543-.006-9.26.002-18.521.016-27.782.016-10.705.01-21.41-.006-32.115-.013-9.193-.015-18.385-.007-27.578.004-5.49.005-10.98-.005-16.47-.009-5.16-.003-10.321.015-15.483.004-1.893.003-3.787-.004-5.681-.008-2.586.002-5.171.017-7.757l-.02-2.27c.053-4.71.933-7.918 3.401-11.928 5.854-5.305 12.866-4.219 20.313-4.25Zm226.25 59.875 3.17-.035c15.631.058 28.817 5.6 40.208 16.262A52.882 52.882 0 0 1 523 120l.113-2.23c.681-10.106.681-10.106 3.887-13.77 4.075-3.01 7.075-3.385 12.094-3.398l2.027-.01a407.36 407.36 0 0 1 4.226.017c2.147.016 4.292 0 6.438-.02a5138713113.559 5138713113.559 0 0 1 7.88.022c3.693.43 5.475 1.031 8.335 3.389 4.106 5.84 3.422 12.227 3.388 19.07l.016 3.993a1623 1623 0 0 1-.001 10.81c-.008 3.777 0 7.554.004 11.33.006 6.342-.002 12.684-.016 19.026-.016 7.324-.01 14.648.006 21.972.013 6.297.015 12.593.007 18.89-.004 3.757-.005 7.514.005 11.271.01 4.19-.004 8.378-.02 12.568l.018 3.76c-.079 10.575-.079 10.575-3.407 15.31-3.894 3.21-7.139 3.385-12.094 3.398l-2.027.01a407.36 407.36 0 0 1-4.226-.017c-2.147-.016-4.292 0-6.438.02a5138712313.68 5138712313.68 0 0 1-7.88-.022c-4.517-.527-7.16-2.004-10.085-5.452-1.793-4.213-1.994-8.398-2.25-12.937l-1.844 2.125c-8.998 9.74-20.65 17.437-34.156 18.875l-2.832.395C465.485 260.49 446.097 256.507 431 245a149.198 149.198 0 0 1-10-9l-1.676-1.637c-15.353-16.43-20.025-39.599-19.57-61.328.889-23.307 10.676-43.193 27.516-59.191 13.319-11.486 29.913-16.412 47.293-16.219Zm-17.247 50.188c-7.951 9.835-10.72 22.104-10.164 34.617 1.478 11.733 5.544 22.865 14.848 30.57 10.83 6.59 21.588 9.044 34.148 6.316 10.03-3.385 17.213-9.386 22.852-18.316 5.814-11.839 6.975-25.145 3.438-37.875-3.415-9.701-9.506-18.465-18.739-23.34-15.932-7.327-34.188-5.1-46.383 8.028ZM193.293 63.227c3.12 3.242 3.707 6.09 3.707 10.523-1.387 8.495-8.827 16.624-15 22.25-4.306 2.524-8.294 2.184-13 1-2.872-1.106-5.578-2.466-8.313-3.875-18.62-9.176-39.71-11.178-59.633-4.866-16.34 5.893-27.875 16.489-35.663 31.932-8.077 18.601-8.143 38.572-.88 57.512 2.322 5.142 5.2 9.725 8.489 14.297l2.25 3.188c12.653 12.94 29.442 19.607 47.383 20.164 14.75.148 27.309-3.27 40.547-9.497 10.642-5 10.642-5 16.82-2.855 7.375 4.254 13.745 13.266 17 21 .864 6.589.864 6.589-1.078 9.76-3.853 4.47-7.853 7.485-12.984 10.365l-2.263 1.295c-6.332 3.546-12.748 6.388-19.675 8.58l-2.73.89c-29.925 8.61-65.995 4.619-93.407-10.027C56.941 240.39 49.77 235.086 43 229l-2.324-2.074c-18.87-17.816-30.06-43.72-30.914-69.594-.56-32.751 8.063-60.687 31.175-84.644C45.92 67.883 51.236 63.816 57 60l2.695-1.805c39.613-24.827 96.363-23.292 133.598 5.032Zm824.801 37.375 2.027-.01a407.36 407.36 0 0 1 4.226.017c2.147.016 4.292 0 6.438-.02a5138711375.891 5138711375.891 0 0 1 7.88.022c3.666.427 5.462 1.1 8.335 3.389 3.092 4.09 3.433 7.627 3.4 12.597l.022 2.27c.02 2.47.02 4.94.02 7.41.011 1.73.025 3.461.04 5.192.036 4.56.056 9.12.071 13.68.025 7.265.065 14.53.122 21.795.016 2.518.02 5.035.023 7.553.063 13.922.24 27.592 8.302 39.503 5.263 5.187 11.542 5.399 18.566 5.352 5.231-.536 9.07-2.527 13.434-5.352l2.813-1.813c8.844-8.844 11.326-20.717 11.{{TOTAL_CONV}}-32.841l.015-2.25c.01-1.602.02-3.205.026-4.807.012-2.54.032-5.079.053-7.618.062-7.217.116-14.433.15-21.65.02-4.423.056-8.845.1-13.267.014-1.681.023-3.362.026-5.043.005-2.353.028-4.704.055-7.057l-.009-2.088c.079-4.56 1.049-7.683 3.426-11.566 5.32-4.377 11.768-3.486 18.292-3.446 2.136.008 4.27-.02 6.405-.052 1.37-.002 2.741-.001 4.112.002l3.743-.006c4.126.6 6.255 1.854 9.448 4.502 2.094 3.244 2.253 5.868 2.26 9.686l.022 3.514-.007 3.843.015 4.056c.014 3.67.014 7.339.012 11.008-.001 3.064.003 6.128.008 9.193.011 7.229.012 14.458.006 21.687a6176.9 6176.9 0 0 0 .027 22.368c.018 6.404.024 12.807.02 19.21-.001 3.824.001 7.648.015 11.472.013 3.596.011 7.191-.002 10.787-.004 1.947.008 3.894.02 5.84l-.022 3.523v3.054c-.442 3.26-1.437 5.119-3.374 7.759-4.301 2.78-7.682 3.384-12.754 3.398l-3.838.012-3.97-.035-3.983.035a651609216.08 651609216.08 0 0 0-7.32-.022c-4.276-.53-6.904-2.116-9.873-5.185-1.605-2.803-1.999-5.263-2.45-8.453l-.48-3.266L1105 236l-1.031 1.504c-8.577 12.02-18.824 18.247-33.332 20.992-16.77 2.324-32.487-.408-46.254-10.394-13.65-11.162-19.106-27.99-21.185-45.001-.72-7.65-.505-15.391-.499-23.066l-.013-6.022c-.007-4.181-.007-8.362-.002-12.544a2969.29 2969.29 0 0 0-.034-16.055 2872.12 2872.12 0 0 1-.013-12.402c0-1.974-.005-3.948-.015-5.922-.013-2.754-.006-5.508.006-8.262l-.023-2.45c.045-4.856.734-8.16 3.395-12.378 3.894-3.21 7.139-3.385 12.094-3.398Zm180.356.027c.73-.01 1.462-.018 2.216-.027a654.42 654.42 0 0 1 4.647-.028c2.35-.011 4.696-.06 7.044-.111 14.675-.162 14.675-.162 20.643 5.537l2.434 2.29 2.004 2.335 2.292 2.656L1242 116l2.113 2.531c1.857 2.254 3.7 4.52 5.533 6.793 2.199 2.722 4.409 5.435 6.617 8.15 2.58 3.174 5.159 6.35 7.737 9.526 9.23-9.133 17.507-19.035 25.543-29.223l2.582-3.215 2.32-2.933c4.643-4.778 8.863-7.061 15.556-7.185l2.163.025 2.288-.012c1.585-.003 3.17.005 4.755.022 2.419.021 4.835 0 7.254-.026 1.547.003 3.094.008 4.64.016l2.176-.025c4.832.09 7.343 1.103 10.723 4.556 1.292 3.774.672 7.493-.934 11.094-3.973 6.32-9.215 11.867-14.109 17.484-3.122 3.592-6.099 7.287-9.05 11.02a598.43 598.43 0 0 1-6.094 7.527l-2.227 2.727a991.935 991.935 0 0 1-6.047 7.296l-3.601 4.352-1.773 2.106-1.638 1.988-1.476 1.771c-1.321 1.732-1.321 1.732-1.051 4.635a120.565 120.565 0 0 0 5.438 6.5c1.114 1.27 2.227 2.54 3.34 3.813l1.67 1.902c2.073 2.384 4.067 4.828 6.052 7.285 3.432 4.228 6.946 8.375 10.5 12.5 4.298 4.994 8.559 10.011 12.691 15.145a376.144 376.144 0 0 0 5.274 6.367l3.035 3.675 1.46 1.692c3.508 4.315 4.43 7.537 4.54 13.121-1.765 2.86-2.996 4.498-6 6-4.6.284-9.202.314-13.81.35a322.23 322.23 0 0 0-4.597.082c-10.878.27-17.38-.482-25.464-8.159l-2.566-2.898-1.413-1.584c-3.705-4.19-7.25-8.507-10.76-12.861-4.206-5.156-8.57-10.178-12.915-15.217-2.497-2.9-4.986-5.807-7.475-8.713-6.529 6.318-12.53 13.133-18.25 20.188-21.417 26.368-21.417 26.368-28.75 28.812-2.455.132-4.88.212-7.336.238l-2.17.025c-1.515.014-3.03.024-4.545.032-1.546.012-3.092.032-4.637.062-2.237.042-4.473.059-6.71.069l-2.081.053c-3.553-.016-5.422-.415-8.434-2.365-2.516-2.549-3.087-3.535-3.087-7.114 1.582-6.666 4.893-10.451 9.547-15.375 2.398-2.566 4.621-5.207 6.828-7.938A653.926 653.926 0 0 1 1205.5 210.5a858.007 858.007 0 0 0 12.164-14.664 425.936 425.936 0 0 1 5.234-6.234l1.498-1.752a746.608 746.608 0 0 1 2.887-3.348c2.584-3.015 4.784-6.033 6.717-9.502l-1.11-1.338c-6.665-8.04-13.288-16.102-19.7-24.346-3.685-4.72-7.492-9.332-11.315-13.941A2298.37 2298.37 0 0 1 1195 127l-1.482-1.809a390.607 390.607 0 0 1-3.83-4.816l-2.114-2.664c-1.915-3.298-2.357-5.922-2.574-9.711 2.906-6.539 6.79-7.32 13.45-7.371ZM{{CLIQUES_LINK}}.844 37.684c2.083.003 4.165-.02 6.248-.045l3.998-.002 3.652-.01c4.447.509 7.08 2.027 10.008 5.373 2.59 4.145 2.398 8.121 2.397 12.837l.011 2.445c.011 2.713.015 5.426.019 8.14l.02 5.823c.017 5.281.028 10.562.036 15.844l.018 9.894c.019 10.316.033 20.631.041 30.947.01 11.915.036 23.829.077 35.743.03 9.206.045 18.41.048 27.616.002 5.5.011 11 .036 16.5.024 5.173.028 10.346.018 15.52 0 1.898.006 3.797.02 5.696.017 2.593.01 5.184-.003 7.777l.033 2.275c-.074 6.044-2.18 9.555-6.334 13.793-3.117 1.639-5.675 1.539-9.183 1.548l-2.032.01c-1.415.001-2.83-.004-4.244-.017-2.155-.016-4.309 0-6.464.02-1.379-.003-2.757-.007-4.135-.013l-3.78-.01c-3.673-.426-5.47-1.093-8.349-3.388-3.254-4.228-3.428-8.043-3.388-13.192l-.016-2.487c-.014-2.748-.007-5.496 0-8.245l-.02-5.913c-.019-5.354-.018-10.707-.012-16.06.003-4.468-.003-8.937-.009-13.405-.014-10.54-.012-21.081-.001-31.622.011-10.876-.003-21.752-.03-32.629-.022-9.337-.028-18.673-.022-28.01.003-5.577 0-11.154-.017-16.731a2405.93 2405.93 0 0 1 .008-15.732c.003-1.925 0-3.85-.01-5.774-.013-2.627-.002-5.254.016-7.881l-.03-2.307c.072-5.136 1.31-8.045 4.531-12.012 4.68-3.476 11.293-2.333 16.844-2.316Z"/>
+  </svg>
+  <div class="header-meta">
+    <p><strong>{{NOME_CLIENTE}}</strong> · {{INSTAGRAM_USERNAME}}</p>
+    <p>Meta Ads · {{MES_INICIO}} – {{MES_FIM}} {{ANO}}</p>
+    <p>{{DATA_RELATORIO}}</p>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Análisis de campaña</div>
+  <h1>Meta Ads: Reporte de campaña</h1>
+  <p class="hero-sub">{{NOME_CAMPANHA}} · {{ORCAMENTO_DIARIO}}/día · {{NUM_ANUNCIOS}} anuncios activos</p>
+  <div class="hero-scope">
+    <strong>Fuente:</strong> API oficial Meta Ads · período {{DATA_INICIO}} – {{DATA_FIM}}
+  </div>
+</div>
+
+<!-- HERO METRIC -->
+<div class="hero-metric">
+  <div class="hero-metric-inner">
+    <div class="big-metric">
+      <div class="big-metric-label">Costo por conversación iniciada</div>
+      <div class="big-metric-value">{{CUSTO_CONV}}<span class="big-metric-unit">MXN</span></div>
+      <div class="big-metric-note">{{TOTAL_CONV}} conversaciones · {{INVESTIMENTO_TOTAL}} {{MOEDA}} · {{NUM_DIAS}} días</div>
+    </div>
+    <div class="hero-metric-divider"></div>
+    <div class="hero-secondary">
+      <div class="sec-metric">
+        <div class="sec-metric-val">{{TOTAL_CONV}}</div>
+        <div class="sec-metric-label">conversaciones iniciadas en {{NUM_DIAS}} días</div>
+      </div>
+      <div class="sec-metric">
+        <div class="sec-metric-val">{{ALCANCE}}</div>
+        <div class="sec-metric-label">personas alcanzadas</div>
+      </div>
+      <div class="sec-metric">
+        <div class="sec-metric-val">{{FREQUENCIA_MEDIA}}</div>
+        <div class="sec-metric-label">frecuencia promedio por persona</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MÉTRICAS DE LA CAMPAÑA -->
+<div class="section">
+  <div class="section-title">Métricas de la campaña: 1 marzo – 4 junio 2026</div>
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Impresiones</div>
+      <div class="metric-value">{{IMPRESSOES}}</div>
+      <div class="metric-note">en el período de {{NUM_DIAS}} días</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">CPM</div>
+      <div class="metric-value">{{CPM}}</div>
+      <div class="metric-note">MXN por mil impresiones</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Clics en enlace</div>
+      <div class="metric-value">{{CLIQUES_LINK}}</div>
+      <div class="metric-note">clics reales en el anuncio</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">CPC</div>
+      <div class="metric-value">{{CPC}}</div>
+      <div class="metric-note">MXN por clic en enlace</div>
+    </div>
+    <div class="metric-card c-orange">
+      <div class="metric-label">CTR</div>
+      <div class="metric-value">{{CTR}}</div>
+      <div class="metric-note">tasa de clic en enlace</div>
+    </div>
+    <div class="metric-card c-green">
+      <div class="metric-label">Conversaciones iniciadas</div>
+      <div class="metric-value">{{TOTAL_CONV}}</div>
+      <div class="metric-note">ventana de 7 días</div>
+    </div>
+    <div class="metric-card c-green">
+      <div class="metric-label">Costo por conversación</div>
+      <div class="metric-value">{{CUSTO_CONV}}</div>
+      <div class="metric-note">MXN por conversación iniciada</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- DESEMPEÑO POR ANUNCIO -->
+<div class="section">
+  <div class="section-title">Desempeño por anuncio: Meta Ads</div>
+  <table class="ads-table">
+    <thead>
+      <tr>
+        <th>Anuncio</th>
+        <th style="text-align:right">Inversión</th>
+        <th style="text-align:right">% Budget</th>
+        <th style="text-align:right">Frecuencia</th>
+        <th style="text-align:right">Conversaciones</th>
+        <th style="text-align:right">Costo/conv.</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="ad-name">03 - Lipoescultura <span class="badge-winner">Vencedor</span></div>
+          <div class="ad-sub">100.838 impresiones · CTR 0,86% · alcance 23.283</div>
+          <div class="budget-bar"><div class="budget-bar-fill" style="width:88.9%"></div></div>
+        </td>
+        <td style="text-align:right;font-weight:600;color:#fff">$5.963,48</td>
+        <td style="text-align:right;color:var(--accent);font-weight:700">88,9%</td>
+        <td style="text-align:right;font-weight:700;color:var(--orange)">4,33</td>
+        <td style="text-align:right;font-weight:700;color:#fff">312</td>
+        <td style="text-align:right;color:var(--accent);font-weight:600">$19,11</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="ad-name">02 - Cirugía general</div>
+          <div class="ad-sub">8.691 impresiones · CTR 0,59% · alcance 3.000</div>
+          <div class="budget-bar"><div class="budget-bar-fill low" style="width:6.6%"></div></div>
+        </td>
+        <td style="text-align:right;color:var(--muted)">$440,61</td>
+        <td style="text-align:right;color:var(--muted)">6,6%</td>
+        <td style="text-align:right;color:var(--muted)">2,90</td>
+        <td style="text-align:right;color:var(--muted)">19</td>
+        <td style="text-align:right;color:var(--muted)">$23,19</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="ad-name">01 - Rinoplastia</div>
+          <div class="ad-sub">6.256 impresiones · CTR 0,42% · alcance 2.758</div>
+          <div class="budget-bar"><div class="budget-bar-fill low" style="width:4.5%"></div></div>
+        </td>
+        <td style="text-align:right;color:var(--muted)">$305,05</td>
+        <td style="text-align:right;color:var(--muted)">4,5%</td>
+        <td style="text-align:right;color:var(--muted)">2,27</td>
+        <td style="text-align:right;color:var(--muted)">14</td>
+        <td style="text-align:right;color:var(--muted)">$21,79</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- PÚBLICO -->
+<div class="section">
+  <div class="section-title">Perfil de la audiencia: 1 marzo – 4 junio 2026</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:16px">Género</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px">
+            <span style="color:#fff;font-weight:600">Mujeres</span>
+            <span style="color:var(--accent);font-weight:700">83,5% · 288 conv.</span>
+          </div>
+          <div style="height:6px;background:var(--border);border-radius:99px;overflow:hidden"><div style="height:100%;width:83.5%;background:var(--accent);border-radius:99px"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px">
+            <span style="color:var(--muted)">Hombres</span>
+            <span style="color:var(--muted);font-weight:600">15,1% · 52 conv.</span>
+          </div>
+          <div style="height:6px;background:var(--border);border-radius:99px;overflow:hidden"><div style="height:100%;width:15.1%;background:rgba(213,219,230,0.25);border-radius:99px"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:16px">Rango de edad (por conversaciones)</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+            <span style="color:#fff;font-weight:600">25 – 34 años</span>
+            <span style="color:var(--accent);font-weight:700">37,4% · 129 conv.</span>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:99px;overflow:hidden"><div style="height:100%;width:37.4%;background:var(--accent);border-radius:99px"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+            <span style="color:#fff;font-weight:600">35 – 44 años</span>
+            <span style="color:var(--accent);font-weight:700">35,7% · 123 conv.</span>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:99px;overflow:hidden"><div style="height:100%;width:35.7%;background:var(--accent);border-radius:99px"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+            <span style="color:var(--muted)">45 – 54 años</span>
+            <span style="color:var(--muted)">11,9% · 41 conv.</span>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:99px;overflow:hidden"><div style="height:100%;width:11.9%;background:rgba(213,219,230,0.2);border-radius:99px"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+            <span style="color:var(--muted)">18 – 24 años</span>
+            <span style="color:var(--muted)">9,6% · 33 conv.</span>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:99px;overflow:hidden"><div style="height:100%;width:9.6%;background:rgba(213,219,230,0.2);border-radius:99px"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:16px">Posicionamiento</div>
+    <table style="width:100%;border-collapse:collapse">
+      <thead>
+        <tr>
+          <th style="text-align:left;font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--border)">Posicionamiento</th>
+          <th style="text-align:right;font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--border)">Conversaciones</th>
+          <th style="text-align:right;font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--border)">% del total</th>
+          <th style="text-align:right;font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--border)">Costo/conv.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:12px;font-size:14px;font-weight:600;color:#fff;border-bottom:1px solid var(--border)">Facebook Feed</td>
+          <td style="padding:12px;font-size:14px;font-weight:700;color:#fff;text-align:right;border-bottom:1px solid var(--border)">229</td>
+          <td style="padding:12px;font-size:14px;color:var(--muted);text-align:right;border-bottom:1px solid var(--border)">66,4%</td>
+          <td style="padding:12px;font-size:14px;color:var(--muted);text-align:right;border-bottom:1px solid var(--border)">$19,29 MXN</td>
+        </tr>
+        <tr style="background:rgba(25,230,90,0.03)">
+          <td style="padding:12px;font-size:14px;font-weight:600;color:#fff;border-bottom:1px solid var(--border)">Facebook Search <span style="font-size:10px;font-weight:700;background:rgba(25,230,90,0.12);color:var(--accent);padding:2px 7px;border-radius:4px;margin-left:6px;letter-spacing:0.5px">MÁS BARATO</span></td>
+          <td style="padding:12px;font-size:14px;font-weight:700;color:#fff;text-align:right;border-bottom:1px solid var(--border)">51</td>
+          <td style="padding:12px;font-size:14px;color:var(--muted);text-align:right;border-bottom:1px solid var(--border)">14,8%</td>
+          <td style="padding:12px;font-size:14px;font-weight:700;color:var(--accent);text-align:right;border-bottom:1px solid var(--border)">$13,84 MXN</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;font-size:14px;font-weight:600;color:#fff;border-bottom:1px solid var(--border)">Instagram Stories</td>
+          <td style="padding:12px;font-size:14px;color:var(--muted);text-align:right;border-bottom:1px solid var(--border)">29</td>
+          <td style="padding:12px;font-size:14px;color:var(--muted);text-align:right;border-bottom:1px solid var(--border)">8,4%</td>
+          <td style="padding:12px;font-size:14px;color:var(--muted);text-align:right;border-bottom:1px solid var(--border)">$22,53 MXN</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;font-size:14px;font-weight:600;color:#fff;border-bottom:1px solid var(--border)">Instagram Feed</td>
+          <td style="padding:12px;font-size:14px;color:var(--muted);text-align:right;border-bottom:1px solid var(--border)">28</td>
+          <td style="padding:12px;font-size:14px;color:var(--muted);text-align:right;border-bottom:1px solid var(--border)">8,1%</td>
+          <td style="padding:12px;font-size:14px;color:var(--orange);text-align:right;border-bottom:1px solid var(--border)">$28,74 MXN</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;font-size:14px;font-weight:600;color:#fff">Facebook Stories</td>
+          <td style="padding:12px;font-size:14px;color:var(--muted);text-align:right">8</td>
+          <td style="padding:12px;font-size:14px;color:var(--muted);text-align:right">2,3%</td>
+          <td style="padding:12px;font-size:14px;color:var(--muted);text-align:right">$15,91 MXN</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px">Facebook Search genera conversaciones un 29% más baratas que el promedio general de la campaña. Oportunidad de aumentar la inversión en este posicionamiento.</p>
+  </div>
+</div>
+
+<!-- ANÁLISIS GENERAL -->
+<div class="section">
+  <div class="section-title">Análisis general de la cuenta</div>
+
+  <div style="background:rgba(25,230,90,0.06);border:1px solid rgba(25,230,90,0.2);border-radius:12px;padding:28px 32px;margin-bottom:20px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px">Diagnóstico</div>
+    <p style="font-size:17px;font-weight:700;color:#fff;line-height:1.5;margin-bottom:0">La cuenta tiene potencial de crecimiento, pero la gestión actual está dejando resultados sobre la mesa. Corrigiendo los errores estructurales, el escenario para escalar la inversión es inmediato.</p>
+  </div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:28px">
+    <p style="font-size:14px;color:rgba(213,219,230,0.85);line-height:1.8">La cuenta muestra señales concretas de demanda: {{CUSTO_CONV}} MXN por conversación iniciada es un costo competitivo para el mercado médico en México. En {{NUM_DIAS}} días, con 3 anuncios activos y un presupuesto de $70 por día, la campaña generó {{TOTAL_CONV}} conversaciones calificadas e invirtió $6.709 MXN. El anuncio de Lipoescultura, responsable del 88,9% de la inversión, generó 312 de esas conversaciones a $19,11 MXN cada una.</p>
+    <p style="font-size:14px;color:rgba(213,219,230,0.85);line-height:1.8;margin-top:14px">Sin embargo, la forma en que la cuenta está siendo gestionada hoy está limitando esos resultados. No existe rastreo de conversiones, por lo que la plataforma no distingue entre quien agenda una consulta y quien solo manda un mensaje. No hay campañas de remarketing, dejando sin aprovechar una audiencia caliente que ya interactuó con el perfil. El presupuesto está concentrado en un solo anuncio que puede dejar de rendir en cualquier momento, y la frecuencia de ese anuncio ya llegó a 4,33, lo que indica una saturación creciente de la audiencia alcanzada.</p>
+    <p style="font-size:14px;color:rgba(213,219,230,0.85);line-height:1.8;margin-top:14px">El potencial está siendo desperdiciado por una gestión que no está aprovechando lo que la cuenta ya tiene. Con los puntos de mejora corregidos, el escenario para aumentar la inversión considerablemente y multiplicar los resultados es directo.</p>
+  </div>
+
+</div>
+
+<!-- PRÓXIMOS PASOS -->
+<div class="section">
+  <div class="section-title">Próximos pasos</div>
+  <div class="alerts">
+    <div class="alert-card critical">
+      <div class="alert-icon">📸</div>
+      <div>
+        <div class="alert-title">Fotos y videos para los anuncios</div>
+        <div class="alert-body">Para lanzar las nuevas campañas, necesitamos los materiales de creatividad: fotos y videos del Dr. Héctor y del consultorio, en los formatos definidos en la estrategia de creatividades abajo. Estos materiales son el punto de partida para todas las campañas nuevas.</div>
+        <div class="alert-action">El Dr. Héctor envía los archivos para que el equipo arme las creatividades</div>
+      </div>
+    </div>
+    <div class="alert-card critical">
+      <div class="alert-icon">💬</div>
+      <div>
+        <div class="alert-title">Testimonios de pacientes</div>
+        <div class="alert-body">Testimonios en video o en texto de pacientes satisfechos son esenciales para las creatividades de prueba social. Cuanto más reales y específicos, mejor el resultado. Videos cortos de 15 a 30 segundos contando la experiencia con el procedimiento y con la atención funcionan muy bien.</div>
+        <div class="alert-action">El Dr. Héctor recopila testimonios en video o texto de pacientes para uso en los anuncios</div>
+      </div>
+    </div>
+    <div class="alert-card">
+      <div class="alert-icon">🔗</div>
+      <div>
+        <div class="alert-title">Conectar el WhatsApp Business al SDR de Chatflux</div>
+        <div class="alert-body">Para que los leads generados por los anuncios lleguen a la atención automática de Chatflux, el número de WhatsApp Business del consultorio necesita estar integrado a la plataforma. Sin esta conexión, los anuncios no funcionan con el flujo de SDR configurado.</div>
+        <div class="alert-action">Equipo Chatflux realiza la integración del WhatsApp Business con el SDR</div>
+      </div>
+    </div>
+    <div class="alert-card">
+      <div class="alert-icon">🎯</div>
+      <div>
+        <div class="alert-title">Crear evento de conversión para quien agenda consulta</div>
+        <div class="alert-body">La plataforma actualmente optimiza para conversaciones iniciadas, pero no distingue entre quien agenda una consulta y quien solo manda un mensaje. Configurar un evento de conversión personalizado que se dispare cuando el lead confirma su cita permite que el algoritmo aprenda a encontrar exactamente el perfil que convierte.</div>
+        <div class="alert-action">Crear evento de conversión "Lead Calificada" y conectarlo al flujo del Chatflux</div>
+      </div>
+    </div>
+    <div class="alert-card">
+      <div class="alert-icon">🖼️</div>
+      <div>
+        <div class="alert-title">Probar nuevos formatos de creatividad</div>
+        <div class="alert-body">El 88,9% del presupuesto fue a un solo anuncio durante 3 meses. Esto genera dependencia de una sola creatividad que ya muestra señales de saturación (frecuencia 4,33). Probar los formatos definidos en la estrategia abajo reduce ese riesgo y abre posibilidad de encontrar nuevos anuncios vencedores.</div>
+        <div class="alert-action">Lanzar creatividades en los 5 formatos definidos en la estrategia abajo con presupuesto de prueba</div>
+      </div>
+    </div>
+    <div class="alert-card">
+      <div class="alert-icon">🔁</div>
+      <div>
+        <div class="alert-title">Activar campaña de remarketing</div>
+        <div class="alert-body">No existe ninguna campaña activa para quienes ya interactuaron con el perfil del Dr. Héctor. Esta audiencia es más barata de convertir y más propensa a agendar, porque ya conoce el trabajo del médico. Ignorarla significa pagar para alcanzar siempre a personas frías cuando hay un público caliente disponible.</div>
+        <div class="alert-action">Crear campaña de retargeting para quienes interactuaron con el perfil en los últimos 30 a 60 días</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ESTRATEGIA DE CREATIVIDADES -->
+<div class="section">
+  <div class="section-title">Estrategia de creatividades</div>
+  <div style="background:rgba(255,160,64,0.05);border:1px solid rgba(255,160,64,0.2);border-radius:10px;padding:18px 20px;margin-bottom:20px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start">
+    <div style="font-size:18px;line-height:1.4">⚠️</div>
+    <div>
+      <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">Política de Meta para salud y estética</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6">Los anuncios de cirugía plástica no pueden mostrar desnudez directa, imágenes de antes/después que enfaticen imperfecciones, ni lenguaje que genere inseguridad corporal. Toda creatividad debe pasar por revisión antes de publicarse para evitar rechazos y posibles restricciones en la cuenta.</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px">
+    <div style="background:var(--card);border:1px solid rgba(25,230,90,0.15);border-radius:10px;padding:20px">
+      <div style="font-size:18px;margin-bottom:10px">⭐</div>
+      <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px">Pruebas sociales y feedbacks</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6">Capturas y videos de pacientes compartiendo su experiencia con el Dr. Héctor: proceso, atención, resultado. Cumple la política de Meta y genera alta credibilidad.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid rgba(25,230,90,0.15);border-radius:10px;padding:20px">
+      <div style="font-size:18px;margin-bottom:10px">🎥</div>
+      <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px">Videos de pacientes</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6">Testimonios en video de pacientes reales contando su experiencia. Genera conexión emocional, no muestra desnudez y tiene alta tasa de retención. Ideal para la parte superior del embudo.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid rgba(25,230,90,0.15);border-radius:10px;padding:20px">
+      <div style="font-size:18px;margin-bottom:10px">📱</div>
+      <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px">Antes y después en tablet</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6">Mostrar el antes y después proyectado en la pantalla de una tablet, con el Dr. Héctor sosteniéndola o señalando. El contenido pasa la política de Meta porque no muestra el cuerpo directamente — lo que aparece es la pantalla del dispositivo. Genera impacto visual sin riesgo de bloqueo.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid rgba(25,230,90,0.15);border-radius:10px;padding:20px">
+      <div style="font-size:18px;margin-bottom:10px">🔍</div>
+      <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px">Reseñas de Google</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6">Captura o animación de las evaluaciones del Dr. Héctor en Google. Funciona como prueba social externa: la credibilidad de Google refuerza la confianza antes del primer contacto.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid rgba(25,230,90,0.15);border-radius:10px;padding:20px">
+      <div style="font-size:18px;margin-bottom:10px">🩺</div>
+      <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px">Contenido de autoridad</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6">Videos cortos del Dr. Héctor explicando un procedimiento, respondiendo dudas frecuentes o mostrando su formación y certificaciones. Posiciona al médico como referencia antes del primer contacto, reduciendo la resistencia a agendar la consulta.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Elaborado por <strong>Chatflux</strong> · chatflux.ai</p>
+  <p style="margin-top:4px">Fuentes: API oficial Meta Ads + Dashboard Chatflux · <strong>{{DATA_RELATORIO}}</strong></p>
+</footer>
+</body>
+</html>
