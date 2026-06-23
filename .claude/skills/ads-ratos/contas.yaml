@@ -1,0 +1,193 @@
+# ============================================================================
+# Ads Ratos — Cadastro de Contas
+# ============================================================================
+#
+# Preencha este arquivo com as contas de cada cliente.
+# O Claude consulta este arquivo automaticamente quando tu mencionares
+# o nome do cliente (ex: "diagnóstico do Meu Cliente").
+#
+# Rode `/ads-ratos setup` pra preencher de forma guiada.
+#
+# ============================================================================
+
+clientes:
+
+  altitude-elevadores:
+    nome: "Altitude Elevadores"
+    nicho: "serviços locais"
+    meta:
+      conta_anuncio: "act_1430212497865967"
+      pagina_facebook: "113404601655356"
+      instagram_id: "17841433786079153"
+      instagram_username: "@altitudeelevadores"
+    google:
+      customer_id: "999-987-6813"
+      login_customer_id: "999-987-6813"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria. Elevadores residenciais e comerciais."
+
+  primmus-elevadores:
+    nome: "Primmus Plataformas e Elevadores"
+    nicho: "serviços locais"
+    meta:
+      conta_anuncio: "act_1616743969376819"
+      pagina_facebook: "2039443269694432"
+      instagram_id: "17841444787295452"
+      instagram_username: "@primmuselevadores"
+    google:
+      customer_id: "370-780-2817"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria. Elevadores e plataformas em Curitiba."
+
+  dra-marina-varela:
+    nome: "Dra. Marina Varela"
+    nicho: "saúde/estética"
+    meta:
+      conta_anuncio: "act_802857802188272"
+      pagina_facebook: "830374450150651"
+      instagram_id: "17841400688230423"
+      instagram_username: "@dramarinavarela"
+    google:
+      customer_id: "275-584-5719"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria."
+
+  neilton-guedes:
+    nome: "Instituto Guedes Libras"
+    nicho: "educação"
+    meta:
+      conta_anuncio: "act_2921166221413810"
+      pagina_facebook: "696927170174234"
+      instagram_id: "17841402209668390"
+      instagram_username: "@neiltonguedes_"
+    google:
+      customer_id: "846-121-0492"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria."
+
+  econt:
+    nome: "E-cont Contabilidade"
+    nicho: "serviços locais"
+    meta:
+      conta_anuncio: "act_1131418825503781"
+      pagina_facebook: "775270628993388"
+      instagram_id: "17841475774707382"
+      instagram_username: "@econt.digital"
+    google:
+      customer_id: "992-358-4892"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria."
+
+  nunes-barbearia:
+    nome: "Nunes Barbershop"
+    nicho: "serviços locais"
+    meta:
+      conta_anuncio: "act_1156771808627243"
+      pagina_facebook: "101618722811311"
+      instagram_id: "17841455729093071"
+      instagram_username: "@nunesbarbershop"
+    google:
+      customer_id: "762-077-1817"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria."
+
+  # --- Clientes só Meta ---
+
+  aline-medina:
+    nome: "Aline Medina"
+    nicho: "saúde/estética"
+    meta:
+      conta_anuncio: "act_2290004221442350"
+      pagina_facebook: "590984527429133"
+      instagram_id: "17841401523812722"
+      instagram_username: "@aline_pretel_medina"
+    moeda: "BRL"
+    notas: "BM Aline Pretel F Medina. Também tem Encontro no Monte e Avva Igreja."
+
+  dra-ana-martins:
+    nome: "Dra. Ana Martins"
+    nicho: "saúde/estética"
+    meta:
+      conta_anuncio: "act_1395466341465073"
+      pagina_facebook: "646905705924540"
+      instagram_id: "17841401372746289"
+      instagram_username: "@dranamachado"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria."
+
+  pezza:
+    nome: "Pezza"
+    nicho: "serviços locais"
+    meta:
+      conta_anuncio: "act_367851295921717"
+      pagina_facebook: "1017776104753949"
+      instagram_id: "17841474116300255"
+      instagram_username: "@pezza.hub"
+    moeda: "BRL"
+    notas: "Conta registrada como CA 01 - FT Branding."
+
+  raniel-xavier:
+    nome: "Dr. Raniel Xavier"
+    nicho: "saúde/estética"
+    meta:
+      conta_anuncio: "act_953982006903092"
+      pagina_facebook: "631609366693197"
+      instagram_id: "17841473504364210"
+      instagram_username: "@ranielxaviercirurgiao"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria."
+
+  lobato-leiloes:
+    nome: "Lobato Leilões"
+    nicho: "serviços locais"
+    meta:
+      conta_anuncio: "act_2781712035355885"
+      pagina_facebook: "2051019215117941"
+      instagram_id: "17841472110314585"
+      instagram_username: "@lobatoleiloes"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria."
+
+  iuly-maia:
+    nome: "Iuly Maia"
+    nicho: "saúde/estética"
+    meta:
+      conta_anuncio: "act_2081086476051495"
+      pagina_facebook: "101722358816453"
+      instagram_id: "17841401454584937"
+      instagram_username: "@iulycmaia"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria."
+
+  gramado-premium:
+    nome: "Gramado Premium"
+    nicho: "serviços locais"
+    meta:
+      conta_anuncio: "act_1224686215562455"
+      pagina_facebook: "292108750662421"
+      instagram_id: "17841440092023167"
+      instagram_username: "@gramadopremium"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria. Turismo."
+
+  hora-da-loba:
+    nome: "Hora da Loba"
+    nicho: "serviços locais"
+    meta:
+      conta_anuncio: "act_4267166280206515"
+      pagina_facebook: "948907384981608"
+      instagram_id: "17841477068730359"
+      instagram_username: "@horadaloba"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria."
+
+  rapha-medina:
+    nome: "Rapha Medina"
+    nicho: "serviços locais"
+    meta:
+      conta_anuncio: "act_2005421110021685"
+      pagina_facebook: "112636965263627"
+      instagram_id: "17841401359170732"
+      instagram_username: "@raphael.medina"
+    moeda: "BRL"
+    notas: "Cliente DVE Assessoria."
