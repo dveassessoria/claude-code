@@ -59,8 +59,8 @@ Implementação completa integrando Marketing, Vendas e Customer Success.
 - Reunião online a cada 15 dias
 - Atendimento diário no grupo de WhatsApp
 
-**Valor DVE:** R$ 2.500/mês
-**Mídia paga:** a partir de R$ 1.500/mês
+**Valor DVE:** R$ 4.000/mês
+**Mídia paga:** a partir de R$ 3.000/mês
 **Ferramentas:** a partir de R$ 300/mês
 
 ---
@@ -69,13 +69,17 @@ Implementação completa integrando Marketing, Vendas e Customer Success.
 
 Foco em geração de demanda e tráfego pago. Indicado quando o cliente não tem budget para o RevOps.
 
-- Estratégia completa para gerar demanda
-- Gestão de tráfego pago
-- Anúncios (copy + edição de vídeo + design)
-- Reunião online a cada 30 dias
+- Matriz ideal de cliente
+- Gestão dos anúncios online (Meta Ads e Google Ads)
+- Acompanhamento e otimização semanal
+- Anúncios Estáticos
+- Análise Pro Sales
+- Playbook de Vendas
+- Reunião on-line a cada 15 dias
 - Atendimento diário no grupo de WhatsApp
 
-**Valor DVE:** R$ 1.500/mês
+
+**Valor DVE:** R$ 2.000/mês
 **Mídia paga:** R$ 1.500/mês
 **Ferramentas:** a partir de R$ 300/mês
 
@@ -94,7 +98,7 @@ Projeto de estruturação comercial com duração fixa. Não é mensalidade — 
 - Atendimento diário no grupo de WhatsApp
 
 **Tempo de projeto:** 60 dias
-**Valor DVE:** R$ 6.000 (pagamento único — pode parcelar no cartão)
+**Valor DVE:** R$ 7.997 (pagamento único — pode parcelar no cartão)
 **Ferramentas:** a partir de R$ 300/mês
 
 ---
