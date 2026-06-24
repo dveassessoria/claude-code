@@ -1,25 +1,25 @@
 ---
-name: copy-ads-elevadores
+name: copy-ads-estatico-elevadores
 description: >
   Gera copy para 5 anúncios estáticos (IMG) de empresas de elevadores.
   Cada ad cobre um ângulo diferente (localização, oferta, prova social, dor/urgência, multidiferencial).
   Lê contexto do cliente (ICP, personas, diferencial, oferta) nos .md da pasta do cliente.
   Salva em clientes/[nome-cliente]/anuncios/RM [nº]/Estáticos/.
   Use quando o usuário pedir "copy de anúncio de elevador", "ads estáticos elevador",
-  "criar anúncios para [cliente de elevador]", ou /copy-ads-elevadores.
+  "criar anúncios para [cliente de elevador]", ou /copy-ads-estatico-elevadores.
 ---
 
-# /copy-ads-elevadores — Copy de Anúncios Estáticos para Elevadores
+# /copy-ads-estatico-elevadores — Copy de Anúncios Estáticos para Elevadores
 
 ## Uso
 
 ```
-/copy-ads-elevadores [nome-cliente] [número da remessa]
+/copy-ads-estatico-elevadores [nome-cliente] [número da remessa]
 ```
 
 **Exemplos:**
-- `/copy-ads-elevadores t2-elevadores 07`
-- `/copy-ads-elevadores altitude 03`
+- `/copy-ads-estatico-elevadores t2-elevadores 07`
+- `/copy-ads-estatico-elevadores altitude 03`
 
 ---
 
