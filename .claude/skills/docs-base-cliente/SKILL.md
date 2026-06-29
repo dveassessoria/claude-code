@@ -383,12 +383,14 @@ Confirmar o caminho do arquivo gerado e informar ao usuário.
 
 ---
 
-## Passo 8 — Salvar link no ClickUp (opcional)
+## Passo 8 — Criar guias no ClickUp com o conteúdo das seções
 
-Se o usuário quiser registrar o documento no ClickUp, adicionar uma referência na guia de entregáveis do cliente:
+Com o conteúdo de todas as seções já gerado em memória (Passo 6), criar/atualizar páginas no doc "Docs - {COMPANY}" do ClickUp.
+
+### 8a. Localizar o doc e listar páginas existentes
 
 ```python
-import sys, os, json, requests
+import os, json, requests
 
 def load_env():
     candidate = '/Users/macbookairm4/Documents/DVE Assessoria/Claude Code/.env'
@@ -407,37 +409,111 @@ CLICKUP_TOKEN = _env.get('CLICKUP_API_TOKEN', '')
 WORKSPACE_ID  = '9011393934'
 HEADERS = {'Authorization': CLICKUP_TOKEN, 'Content-Type': 'application/json'}
 
-DOC1_ID = '{DOC1_ID}'  # ID do "Docs - {COMPANY}" retornado no onboarding
+# Buscar "Docs - {COMPANY}" se o DOC1_ID não estiver disponível
+r = requests.get(f'https://api.clickup.com/api/v3/workspaces/{WORKSPACE_ID}/docs?limit=100', headers=HEADERS)
+docs = r.json().get('docs', [])
+target_doc = next((d for d in docs if '{company}'.lower() in d['name'].lower() and 'docs' in d['name'].lower()), None)
+DOC1_ID = target_doc['id'] if target_doc else '{DOC1_ID}'
 
-# Buscar página "Entregáveis" ou "ICP e Personas"
-r = requests.get(
+# Listar páginas existentes
+r2 = requests.get(
     f'https://api.clickup.com/api/v3/workspaces/{WORKSPACE_ID}/docs/{DOC1_ID}/pages?content_format=text/md',
     headers=HEADERS
 )
-pages = r.json() if isinstance(r.json(), list) else r.json().get('pages', [])
-target = next((p for p in pages if 'icp' in (p.get('name') or '').lower() or 'persona' in (p.get('name') or '').lower()), None)
+pages = r2.json() if isinstance(r2.json(), list) else r2.json().get('pages', [])
+pages_by_name = {(p.get('name') or '').lower(): p['id'] for p in pages}
+print(json.dumps(pages_by_name, indent=2))
+```
 
-if target:
-    page_id = target['id']
-    new_content = f"[Abrir Docs Base do Cliente]({OUTPUT_PATH})\n\n" + target.get('content', '')
-    requests.patch(
-        f'https://api.clickup.com/api/v3/workspaces/{WORKSPACE_ID}/docs/{DOC1_ID}/pages/{page_id}',
-        headers=HEADERS,
-        json={'content': new_content, 'content_format': 'text/md'}
-    )
-    print('Link adicionado no ClickUp.')
+### 8b. Mapeamento de seções para páginas
+
+| Seção do Docs Base | Página no ClickUp | Ação |
+|---|---|---|
+| Diferencial Competitivo e Oferta | Diferencial e Oferta | Criar (não existe) |
+| Público, ICP e Personas | ICP e Personas | Atualizar (já existe) |
+| Jornada de Compra | Jornada de Compra | Criar (não existe) |
+| Funil de Marketing | Tráfego Pago | Atualizar (já existe) |
+| Análise do Instagram | Instagram | Criar (não existe) |
+| Análise do Google Meu Negócio | Google Meu Negócio | Criar (não existe) |
+| Análise do Site | Site | Criar (não existe) |
+
+### 8c. Para cada seção: criar ou atualizar a página
+
+```python
+def upsert_page(doc_id, name, content_md, existing_pages_by_name):
+    page_id = existing_pages_by_name.get(name.lower())
+    if page_id:
+        # Atualizar página existente
+        r = requests.patch(
+            f'https://api.clickup.com/api/v3/workspaces/{WORKSPACE_ID}/docs/{doc_id}/pages/{page_id}',
+            headers=HEADERS,
+            json={'content': content_md, 'content_format': 'text/md'}
+        )
+    else:
+        # Criar página nova
+        r = requests.post(
+            f'https://api.clickup.com/api/v3/workspaces/{WORKSPACE_ID}/docs/{doc_id}/pages',
+            headers=HEADERS,
+            json={'name': name, 'content': content_md, 'content_format': 'text/md'}
+        )
+    return r.status_code, r.json()
+```
+
+### 8d. Gerar o conteúdo markdown de cada seção
+
+O conteúdo de cada página deve ser a **versão markdown** do mesmo conteúdo gerado para o .docx. Claude já tem esse conteúdo em memória após o Passo 6. Reexpressar cada seção no formato abaixo e chamar `upsert_page` para cada uma.
+
+**Formato markdown das páginas:**
+
+```markdown
+# {Nome da Seção}
+
+{conteúdo completo da seção em markdown}
+{tabelas no formato GFM: | col | col |}
+{listas com - ou 1. 2. 3.}
+{negrito com **texto**}
+```
+
+**Regras:**
+- Nunca usar travessão (—). Usar vírgula ou dois-pontos.
+- Tabelas no formato GFM (pipes `|`).
+- Títulos de subseção com `##`.
+- Preservar toda a riqueza do conteúdo do .docx — não resumir.
+- Se uma análise estava marcada como `[ANÁLISE PENDENTE]` no .docx, manter a mesma marcação.
+
+### 8e. Executar tudo em sequência e reportar
+
+Para cada seção (7 no total), chamar `upsert_page` e exibir o resultado:
+```
+✅ ICP e Personas — atualizada
+✅ Tráfego Pago — atualizada
+✅ Diferencial e Oferta — criada
+✅ Jornada de Compra — criada
+✅ Instagram — criada
+✅ Google Meu Negócio — criada
+✅ Site — criada
 ```
 
 ---
 
-## Resumo final para o usuário
+## Passo 9 — Resumo final para o usuário
 
 Ao concluir, apresentar:
 
 ```
 Docs Base — {COMPANY} gerado!
 
-Arquivo: clientes/{SLUG}/{COMPANY} - Docs Base.docx
+.docx
+• Arquivo: clientes/{SLUG}/{COMPANY} - Docs Base.docx
+
+ClickUp — Docs - {COMPANY}
+• ICP e Personas — atualizada
+• Tráfego Pago — atualizada
+• Diferencial e Oferta — criada
+• Jornada de Compra — criada
+• Instagram — criada
+• Google Meu Negócio — criada
+• Site — criada
 
 Seções incluídas:
 • Diferencial Competitivo e Oferta
