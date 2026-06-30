@@ -57,6 +57,19 @@ def set_cell_border(cell, **kw):
     tcPr.append(tcBorders)
 
 
+def set_cell_margins(cell, top=100, right=140, bottom=100, left=140):
+    """Padding interno da célula (twips; 1pt ≈ 20twips)."""
+    tc = cell._tc
+    tcPr = tc.get_or_add_tcPr()
+    tcMar = OxmlElement('w:tcMar')
+    for side, val in [('top', top), ('right', right), ('bottom', bottom), ('left', left)]:
+        tag = OxmlElement(f'w:{side}')
+        tag.set(qn('w:w'), str(val))
+        tag.set(qn('w:type'), 'dxa')
+        tcMar.append(tag)
+    tcPr.append(tcMar)
+
+
 # ── Texto ─────────────────────────────────────────────────────────────────────
 
 def run(para, text, bold=False, size=10.5, color=None, italic=False):
@@ -140,18 +153,28 @@ def table_2col(doc, rows, header=None, header_color=None):
     n_rows = len(rows) + (1 if header else 0)
     t = doc.add_table(rows=n_rows, cols=2)
     t.style = 'Table Grid'
+    hc = header_color or COR_PRIMARIA
+    hc_hex = '{:02X}{:02X}{:02X}'.format(*hc)
+    hdr_brd = {'val': 'single', 'sz': 10, 'color': hc_hex}
+    bdy_brd = {'val': 'single', 'sz': 6,  'color': hc_hex}
     start = 0
     if header:
         for i, h in enumerate(header):
             cell = t.cell(0, i)
-            set_cell_bg(cell, header_color or COR_PRIMARIA)
-            run(cell.paragraphs[0], h, bold=True, size=10, color=COR_BRANCO)
+            set_cell_bg(cell, hc)
+            set_cell_margins(cell)
+            set_cell_border(cell, top=hdr_brd, bottom=hdr_brd, left=hdr_brd, right=hdr_brd)
+            p = cell.paragraphs[0]
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            run(p, h, bold=True, size=10, color=COR_BRANCO)
         start = 1
     for ri, row in enumerate(rows):
         bg = COR_CINZA_LEVE if ri % 2 == 0 else COR_BRANCO
         for ci, val in enumerate(row):
             cell = t.cell(ri + start, ci)
             set_cell_bg(cell, bg)
+            set_cell_margins(cell)
+            set_cell_border(cell, top=bdy_brd, bottom=bdy_brd, left=bdy_brd, right=bdy_brd)
             p = cell.paragraphs[0]
             if isinstance(val, tuple):
                 run(p, val[0], bold=True, size=10)
@@ -166,18 +189,28 @@ def table_3col(doc, rows, header=None, header_color=None):
     n_rows = len(rows) + (1 if header else 0)
     t = doc.add_table(rows=n_rows, cols=3)
     t.style = 'Table Grid'
+    hc = header_color or COR_PRIMARIA
+    hc_hex = '{:02X}{:02X}{:02X}'.format(*hc)
+    hdr_brd = {'val': 'single', 'sz': 10, 'color': hc_hex}
+    bdy_brd = {'val': 'single', 'sz': 6,  'color': hc_hex}
     start = 0
     if header:
         for i, h in enumerate(header):
             cell = t.cell(0, i)
-            set_cell_bg(cell, header_color or COR_PRIMARIA)
-            run(cell.paragraphs[0], h, bold=True, size=10, color=COR_BRANCO)
+            set_cell_bg(cell, hc)
+            set_cell_margins(cell)
+            set_cell_border(cell, top=hdr_brd, bottom=hdr_brd, left=hdr_brd, right=hdr_brd)
+            p = cell.paragraphs[0]
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            run(p, h, bold=True, size=10, color=COR_BRANCO)
         start = 1
     for ri, row in enumerate(rows):
         bg = COR_CINZA_LEVE if ri % 2 == 0 else COR_BRANCO
         for ci, val in enumerate(row):
             cell = t.cell(ri + start, ci)
             set_cell_bg(cell, bg)
+            set_cell_margins(cell)
+            set_cell_border(cell, top=bdy_brd, bottom=bdy_brd, left=bdy_brd, right=bdy_brd)
             run(cell.paragraphs[0], str(val), bold=(ci == 0), size=10)
     return t
 
@@ -187,12 +220,20 @@ def semaforo_table(doc, rows, header_color=None):
     Tabela de diagnóstico com semáforo.
     rows: lista de (elemento, status, cor_status, prioridade)
     """
+    hc = header_color or COR_PRIMARIA
+    hc_hex = '{:02X}{:02X}{:02X}'.format(*hc)
+    hdr_brd = {'val': 'single', 'sz': 10, 'color': hc_hex}
+    bdy_brd = {'val': 'single', 'sz': 6,  'color': hc_hex}
     t = doc.add_table(rows=len(rows) + 1, cols=3)
     t.style = 'Table Grid'
     for i, h in enumerate(['Elemento', 'Status atual', 'Prioridade']):
         cell = t.cell(0, i)
-        set_cell_bg(cell, header_color or COR_PRIMARIA)
-        run(cell.paragraphs[0], h, bold=True, size=10, color=COR_BRANCO)
+        set_cell_bg(cell, hc)
+        set_cell_margins(cell)
+        set_cell_border(cell, top=hdr_brd, bottom=hdr_brd, left=hdr_brd, right=hdr_brd)
+        p = cell.paragraphs[0]
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        run(p, h, bold=True, size=10, color=COR_BRANCO)
     for ri, (elem, status, cor, prio) in enumerate(rows):
         bg = COR_CINZA_LEVE if ri % 2 == 0 else COR_BRANCO
         for ci, (val, kw) in enumerate([
@@ -202,6 +243,8 @@ def semaforo_table(doc, rows, header_color=None):
         ]):
             cell = t.cell(ri + 1, ci)
             set_cell_bg(cell, bg)
+            set_cell_margins(cell)
+            set_cell_border(cell, top=bdy_brd, bottom=bdy_brd, left=bdy_brd, right=bdy_brd)
             run(cell.paragraphs[0], val, size=10, **kw)
     return t
 
