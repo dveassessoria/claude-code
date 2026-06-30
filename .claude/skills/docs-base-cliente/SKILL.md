@@ -443,11 +443,11 @@ print(json.dumps(pages_by_name, indent=2))
 def upsert_page(doc_id, name, content_md, existing_pages_by_name):
     page_id = existing_pages_by_name.get(name.lower())
     if page_id:
-        # Atualizar página existente
-        r = requests.patch(
+        # Atualizar página existente (PUT, não PATCH — PATCH retorna 405)
+        r = requests.put(
             f'https://api.clickup.com/api/v3/workspaces/{WORKSPACE_ID}/docs/{doc_id}/pages/{page_id}',
             headers=HEADERS,
-            json={'content': content_md, 'content_format': 'text/md'}
+            json={'name': name, 'content': content_md, 'content_format': 'text/md'}
         )
     else:
         # Criar página nova
