@@ -201,13 +201,21 @@ O script:
 
 Imediatamente após o ClickUp, salve também no workspace local. Converta a data de DD/MM/YYYY para YYYY-MM-DD para o nome do arquivo.
 
+**Importante:** `{company}` normalmente vem em formato livre (ex: "Gramado", "T2 Elevadores"), mas a pasta oficial do cliente em `clientes/` usa slug (ex: `gramado-premium`, `t2-elevadores`). Nunca crie a pasta com o nome literal sem antes checar se já existe um slug correspondente — isso gera pastas duplicadas para o mesmo cliente.
+
 ```bash
-mkdir -p "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code/clientes/{company}/reunioes"
-cp /tmp/minuta_dve.md "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code/clientes/{company}/reunioes/{YYYY-MM-DD}.md"
+cd "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code" && ls clientes/
 ```
 
-Exemplo real: se `company = "Gramado"` e `date = "27/05/2026"`, o arquivo fica em:
-`clientes/Gramado/reunioes/2026-05-27.md`
+Compare o nome de `{company}` com as pastas existentes (ignorando acentos, maiúsculas e hífens/espaços). Se encontrar uma pasta que claramente é o mesmo cliente, use o slug dela. Se não encontrar nenhuma correspondência clara, pergunte ao usuário antes de criar uma pasta nova: "Não achei uma pasta existente pra '{company}'. Crio `clientes/{slug-sugerido}/`?"
+
+```bash
+mkdir -p "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code/clientes/{slug}/reunioes"
+cp /tmp/minuta_dve.md "/Users/macbookairm4/Documents/DVE Assessoria/Claude Code/clientes/{slug}/reunioes/{YYYY-MM-DD}.md"
+```
+
+Exemplo real: se `company = "Gramado"` e o slug existente é `gramado-premium`, o arquivo fica em:
+`clientes/gramado-premium/reunioes/2026-05-27.md` (nunca em `clientes/Gramado/reunioes/`).
 
 Após salvar nos dois lugares, siga direto para o Passo 6.
 
