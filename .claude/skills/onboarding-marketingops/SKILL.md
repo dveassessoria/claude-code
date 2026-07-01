@@ -347,9 +347,39 @@ Onboarding MarketingOps  [tarefa mãe]
 
 ---
 
-## Passo 10 — Gerar mensagem de WhatsApp para o grupo do cliente (gerada automaticamente)
+## Passo 10 — Gerar resumo de "Próximos Passos" (slide + mensagem de WhatsApp)
 
-Com base nas informações do documento de onboarding (acessos necessários, data/hora da próxima reunião, próximos passos do cliente), gere a mensagem de boas-vindas e orientação para enviar no grupo do WhatsApp.
+O resumo de próximos passos existe em duas versões com o mesmo conteúdo: uma para o slide de encerramento da apresentação de onboarding (template em `conteudo/onboarding-marketing-ops-slides.docx`) e uma para a mensagem de WhatsApp do grupo do cliente. Gerar as duas.
+
+### 10a. Conteúdo dos dois blocos de cards
+
+**Bloco "Próximos Passos"** (7 cards, ordem fixa). Os itens 1, 2 e 3 vêm do que foi combinado na reunião do cliente (data real, checklist real). Os itens 4, 6 e 7 são o SLA operacional padrão da DVE para MarketingOps e **sempre entram, mesmo que não tenham sido citados na reunião daquele cliente específico**:
+
+1. Agendamento da Reunião para Compartilhar os Acessos — {data e hora combinada com o cliente}
+2. Verificar Checklist que será enviado no Grupo (fotos, logo, senhas) — {ajustar itens reais do checklist desse cliente}
+3. Criação do Documento Base do Projeto
+4. Revisão e Aprovação do Documento (72 horas) — **padrão fixo**
+5. Ativação das Campanhas
+6. Reunião de Kick-off (apresentamos tudo antes de ativar) — **padrão fixo**
+7. Campanhas no Ar (7 dias úteis após compartilhamento dos acessos e materiais) — **padrão fixo**
+
+**Bloco "O que precisamos de você"** (cards variáveis conforme o que o cliente já tem ou não). Base fixa, ajustar por cliente:
+
+- Acesso ao Meta Business Manager
+- Acesso ao Google Ads
+- Acesso ao site, domínio e hospedagem (só incluir se o cliente não tiver site ou for criar um novo)
+- Logo em alta resolução (PNG ou SVG)
+- Fotos reais de instalações, equipe e escritório
+- Depoimentos de clientes (texto ou vídeo), se houver
+- Meta de leads mensais (validar orçamento) — usar o valor de investimento e meta de leads combinados na reunião
+
+**Antes de preencher os dois blocos, sempre conferir a transcrição da reunião do cliente** para os itens 1, 2, 3 e o bloco "O que precisamos de você" — nunca inventar datas, valores ou acessos que não foram ditos. Os itens marcados como "padrão fixo" acima não precisam de confirmação na transcrição.
+
+Ver `project_marketingops_sla_padrao` na memória para o racional desse SLA.
+
+### 10b. Mensagem de WhatsApp para o grupo do cliente
+
+Com base nos dois blocos acima, gere a mensagem de boas-vindas e orientação para enviar no grupo do WhatsApp.
 
 ### Regras da mensagem
 
