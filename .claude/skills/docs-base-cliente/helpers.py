@@ -287,7 +287,7 @@ def cover_page(doc, company_name, subtitle, sections_summary, date_str):
 
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run(p, f'Elaborado por DVE Assessoria — {date_str}', size=10, color=COR_CINZA_MED, italic=True)
+    run(p, f'Elaborado por DVE Assessoria, {date_str}', size=10, color=COR_CINZA_MED, italic=True)
 
     doc.add_page_break()
 
